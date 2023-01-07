@@ -14,6 +14,7 @@ import { far } from "@fortawesome/free-regular-svg-icons";
 import App from "./App.vue";
 import LoginVue from "./views/Login/Login.vue";
 import Dashboard from "./views/Dashboard/Dashboard.vue";
+import Homevue from "./views/Home.vue";
 import Joblist from "./components/Job/JobList.vue";
 import Approved from "./components/Job/ApprovedList.vue";
 import Stats from "./components/Stats/Stats.vue";
@@ -29,6 +30,7 @@ import "bootstrap-vue-3/dist/bootstrap-vue-3.css";
 const router = createRouter({
   history: createWebHistory(),
   routes: [
+    { path: "", name: "home", component: Homevue },
     { path: "/login", name: "Login", component: LoginVue },
     {
       path: "/jobs",

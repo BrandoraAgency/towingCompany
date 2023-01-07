@@ -4,7 +4,6 @@
 
 <template>
   <div>
-    <router-link to="/jobs">Jobs</router-link>
     <router-view></router-view>
   </div>
 </template>
