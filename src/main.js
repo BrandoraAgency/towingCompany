@@ -16,9 +16,12 @@ import LoginVue from "./views/Login/Login.vue";
 import Dashboard from "./views/Dashboard/Dashboard.vue";
 import Homevue from "./views/Home.vue";
 import Joblist from "./components/Job/JobList.vue";
+import SingleJob from "./components/Job/SingleJob.vue";
 import Approved from "./components/Job/ApprovedList.vue";
 import Stats from "./components/Stats/Stats.vue";
+import EditJob from "./components/Job/EditJob.vue";
 import company from "./components/company/Towing.vue";
+import CreateJob from "./components/Job/CreateJob.vue";
 
 // ** Bootstrap files
 import BootstrapVue3 from "bootstrap-vue-3";
@@ -43,6 +46,21 @@ const router = createRouter({
           component: Joblist,
         },
         {
+          path:"/create",
+          name:"create",
+          component:CreateJob
+        },
+        {
+          path: ":jobID",
+          name:'singleJob',
+          component: SingleJob,
+        },
+        {
+          path: ":jobID/edit",
+          name:'editJob',
+          component: EditJob,
+        },
+        {
             path: "company",
             name:'company',
             component: company,
@@ -56,7 +74,7 @@ const router = createRouter({
           path: "approved",
           name:'approved',
           component: Approved,
-      },
+        },
       ],
     },
   ],
