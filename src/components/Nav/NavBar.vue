@@ -10,6 +10,12 @@
             <div class="collapse navbar-collapse" id="navbarSupportedContent">
                 <ul class="navbar-nav me-auto mb-2 mb-lg-0">
                     <li class="nav-item">
+                        <router-link exact-active-class="active" class="nav-link" to="/create" >New Job</router-link>
+                    </li>
+                    <li class="nav-item">
+                        <router-link exact-active-class="active" class="nav-link" to="/jobs/23" >Single Job</router-link>
+                    </li>
+                    <li class="nav-item">
                         <router-link exact-active-class="active" class="nav-link" to="/jobs" >Jobs List</router-link>
                     </li>
                     <li class="nav-item">
