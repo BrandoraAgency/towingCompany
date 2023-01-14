@@ -468,7 +468,7 @@
                         </button>
                     </div>
                     <div class="dltJob">
-                        <button>Delete</button>
+                        <button>Approve</button>
                     </div>
                     <div class="edtJob">
                         <button>Edit</button>
