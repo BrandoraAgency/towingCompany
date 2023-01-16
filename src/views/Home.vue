@@ -6,11 +6,27 @@
 
 <script>
 import NavBar from '../components/Nav/NavBar.vue';
-    export default {
-        components:{
-            NavBar
-        }
+import axios from 'axios';
+import router from '../router';
+
+axios.defaults.withCredentials = true
+export default {
+    components: {
+        NavBar
+    },
+    async mounted() {
+         this.logged()
+  },
+    methods: {
+        logged() {
+            axios.get('http://localhost:3001/logged').then((res) => {
+                router.push('/')
+            }).catch((err) => {
+                router.push('/login')
+            })
     }
+    }
+}
 </script>
 
 <style scoped>

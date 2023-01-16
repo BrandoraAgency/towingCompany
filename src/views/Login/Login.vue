@@ -1,5 +1,24 @@
-<script setup>
-
+<script>
+import axios from 'axios';
+import router from '../../router';
+export default{
+  methods:{
+  login(e){
+    const email=e.target[0].value;
+    const password=e.target[1].value;
+    const body={
+      email:email,
+      password:password
+    }
+    axios.post('http://localhost:3001/login',body).then((res)=>{
+    localStorage.setItem('user_details',JSON.stringify(res.data))
+     router.push('/')
+    }).catch((err)=>{
+      console.log(err);
+    })
+  }
+  }
+}
 </script>
 
 <template>
@@ -18,7 +37,7 @@
         <b-row>
           <b-col>
             <div class="loginForm">
-              <form action="">
+              <form action="" @submit.prevent="login">
                 <div class="form-group">
                   <label for="email">Email</label>
                   <input type="text" name="email" id="email" placeholder="Email" required>

@@ -29,9 +29,9 @@
                             </b-form-group>
                         </b-col>
                         <b-col>
-                            <b-form-group id="input-group-1" label="Issurance Amount" label-for="input-isamount">
-                                <b-form-input id="input-isamount" placeholder="John"
-                                    required></b-form-input>
+                            <b-form-group id="input-group-1" label="Issurance Account" label-for="input-isamount">
+                                <b-form-select id="input-isamount" placeholder="John"
+                                    required></b-form-select>
                             </b-form-group>
                         </b-col>
                         <b-col>

@@ -10,29 +10,26 @@
             <div class="collapse navbar-collapse" id="navbarSupportedContent">
                 <ul class="navbar-nav me-auto mb-2 mb-lg-0">
                     <li class="nav-item">
-                        <router-link exact-active-class="active" class="nav-link" to="/create" >New Job</router-link>
+                        <router-link v-if="userRole==='sales' || userRole==='dispatch'"  exact-active-class="active" class="nav-link" to="/create" >New Job</router-link>
                     </li>
                     <li class="nav-item">
-                        <router-link exact-active-class="active" class="nav-link" to="/jobs/23" >Single Job</router-link>
+                        <router-link v-if="userRole==='admin' || userRole==='accounting' || userRole==='qc' || userRole==='dispatch'" exact-active-class="active" class="nav-link" to="/jobs" >Jobs List</router-link>
                     </li>
                     <li class="nav-item">
-                        <router-link exact-active-class="active" class="nav-link" to="/jobs" >Jobs List</router-link>
+                        <router-link v-if="userRole==='admin' || userRole==='accounting'"  exact-active-class="active" class="nav-link" to="/jobs/approved" >Approved List</router-link>
                     </li>
                     <li class="nav-item">
-                        <router-link  exact-active-class="active" class="nav-link" to="/jobs/approved" >Approved List</router-link>
+                        <router-link v-if="userRole==='admin' || userRole==='dispatch'"  exact-active-class="active" class="nav-link" to="/jobs/company" >Towing Companies</router-link>
                     </li>
                     <li class="nav-item">
-                        <router-link  exact-active-class="active" class="nav-link" to="/jobs/company" >Towing Companies</router-link>
-                    </li>
-                    <li class="nav-item">
-                        <router-link  exact-active-class="active" class="nav-link" to="/jobs/stats" >Stats</router-link>
+                        <router-link v-if="userRole==='admin'"  exact-active-class="active" class="nav-link" to="/jobs/stats" >Stats</router-link>
                     </li>
                 </ul>
                 <div class="userInfo">
                     <ul class="navbar-nav me-auto mb-2 mb-lg-0">
                     <li class="nav-item dropdown">
                         <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                          Welcome Name
+                          Welcome {{userRole}}
                         </a>
                         <ul class="dropdown-menu">
                           <li><a class="dropdown-item" href="#">Action</a></li>
@@ -47,7 +44,17 @@
 </template>
 
 <script>
-
+export default{
+    data() {
+        return {
+            userRole:JSON.parse(localStorage.getItem("user_details")).role,
+            user:JSON.parse(localStorage.getItem("user_details"))
+        }
+    },
+    mounted() {
+        console.log(this.$data.userRole);
+    },
+}
 </script>
 
 <style scoped>

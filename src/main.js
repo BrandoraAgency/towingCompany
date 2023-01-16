@@ -1,5 +1,4 @@
 import { createApp } from "vue";
-import { createRouter, createWebHistory } from "vue-router";
 import { FontAwesomeIcon } from "@fortawesome/vue-fontawesome";
 // ** Root Style File
 import "./style.css";
@@ -12,73 +11,15 @@ import { far } from "@fortawesome/free-regular-svg-icons";
 
 // ** View Components
 import App from "./App.vue";
-import LoginVue from "./views/Login/Login.vue";
-import Dashboard from "./views/Dashboard/Dashboard.vue";
-import Homevue from "./views/Home.vue";
-import Joblist from "./components/Job/JobList.vue";
-import SingleJob from "./components/Job/SingleJob.vue";
-import Approved from "./components/Job/ApprovedList.vue";
-import Stats from "./components/Stats/Stats.vue";
-import EditJob from "./components/Job/EditJob.vue";
-import company from "./components/company/Towing.vue";
-import CreateJob from "./components/Job/CreateJob.vue";
+
 
 // ** Bootstrap files
 import BootstrapVue3 from "bootstrap-vue-3";
 import "bootstrap/dist/css/bootstrap.css";
 import "bootstrap-vue/dist/bootstrap-vue.css";
 import "bootstrap-vue-3/dist/bootstrap-vue-3.css";
+import router from "./router";
 
-// ** Router Links
-const router = createRouter({
-  history: createWebHistory(),
-  routes: [
-    { path: "", name: "home", component: Homevue },
-    { path: "/login", name: "Login", component: LoginVue },
-    {
-      path: "/jobs",
-      name: "jobDash",
-      component: Dashboard,
-      children: [
-        {
-          path: "",
-          name:'jobs',
-          component: Joblist,
-        },
-        {
-          path:"/create",
-          name:"create",
-          component:CreateJob
-        },
-        {
-          path: ":jobID",
-          name:'singleJob',
-          component: SingleJob,
-        },
-        {
-          path: ":jobID/edit",
-          name:'editJob',
-          component: EditJob,
-        },
-        {
-            path: "company",
-            name:'company',
-            component: company,
-        },
-        {
-            path: "stats",
-            name:'stats',
-            component: Stats,
-        },
-        {
-          path: "approved",
-          name:'approved',
-          component: Approved,
-        },
-      ],
-    },
-  ],
-});
 library.add(fas, fab, far);
 // ** App start
 createApp(App)
