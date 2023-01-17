@@ -1,0 +1,38 @@
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;600;700;900&display=swap');
+*{
+    font-family:'Montserrat', sans-serif;
+}
+.headingtext h2 {font-size: 56px;font-weight: 800;}
+
+.loginForm {
+    margin-top: 30px;
+}
+
+.form-group label {font-size: 18px;font-weight: 600;display: block;margin-bottom: 4px;}
+
+.form-group {
+    margin-bottom: 20px;
+}
+
+.form-group input {
+    padding: 5px 10px;
+    font-weight: 500;
+    outline: none;
+    width: 100%;
+    border-radius: 4px;
+    border: 1px solid #0000003b;
+}
+.towingLogin {
+    width: 300px;
+    margin: 30px auto;
+}
+
+
+.form-submit button {
+    display: block;
+    width: 100%;
+}
+
+.headingtext {
+    text-align: center;
+}

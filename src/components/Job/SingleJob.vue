@@ -26,21 +26,22 @@
         <b-row>
             <b-col>
                 <div class="jobtowing details">
-                    <div class="singledetail">
+
+                    <div class="singledetail" v-for="(value, key, index) in job.job">
                         <b-row>
                             <b-col>
                                 <span>
-                                    Date Created
+                                    {{key}}
                                 </span>
                             </b-col>
                             <b-col>
                                 <span>
-                                    data
+                                    {{value}}
                                 </span>
                             </b-col>
                         </b-row>
                     </div>
-                    <div class="singledetail">
+                    <!-- <div class="singledetail">
                         <b-row>
                             <b-col>
                                 <span>
@@ -305,7 +306,7 @@
                                 </span>
                             </b-col>
                         </b-row>
-                    </div>
+                    </div> -->
                 </div>
             </b-col>
             <b-col>
@@ -315,7 +316,7 @@
                     </h4>
                 </div>
                 <div class="jobtowing details">
-                    <div class="singledetail">
+                    <div class="singledetail" v-for="(value, key, index) in job.jobCompany">
                         <b-row>
                             <b-col>
                                 <span>
@@ -329,7 +330,7 @@
                             </b-col>
                         </b-row>
                     </div>
-                    <div class="singledetail">
+                    <!-- <div class="singledetail">
                         <b-row>
                             <b-col>
                                 <span>
@@ -449,7 +450,7 @@
                                 </span>
                             </b-col>
                         </b-row>
-                    </div>
+                    </div> -->
                 </div>
 
             </b-col>
@@ -471,7 +472,7 @@
                         <button>Approve</button>
                     </div>
                     <div class="edtJob">
-                        <button>Edit</button>
+                        <router-link :to="{path: id+'/edit'}" class="btn">Edit</router-link>
                     </div>
                 </div>
             </b-col>
@@ -488,21 +489,35 @@
                 <b-table striped hover :items="items"></b-table>
             </b-col>
         </b-row>
+
     </b-container>
 </template>
 
 <script>
+import axios from 'axios';
+
 export default {
     data() {
       return {
-        items: [
-          { Action: 40, Date: 'Dickerson', By_User: 'Macdonald',Changes: 'Macdonald'},
-          { Action: 21, Date: 'Larsen', By_User: 'Shaw',Changes: 'Macdonald'},
-          { Action: 89, Date: 'Geneva', By_User: 'Wilson',Changes: 'Macdonald' },
-          { Action: 38, Date: 'Jami', By_User: 'Carney',Changes: 'Macdonald' }
-        ]
+        id: this.$route.params.jobID,
+        job:{},
+        items:[]
       }
-    }
+    },
+    mounted() {
+        this.getJobDetails()
+    },
+    methods: {
+        async getJobDetails(){
+
+            const jobs=axios.get(`http://localhost:3001/job?id=${this.$data.id}`);
+            Promise.all([jobs]).then((res)=>{
+                this.$data.job=res[0].data;
+            }).catch((err)=>{
+                console.log(err);
+            })
+        }
+    },
   }
 </script>
 

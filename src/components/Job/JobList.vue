@@ -74,45 +74,25 @@
                     </b-tr>
                 </b-thead>
                 <b-tbody>
-                    <b-tr>
+                    <b-tr v-for="job in jobs" v-on:click="selectJob(job.id)">
+                        <b-td>{{job.id}}</b-td>
                         <b-td>Cell</b-td>
-                        <b-td>Cell</b-td>
-                        <b-td>Cell</b-td>
-                        <b-td>Cell</b-td>
-                        <b-td>Cell</b-td>
-                        <b-td>Cell</b-td>
-                        <b-td>Cell</b-td>
-                        <b-td>Cell</b-td>
-                        <b-td>Cell</b-td>
-                        <b-td>Cell</b-td>
-                        <b-td>Cell</b-td>
-                        <b-td>Cell</b-td>
-                        <b-td>Cell</b-td>
-                        <b-td>Cell</b-td>
-                        <b-td>Cell</b-td>
-                        <b-td>Cell</b-td>
-                        <b-td>Cell</b-td>
-                        <b-td>Cell</b-td>
-                    </b-tr>
-                    <b-tr>
-                        <b-td>Cell</b-td>
-                        <b-td>Cell</b-td>
-                        <b-td>Cell</b-td>
-                        <b-td>Cell</b-td>
-                        <b-td>Cell</b-td>
-                        <b-td>Cell</b-td>
-                        <b-td>Cell</b-td>
-                        <b-td>Cell</b-td>
-                        <b-td>Cell</b-td>
-                        <b-td>Cell</b-td>
-                        <b-td>Cell</b-td>
-                        <b-td>Cell</b-td>
-                        <b-td>Cell</b-td>
-                        <b-td>Cell</b-td>
-                        <b-td>Cell</b-td>
-                        <b-td>Cell</b-td>
-                        <b-td>Cell</b-td>
-                        <b-td>Cell</b-td>
+                        <b-td>{{job.date.split('T')[0]}}</b-td>
+                        <b-td>{{job.agent}}</b-td>
+                        <b-td>{{job.phone}}</b-td>
+                        <b-td>{{job.issuranceAccount}}</b-td>
+                        <b-td>{{job.amount}}</b-td>
+                        <b-td>gda!!</b-td>
+                        <b-td>{{job.upSellAmount}}</b-td>
+                        <b-td>charged!!</b-td>
+                        <b-td>status!!</b-td>
+                        <b-td>{{job.state}}</b-td>
+                        <b-td>{{job.miles}}</b-td>
+                        <b-td>towing!!</b-td>
+                        <b-td>Phone!!</b-td>
+                        <b-td>{{job.charge_status}}</b-td>
+                        <b-td>status!!</b-td>
+                        <b-td>{{job.notes}}</b-td>
                     </b-tr>
                 </b-tbody>
             </b-table-simple>
@@ -122,9 +102,33 @@
 
 <script>
 import Filter from './Filter.vue';
+import axios from 'axios';
+import router from '../../router';
 
 export default {
-    components: { Filter }
+    components: { Filter },
+    data() {
+        return {
+            jobs:[]
+        }
+    },
+    mounted() {
+        this.getJobs()
+    },
+    methods: {
+        async selectJob(id){
+            router.push(`/jobs/${id}`)
+        },
+        async getJobs(){
+            const role=JSON.parse(localStorage.getItem("user_details")).role
+            const jobs=axios.get(`http://localhost:3001/jobs?role=7`);
+            Promise.all([jobs]).then((res)=>{
+                this.$data.jobs=res[0].data;
+            }).catch((err)=>{
+                console.log(err);
+            })
+        }
+    },
 }
 </script>
 
