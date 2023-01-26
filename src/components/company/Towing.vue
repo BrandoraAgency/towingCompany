@@ -15,14 +15,8 @@
                             <b-th>Zip</b-th>
                           </b-tr>
                         </b-thead>
-                        <b-tbody>
-                          <b-tr>
-                            <b-th>lorem</b-th>
-                            <b-td>Cell</b-td>
-                            <b-td>Cell</b-td>
-                            <b-td>Cell</b-td>
-                          </b-tr>
-                          <b-tr>
+                        <b-tbody >
+                          <b-tr v-for="company in companies">
                             <b-th>lorem</b-th>
                             <b-td>Cell</b-td>
                             <b-td>Cell</b-td>
@@ -37,8 +31,27 @@
 </template>
 
 <script>
+import axios from 'axios';
+
     export default {
-        
+      data() {
+        return {
+          companies:[]
+        }
+    },
+    mounted() {
+        this.getJobs()
+    },
+    methods: {
+        async getJobs(){
+            const jobs=axios.get(`http://localhost:3001/company`);
+            Promise.all([jobs]).then((res)=>{
+              this.$data.companies=res[0].data;
+            }).catch((err)=>{
+                console.log(err);
+            })
+        }
+    },
     }
 </script>
 

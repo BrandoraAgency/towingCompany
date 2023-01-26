@@ -1,25 +1,29 @@
 <template>
     <b-container>
+        {{ job.job }}
+
         <b-row>
             <b-col>
                 <div class="headText">
-                    <h3>Edit Towing Job - Reference #</h3>
+                    <h3>Edit Towing Job - Reference # {{ job.job ? job.job.id : 'd' }}</h3>
                 </div>
             </b-col>
         </b-row>
         <b-row>
             <b-col>
-                <b-form @submit="onSubmit" @reset="onReset" b-if="show">
+                <b-form>
                     <b-row>
                         <b-col>
                             <b-form-group id="input-group-1" label="Date" label-for="input-date">
-                                <b-form-input id="input-date" type="date" placeholder="Date"
+
+                                <b-form-input id="input-date" v-model="job.job.date" type="date" placeholder="Date"
                                     required></b-form-input>
                             </b-form-group>
                         </b-col>
                         <b-col>
                             <b-form-group id="input-group-1" label="Time" label-for="input-time">
-                                <b-form-input id="input-time" type="time" placeholder="time" required></b-form-input>
+                                <b-form-input id="input-time" v-model="job.job.time" type="time" placeholder="time"
+                                    required></b-form-input>
                             </b-form-group>
 
                         </b-col>
@@ -27,121 +31,139 @@
                     <b-row>
                         <b-col>
                             <b-form-group id="input-group-1" label="Job Status" label-for="input-jStatus">
-                                <b-form-select id="input-jStatus" required></b-form-select>
+                                <b-form-select id="input-jStatus" v-model="job.job.jobStatus" :options="jobStatus"
+                                    required></b-form-select>
                             </b-form-group>
                         </b-col>
                         <b-col>
                             <b-form-group id="input-group-1" label="Agent" label-for="input-agent">
-                                <b-form-input id="input-agent" placeholder="John"
+                                <b-form-input id="input-agent" v-model="job.job.agent" placeholder="John"
                                     required></b-form-input>
                             </b-form-group>
                         </b-col>
                         <b-col>
-                            <b-form-group id="input-group-1" label="Agent" label-for="input-Rep">
-                                <b-form-select id="input-Rep" required></b-form-select>
+                            <b-form-group id="input-group-1" label="Representative" label-for="input-Rep">
+                                <b-form-input id="input-Rep" v-model="job.job.representative" required></b-form-input>
                             </b-form-group>
                         </b-col>
                     </b-row>
                     <b-row>
                         <b-col>
                             <b-form-group id="input-group-1" label="PO#" label-for="input-po">
-                                <b-form-select id="input-po" required></b-form-select>
+                                <b-form-input id="input-po" v-model="job.job.phone" type="number"
+                                    required></b-form-input>
                             </b-form-group>
                         </b-col>
                         <b-col>
                             <b-form-group id="input-group-1" label="Provider ID" label-for="input-provider">
-                                <b-form-input id="input-provider" placeholder="1234" required></b-form-input>
+                                <b-form-input id="input-provider" v-model="job.job.providerID" placeholder="1234"
+                                    required></b-form-input>
                             </b-form-group>
                         </b-col>
                         <b-col>
-                            <b-form-group id="input-group-1" label="Insurance Ammount" label-for="input-insA">
-                                <b-form-select id="input-insA" required></b-form-select>
+                            <b-form-group id="input-group-1" label="Insurance Account" label-for="input-insA">
+                                <b-form-select id="input-insA" :options="IssAccount" v-model="job.job.issuranceAccount"
+                                    placeholder="$" required></b-form-select>
                             </b-form-group>
                         </b-col>
                     </b-row>
                     <b-row>
                         <b-col>
                             <b-form-group id="input-group-1" label="Amount" label-for="input-amount">
-                                <b-form-input id="input-amount" required></b-form-input>
+                                <b-form-input id="input-amount" placeholder="$" v-model="job.job.amount"
+                                    required></b-form-input>
                             </b-form-group>
                         </b-col>
                         <b-col>
                             <b-form-group id="input-group-1" label="Insurance Charged Date" label-for="input-icd">
-                                <b-form-input id="input-icd" placeholder="1234" type="date" required></b-form-input>
+                                <b-form-input id="input-icd" v-model="job.job.issChargedDate" placeholder="1234"
+                                    type="date" required></b-form-input>
                             </b-form-group>
                         </b-col>
                         <b-col>
-                            <b-form-group id="input-group-1" label="Insurance Amount" label-for="input-insA">
-                                <b-form-input id="input-insA" required></b-form-input>
+                            <b-form-group id="input-group-1" label="Insurance Time" label-for="input-insA">
+                                <b-form-input id="input-insA" type="time" v-model="job.job.issChargedTime"
+                                    required></b-form-input>
                             </b-form-group>
                         </b-col>
                         <b-col>
                             <b-form-group id="input-group-1" label="Charged" label-for="input-charged">
-                                <b-form-select id="input-charged" required></b-form-select>
+                                <b-form-select id="input-charged" v-model="job.job.charged_status" :options="Charged"
+                                    required></b-form-select>
                             </b-form-group>
                         </b-col>
                     </b-row>
                     <b-row>
                         <b-col>
                             <b-form-group id="input-group-1" label="First Name" label-for="input-fname">
-                                <b-form-input id="input-fname" placeholder="Name" type="input" required></b-form-input>
+                                <b-form-input id="input-fname" v-model="job.job.firstName" placeholder="Name"
+                                    type="text" required></b-form-input>
                             </b-form-group>
                         </b-col>
                         <b-col>
                             <b-form-group id="input-group-1" label="Last Name" label-for="input-lname">
-                                <b-form-input id="input-lname" placeholder="Name" required></b-form-input>
+                                <b-form-input id="input-lname" placeholder="Name" v-model="job.job.lastName"
+                                    required></b-form-input>
                             </b-form-group>
                         </b-col>
                     </b-row>
                     <b-row>
                         <b-col>
                             <b-form-group id="input-group-1" label="Year" label-for="input-year">
-                                <b-form-input id="input-year" placeholder="2023" type="input" required></b-form-input>
+                                <b-form-input id="input-year" v-model="job.job.year" placeholder="2023" type="text"
+                                    required></b-form-input>
                             </b-form-group>
                         </b-col>
                         <b-col>
                             <b-form-group id="input-group-1" label="Make" label-for="input-make">
-                                <b-form-input id="input-make" placeholder="Make" required></b-form-input>
+                                <b-form-input id="input-make" v-model="job.job.make" placeholder="Make"
+                                    required></b-form-input>
                             </b-form-group>
                         </b-col>
                         <b-col>
                             <b-form-group id="input-group-1" label="Model" label-for="input-model">
-                                <b-form-input id="input-model" placeholder="Model" required></b-form-input>
+                                <b-form-input id="input-model" v-model="job.job.model" placeholder="Model"
+                                    required></b-form-input>
                             </b-form-group>
                         </b-col>
                         <b-col>
                             <b-form-group id="input-group-1" label="Color" label-for="input-Color">
-                                <b-form-input id="input-Color" placeholder="Color" required></b-form-input>
+                                <b-form-input id="input-Color" v-model="job.job.color" placeholder="Color"
+                                    required></b-form-input>
                             </b-form-group>
                         </b-col>
                         <b-col>
                             <b-form-group id="input-group-1" label="VN #" label-for="input-VN">
-                                <b-form-input id="input-VN" placeholder="Model" required></b-form-input>
+                                <b-form-input id="input-VN" v-model="job.job.vinNO" placeholder="Model"
+                                    required></b-form-input>
                             </b-form-group>
                         </b-col>
                     </b-row>
                     <b-row>
                         <b-col>
-                            <b-form-group id="input-group-1" label="Status" label-for="input-State">
-                                <b-form-select id="input-State" placeholder="Name" required></b-form-select>
+                            <b-form-group id="input-group-1" label="State" label-for="input-State">
+                                <b-form-select id="input-State" v-model="job.job.state" :options="State"
+                                    placeholder="Name" required></b-form-select>
                             </b-form-group>
                         </b-col>
                         <b-col>
                             <b-form-group id="input-group-1" label="Miles" label-for="input-Miles">
-                                <b-form-input id="input-Miles" placeholder="Miles" required></b-form-input>
+                                <b-form-input v-model="job.job.miles" id="input-Miles" placeholder="Miles"
+                                    required></b-form-input>
                             </b-form-group>
                         </b-col>
                     </b-row>
                     <b-row>
                         <b-col>
                             <b-form-group id="input-group-1" label="Upsell Amount" label-for="input-State">
-                                <b-form-input id="input-State" placeholder="Number" type="number"
-                                    required></b-form-input>
+                                <b-form-input id="input-State" v-model="job.job.upSellAmount" placeholder="$"
+                                    type="number" required></b-form-input>
                             </b-form-group>
                         </b-col>
                         <b-col>
                             <b-form-group id="input-group-1" label="UpSell Charged" label-for="input-uscharged">
-                                <b-form-select id="input-uscharged" required></b-form-select>
+                                <b-form-select id="input-uscharged" v-model="job.job.upSellCharged"
+                                    :options="upsellCharged" required></b-form-select>
                             </b-form-group>
                         </b-col>
                     </b-row>
@@ -152,117 +174,457 @@
                             </div>
                             <b-row>
                                 <b-col>
-                                    <b-form-checkbox id="checkbox-1" name="checkbox-1" value="accepted"
-                                        unchecked-value="not_accepted">
+                                    <b-form-checkbox v-on:change="showCompanyForm" id="checkbox-1" name="checkbox-1"
+                                        value="true" unchecked-value="false">
                                         Towing Company
                                     </b-form-checkbox>
                                 </b-col>
                             </b-row>
-                            <b-row>
-                                <b-col>
-                                    <b-form-group id="input-group-1" label="Pick up Location" label-for="input-puLoc">
-                                        <b-form-input id="input-puLoc" placeholder="123 street" required></b-form-input>
-                                    </b-form-group>
-                                </b-col>
-                                <b-col>
-                                    <b-form-group id="input-group-1" label="Drop off Location" label-for="input-puLoc">
-                                        <b-form-input id="input-puLoc" placeholder="123 street" required></b-form-input>
-                                    </b-form-group>
-                                </b-col>
-                            </b-row>
-                            <b-row>
-                                <b-col>
-                                    <b-form-group id="input-group-1" label="Agent" label-for="input-cAgent">
-                                        <b-form-input id="input-cAgent" placeholder="host" required></b-form-input>
-                                    </b-form-group>
-                                </b-col>
-                                <b-col>
-                                    <b-form-group id="input-group-1" label="Towing Name" label-for="input-tname">
-                                        <b-form-input id="input-tname" placeholder="Name" required></b-form-input>
-                                    </b-form-group>
-                                </b-col>
-                                <b-col>
-                                    <b-form-group id="input-group-1" label="Towing Phone" label-for="input-tphone">
-                                        <b-form-input id="input-tphone" placeholder="000-00-00" required></b-form-input>
-                                    </b-form-group>
-                                </b-col>
-                                <b-col>
-                                    <b-form-group id="input-group-1" label="Towing Contact" label-for="input-tcontact">
-                                        <b-form-input id="input-tcontact" placeholder="contact" required></b-form-input>
-                                    </b-form-group>
-                                </b-col>
-                            </b-row>
-                            <b-row>
-                                <b-col>
-                                    <b-form-group id="input-group-1" label="Towing Zip" label-for="input-tZip">
-                                        <b-form-input id="input-tZip" placeholder="26000" required></b-form-input>
-                                    </b-form-group>
-                                </b-col>
-                                <b-col>
-                                    <b-form-group id="input-group-1" label="Towing Charged" label-for="input-tcharged">
-                                        <b-form-input id="input-tcharged" placeholder="Name" type="number" required></b-form-input>
-                                    </b-form-group>
-                                </b-col>
-                                <b-col>
-                                    <b-form-group id="input-group-1" label="Towing Charged Date" label-for="input-tphone">
-                                        <b-form-input id="input-tphone" type="date" required></b-form-input>
-                                    </b-form-group>
-                                </b-col>
-                                <b-col>
-                                    <b-form-group id="input-group-1" label="Time" label-for="input-tcontact">
-                                        <b-form-input id="input-tcontact" placeholder="contact" type="time" required></b-form-input>
-                                    </b-form-group>
-                                </b-col>
-                            </b-row>
-                            <b-row>
-                                <b-col cols="4">
-                                    <b-form-group id="input-group-1" label="Towing status" label-for="input-tstatus">
-                                        <b-form-select id="input-tstatus" required></b-form-select>
-                                    </b-form-group>
-                                </b-col>
-                            </b-row>
-                            <b-row>
-                                <b-col cols="4">
-                                    <b-form-group id="input-group-1" label="Notes" label-for="input-notes">
-                                        <b-form-input id="input-notes" placeholder="Notes" required></b-form-input>
-                                    </b-form-group>
-                                </b-col>
-                            </b-row>
+                            <div class="companyform" v-if="show">
+                                <b-row>
+                                    <b-col>
+                                        <b-form-group id="input-group-1" label="Pick up Location"
+                                            label-for="input-puLoc">
+                                            <b-form-input id="input-puLoc" v-model="job.jobCompany.pickUp"
+                                                placeholder="123 street" required></b-form-input>
+                                        </b-form-group>
+                                    </b-col>
+                                    <b-col>
+                                        <b-form-group id="input-group-1" label="Drop off Location"
+                                            label-for="input-puLoc">
+                                            <b-form-input id="input-puLoc" v-model="job.jobCompany.dropoff"
+                                                placeholder="123 street" required></b-form-input>
+                                        </b-form-group>
+                                    </b-col>
+                                </b-row>
+                                <b-row>
+                                    <b-col>
+                                        <b-form-group id="input-group-1" label="Agent" label-for="input-cAgent">
+                                            <b-form-input id="input-cAgent" v-model="job.jobCompany.Agent"
+                                                placeholder="host" required></b-form-input>
+                                        </b-form-group>
+                                    </b-col>
+                                    <b-col>
+                                        <b-form-group id="input-group-1" label="Towing Name" label-for="input-tname">
+                                            <b-form-input id="input-tname" v-model="job.jobCompany.name"
+                                                placeholder="Name" required></b-form-input>
+                                        </b-form-group>
+                                    </b-col>
+                                    <b-col>
+                                        <b-form-group id="input-group-1" label="Towing Phone" label-for="input-tphone">
+                                            <b-form-input id="input-tphone" v-model="job.jobCompany.phone"
+                                                placeholder="000-00-00" required></b-form-input>
+                                        </b-form-group>
+                                    </b-col>
+                                    <b-col>
+                                        <b-form-group id="input-group-1" label="Towing Contact"
+                                            label-for="input-tcontact">
+                                            <b-form-input id="input-tcontact" v-model="job.jobCompany.contact"
+                                                placeholder="contact" required></b-form-input>
+                                        </b-form-group>
+                                    </b-col>
+                                </b-row>
+                                <b-row>
+                                    <b-col>
+                                        <b-form-group id="input-group-1" label="Towing Zip" label-for="input-tZip">
+                                            <b-form-input id="input-tZip" v-model="job.jobCompany.zipCode"
+                                                placeholder="26000" required></b-form-input>
+                                        </b-form-group>
+                                    </b-col>
+                                    <b-col>
+                                        <b-form-group id="input-group-1" label="Towing Charged"
+                                            label-for="input-tcharged">
+                                            <b-form-input id="input-tcharged" v-model="job.jobCompany.charged"
+                                                placeholder="$" type="number" required></b-form-input>
+                                        </b-form-group>
+                                    </b-col>
+                                    <b-col>
+                                        <b-form-group id="input-group-1" label="Towing Charged Date"
+                                            label-for="input-tphone">
+                                            <b-form-input id="input-tphone" v-model="job.jobCompany.chargedDate"
+                                                type="date" required></b-form-input>
+                                        </b-form-group>
+                                    </b-col>
+                                    <b-col>
+                                        <b-form-group id="input-group-1" label="Time" label-for="input-tcontact">
+                                            <b-form-input id="input-tcontact" v-model="job.jobCompany.chargedTime"
+                                                type="time" required></b-form-input>
+                                        </b-form-group>
+                                    </b-col>
+                                </b-row>
+                                <b-row>
+                                    <b-col cols="4">
+                                        <b-form-group id="input-group-1" label="Towing status"
+                                            label-for="input-tstatus">
+                                            <b-form-select id="input-tstatus" v-model="job.job.upSellCharged"
+                                                :options="towingStatus" required></b-form-select>
+                                        </b-form-group>
+                                    </b-col>
+                                </b-row>
+                                <b-row>
+                                    <b-col cols="4">
+                                        <b-form-group id="input-group-1" label="Notes" label-for="input-notes">
+                                            <b-form-input id="input-notes" v-model="job.jobCompany.paymentStatus"
+                                                placeholder="Notes" required></b-form-input>
+                                        </b-form-group>
+                                    </b-col>
+                                </b-row>
+                            </div>
                         </b-col>
                     </b-row>
-                    <b-button type="submit" variant="primary">Submit</b-button>
-                    <b-button type="reset" variant="danger">Reset</b-button>
+                    <b-button @click="submitChanges" variant="primary">Submit</b-button>
+                    <b-button @click="addAssign" variant="primary">Assign to {{passto}}</b-button>
+                    <b-button variant="danger">Back</b-button>
                 </b-form>
             </b-col>
         </b-row>
     </b-container>
 </template>
 
-<script>
+<script >
+import axios from 'axios';
+
 export default {
     data() {
         return {
-            show: true
+            id: this.$route.params.jobID,
+            roles:[],
+            passto:JSON.parse(localStorage.getItem("user_details")).to,
+            role:JSON.parse(localStorage.getItem("user_details")).role,
+            jobStatus: [
+                { value: null, text: 'Please Select Job Status' },
+                { value: 'pending', text: 'Pending' },
+                { value: 'completed', text: 'Completed' },
+                { value: 'goa', text: 'GOA' },
+                { value: 'cancelled', text: 'Cancelled' }
+            ],
+            upsellCharged: [
+                { value: 'upsell', text: 'upsell' },
+                { value: 'noupsell', text: 'No Upsell' },
+                { value: 'pending', text: 'pending' },
+                { value: 'submitted', text: 'submitted' }
+            ],
+            State: [
+                {
+                    text: "Alabama",
+                    value: "AL"
+                },
+                {
+                    text: "Alaska",
+                    value: "AK"
+                },
+                {
+                    text: "American Samoa",
+                    value: "AS"
+                },
+                {
+                    text: "Arizona",
+                    value: "AZ"
+                },
+                {
+                    text: "Arkansas",
+                    value: "AR"
+                },
+                {
+                    text: "California",
+                    value: "CA"
+                },
+                {
+                    text: "Colorado",
+                    value: "CO"
+                },
+                {
+                    text: "Connecticut",
+                    value: "CT"
+                },
+                {
+                    text: "Delaware",
+                    value: "DE"
+                },
+                {
+                    text: "District Of Columbia",
+                    value: "DC"
+                },
+                {
+                    text: "Federated States Of Micronesia",
+                    value: "FM"
+                },
+                {
+                    text: "Florida",
+                    value: "FL"
+                },
+                {
+                    text: "Georgia",
+                    value: "GA"
+                },
+                {
+                    text: "Guam",
+                    value: "GU"
+                },
+                {
+                    text: "Hawaii",
+                    value: "HI"
+                },
+                {
+                    text: "Idaho",
+                    value: "ID"
+                },
+                {
+                    text: "Illinois",
+                    value: "IL"
+                },
+                {
+                    text: "Indiana",
+                    value: "IN"
+                },
+                {
+                    text: "Iowa",
+                    value: "IA"
+                },
+                {
+                    text: "Kansas",
+                    value: "KS"
+                },
+                {
+                    text: "Kentucky",
+                    value: "KY"
+                },
+                {
+                    text: "Louisiana",
+                    value: "LA"
+                },
+                {
+                    text: "Maine",
+                    value: "ME"
+                },
+                {
+                    text: "Marshall Islands",
+                    value: "MH"
+                },
+                {
+                    text: "Maryland",
+                    value: "MD"
+                },
+                {
+                    text: "Massachusetts",
+                    value: "MA"
+                },
+                {
+                    text: "Michigan",
+                    value: "MI"
+                },
+                {
+                    text: "Minnesota",
+                    value: "MN"
+                },
+                {
+                    text: "Mississippi",
+                    value: "MS"
+                },
+                {
+                    text: "Missouri",
+                    value: "MO"
+                },
+                {
+                    text: "Montana",
+                    value: "MT"
+                },
+                {
+                    text: "Nebraska",
+                    value: "NE"
+                },
+                {
+                    text: "Nevada",
+                    value: "NV"
+                },
+                {
+                    text: "New Hampshire",
+                    value: "NH"
+                },
+                {
+                    text: "New Jersey",
+                    value: "NJ"
+                },
+                {
+                    text: "New Mexico",
+                    value: "NM"
+                },
+                {
+                    text: "New York",
+                    value: "NY"
+                },
+                {
+                    text: "North Carolina",
+                    value: "NC"
+                },
+                {
+                    text: "North Dakota",
+                    value: "ND"
+                },
+                {
+                    text: "Northern Mariana Islands",
+                    value: "MP"
+                },
+                {
+                    text: "Ohio",
+                    value: "OH"
+                },
+                {
+                    text: "Oklahoma",
+                    value: "OK"
+                },
+                {
+                    text: "Oregon",
+                    value: "OR"
+                },
+                {
+                    text: "Palau",
+                    value: "PW"
+                },
+                {
+                    text: "Pennsylvania",
+                    value: "PA"
+                },
+                {
+                    text: "Puerto Rico",
+                    value: "PR"
+                },
+                {
+                    text: "Rhode Island",
+                    value: "RI"
+                },
+                {
+                    text: "South Carolina",
+                    value: "SC"
+                },
+                {
+                    text: "South Dakota",
+                    value: "SD"
+                },
+                {
+                    text: "Tennessee",
+                    value: "TN"
+                },
+                {
+                    text: "Texas",
+                    value: "TX"
+                },
+                {
+                    text: "Utah",
+                    value: "UT"
+                },
+                {
+                    text: "Vermont",
+                    value: "VT"
+                },
+                {
+                    text: "Virgin Islands",
+                    value: "VI"
+                },
+                {
+                    text: "Virginia",
+                    value: "VA"
+                },
+                {
+                    text: "Washington",
+                    value: "WA"
+                },
+                {
+                    text: "West Virginia",
+                    value: "WV"
+                },
+                {
+                    text: "Wisconsin",
+                    value: "WI"
+                },
+                {
+                    text: "Wyoming",
+                    value: "WY"
+                }
+            ],
+            IssAccount: [
+                { value: null, text: 'Please Select Account' },
+                { value: 'Geico', text: 'Geico' },
+                { value: 'state farm', text: 'state farm' },
+                { value: 'swoop', text: 'swoop' },
+                { value: 'agero', text: 'agero' },
+                { value: 'progressive', text: 'progressive' },
+                { value: 'mercury', text: 'mercury' },
+                { value: 'all state', text: 'all state' },
+                { value: 'aaa', text: 'aaa' },
+                { value: 'private', text: 'private' },
+            ],
+            towingStatus: [
+                { value: null, text: 'Please Select Status' },
+                { value: 'paid', text: 'paid' },
+                { value: 'notPaid', text: 'not Paid' },
+            ],
+            Charged: [
+                { value: 'pending', text: 'pending' },
+                { value: 'submitted', text: 'submitted' },
+            ],
+            show: false,
+            job: {
+                job: {},
+                jobCompany: {},
+            },
         }
     },
+    mounted() {
+        this.getJobs()
+    },
     methods: {
-        onSubmit(event) {
-            event.preventDefault()
-            alert(JSON.stringify(this.form))
+        addAssign(){
+            this.$data.job.job.assignto=this.$data.passto
+            this.submitChanges()
         },
-        onReset(event) {
-            event.preventDefault()
-            // Reset our form values
-            this.form.email = ''
-            this.form.name = ''
-            this.form.food = null
-            this.form.checked = []
-            // Trick to reset/clear native browser form validation state
-            this.show = false
-            this.$nextTick(() => {
-                this.show = true
+        async submitChanges() {
+            const job_Payload = {
+                job: this.$data.job.job,
+                id: this.$data.id
+            }
+            const company_Payload = {
+                company: this.$data.job.jobCompany,
+                id: this.$data.id
+            }
+            if (this.$data.job.job.towingCompany) {
+                axios.all([
+                    axios.put(`http://localhost:3001/job`, job_Payload),
+                    axios.put(`http://localhost:3001/company`, company_Payload)
+                ]).then(([jobres]) => {
+                    console.log(jobres);
+                }).catch((err) => {
+                    console.log('err');
+                    // console.log(err) 
+                })
+            }
+            else {
+                axios.all([
+                    axios.put(`http://localhost:3001/job`, job_Payload),
+                    axios.post(`http://localhost:3001/company`, company_Payload)
+                ]).then(([jobres]) => {
+                    console.log(jobres);
+                }).catch((err) => {
+                    console.log(err)
+                })
+            }
+        },
+        showCompanyForm(e) {
+            if (e === 'true') return this.$data.show = true
+            this.$data.show = false
+        },
+        getJobs() {
+            const jobs = axios.get(`http://localhost:3001/job?id=${this.$data.id}`);
+            Promise.all([jobs]).then((res) => {
+                this.$data.job = res[0].data;
+                if (!this.$data.job.jobCompany) {
+                    this.$data.job.jobCompany = {}
+                }
+                console.log(res[0].data);
+            }).catch((err) => {
+                console.log(err);
             })
-        }
+        },
     }
 }
 </script>

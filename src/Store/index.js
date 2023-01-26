@@ -2,10 +2,15 @@ import { createStore } from 'vuex'
 export default createStore({
     state:{
         //states
-        counter:0
+        jobs:[],
+        selectedJob:{}
     },
     mutations:{
         //method that change the state async code not work in mutation
+        updateJob(state,jobs){
+            console.log('commit');
+            state.jobs=jobs
+        }
     },
     actions:{
         //trigger mutation to change the state and also async code work in actions

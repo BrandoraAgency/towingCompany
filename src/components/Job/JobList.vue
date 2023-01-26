@@ -74,7 +74,7 @@
                     </b-tr>
                 </b-thead>
                 <b-tbody>
-                    <b-tr v-for="job in jobs" v-on:click="selectJob(job.id)">
+                    <b-tr v-for="job in $store.state.jobs" v-on:click="selectJob(job.id)">
                         <b-td>{{job.id}}</b-td>
                         <b-td>Cell</b-td>
                         <b-td>{{job.date.split('T')[0]}}</b-td>
@@ -109,7 +109,7 @@ export default {
     components: { Filter },
     data() {
         return {
-            jobs:[]
+           
         }
     },
     mounted() {
@@ -120,10 +120,10 @@ export default {
             router.push(`/jobs/${id}`)
         },
         async getJobs(){
-            const role=JSON.parse(localStorage.getItem("user_details")).role
-            const jobs=axios.get(`http://localhost:3001/jobs?role=7`);
+            const access=JSON.parse(localStorage.getItem("user_details")).role
+            const jobs=axios.get(`http://localhost:3001/jobs?role=${access}`);
             Promise.all([jobs]).then((res)=>{
-                this.$data.jobs=res[0].data;
+               this.$store.commit('updateJob',res[0].data)
             }).catch((err)=>{
                 console.log(err);
             })

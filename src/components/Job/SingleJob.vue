@@ -509,7 +509,6 @@ export default {
     },
     methods: {
         async getJobDetails(){
-
             const jobs=axios.get(`http://localhost:3001/job?id=${this.$data.id}`);
             Promise.all([jobs]).then((res)=>{
                 this.$data.job=res[0].data;
