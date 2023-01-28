@@ -589,8 +589,8 @@ export default {
             }
             if (this.$data.job.job.towingCompany) {
                 axios.all([
-                    axios.put(`http://localhost:3001/job`, job_Payload),
-                    axios.put(`http://localhost:3001/company`, company_Payload)
+                    axios.put(`${import.meta.env.VITE_LIVE}/job`, job_Payload),
+                    axios.put(`${import.meta.env.VITE_LIVE}/company`, company_Payload)
                 ]).then(([jobres]) => {
                     console.log(jobres);
                 }).catch((err) => {
@@ -600,8 +600,8 @@ export default {
             }
             else {
                 axios.all([
-                    axios.put(`http://localhost:3001/job`, job_Payload),
-                    axios.post(`http://localhost:3001/company`, company_Payload)
+                    axios.put(`${import.meta.env.VITE_LIVE}/job`, job_Payload),
+                    axios.post(`${import.meta.env.VITE_LIVE}/company`, company_Payload)
                 ]).then(([jobres]) => {
                     console.log(jobres);
                 }).catch((err) => {
@@ -614,7 +614,7 @@ export default {
             this.$data.show = false
         },
         getJobs() {
-            const jobs = axios.get(`http://localhost:3001/job?id=${this.$data.id}`);
+            const jobs = axios.get(`${import.meta.env.VITE_LIVE}/job?id=${this.$data.id}`);
             Promise.all([jobs]).then((res) => {
                 this.$data.job = res[0].data;
                 if (!this.$data.job.jobCompany) {

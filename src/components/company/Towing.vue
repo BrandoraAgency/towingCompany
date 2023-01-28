@@ -44,7 +44,7 @@ import axios from 'axios';
     },
     methods: {
         async getJobs(){
-            const jobs=axios.get(`http://localhost:3001/company`);
+            const jobs=axios.get(`${process.env.REACT_APP_live_url}/company`);
             Promise.all([jobs]).then((res)=>{
               this.$data.companies=res[0].data;
             }).catch((err)=>{

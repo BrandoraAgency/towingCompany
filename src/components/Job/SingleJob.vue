@@ -31,12 +31,12 @@
                         <b-row>
                             <b-col>
                                 <span>
-                                    {{key}}
+                                    {{ key }}
                                 </span>
                             </b-col>
                             <b-col>
                                 <span>
-                                    {{value}}
+                                    {{ value }}
                                 </span>
                             </b-col>
                         </b-row>
@@ -464,7 +464,7 @@
             <b-col>
                 <div class="singleJobAction">
                     <div class="GnrtInvoice">
-                        <button>
+                        <button @click="genPdf">
                             Generate Invoice
                         </button>
                     </div>
@@ -472,7 +472,47 @@
                         <button>Approve</button>
                     </div>
                     <div class="edtJob">
-                        <router-link :to="{path: id+'/edit'}" class="btn">Edit</router-link>
+                        <router-link :to="{ path: id + '/edit' }" class="btn">Edit</router-link>
+                    </div>
+                </div>
+            </b-col>
+        </b-row>
+        <b-row>
+            <b-col>
+                <div class="headText">
+                    <h4>
+                        Tow Images
+                    </h4>
+                </div>
+                <div class="images">
+                    <div class="singleImages" v-for="image in images">
+                        <img :src="`${url}/serve/${image.src}`" alt="" srcset="">
+                    </div>
+                </div>
+                <div class="upldBtn">
+                    <div class="file-upload">
+                        <input type="file" @change="onImageChange" />
+                        <button @click="onimageFile" class="upload-button" :disabled="!this.$data.imageFile">Upload
+                            file</button>
+                    </div>
+                </div>
+            </b-col>
+            <b-col>
+                <div class="headText">
+                    <h4>
+                        Tow Reciepts
+                    </h4>
+                </div>
+                <div class="images">
+                    <div class="singleImages" v-for="receipt in receipts">
+                        <img :src="`${url}/serve/${receipt.src}`" alt="" srcset="">
+                    </div>
+                </div>
+                <div class="upldBtn">
+                    <div class="file-upload">
+                        <input type="file" @change="onReceiptChange" />
+                        <button @click="onreceiptFile" class="upload-button" :disabled="!this.$data.receiptsFile">Upload
+                            file</button>
                     </div>
                 </div>
             </b-col>
@@ -480,7 +520,7 @@
         <b-row>
             <b-col>
                 <h4>
-                    Towing Job Log - Reference # 
+                    Towing Job Log - Reference #
                 </h4>
             </b-col>
         </b-row>
@@ -494,30 +534,103 @@
 </template>
 
 <script>
-import axios from 'axios';
 
+import axios from 'axios';
+import pdfFile from '../../assets/invoice.pdf'
 export default {
     data() {
-      return {
-        id: this.$route.params.jobID,
-        job:{},
-        items:[]
-      }
+        return {
+            url: import.meta.env.VITE_LIVE,
+            id: this.$route.params.jobID,
+            imageFile: "",
+            receiptsFile: "",
+            images: {},
+            receipts: {},
+            job: {},
+            items: []
+        }
     },
     mounted() {
         this.getJobDetails()
     },
     methods: {
-        async getJobDetails(){
-            const jobs=axios.get(`http://localhost:3001/job?id=${this.$data.id}`);
-            Promise.all([jobs]).then((res)=>{
-                this.$data.job=res[0].data;
-            }).catch((err)=>{
+        onImageChange(e) {
+            const image = e.target.files[0]; // accessing file
+            this.imageFile = image;
+        },
+        onReceiptChange(e) {
+            const receipt = e.target.files[0]; // accessing file
+            this.receiptsFile = receipt;
+        },
+        onimageFile() {
+            const formData = new FormData();
+            formData.append("file", this.$data.imageFile);  // appending file
+
+            // sending file to the backend
+            axios.post(`${import.meta.env.VITE_LIVE}/image?id=${this.$data.id}`, formData)
+                .then(res => {
+                    console.log(res);
+                })
+                .catch(err => {
+                    console.log(err);
+                });
+        },
+        onreceiptFile() {
+            const formData = new FormData();
+            formData.append("file", this.$data.receiptsFile);  // appending file
+
+            // sending file to the backend
+            axios.post(`${import.meta.env.VITE_LIVE}/reciepts?id=${this.$data.id}`, formData)
+                .then(res => {
+                    console.log(res);
+                })
+                .catch(err => {
+                    console.log(err);
+                });
+        },
+        async getJobDetails() {
+            const jobs = axios.get(`${import.meta.env.VITE_LIVE}/job?id=${this.$data.id}`);
+            const images = axios.get(`${import.meta.env.VITE_LIVE}/image?id=${this.$data.id}`);
+            const receipts = axios.get(`${import.meta.env.VITE_LIVE}/reciepts?id=${this.$data.id}`);
+            Promise.all([jobs, images, receipts]).then((res) => {
+                this.$data.job = res[0].data;
+                console.log(res);
+                this.$data.images = res[1].data;
+                this.$data.receipts = res[2].data;
+            }).catch((err) => {
                 console.log(err);
             })
+        },
+        async genPdf() {
+            try {
+                const formData = new FormData();
+                
+                formData.append('pdfFile', pdfFile);
+                let modifications = {
+                    text: 'new text'
+                }
+                // formData.append('modifications', JSON.stringify(modifications));
+                axios.post(`${import.meta.env.VITE_LIVE}/modify-pdf`, formData, {
+                    headers: { 'Content-Type': 'multipart/form-data' }
+                })
+                    .then(response => {
+                        // Handle the response, which should be the modified PDF as a download
+                        const blob = new Blob([response.data], { type: 'application/pdf' })
+                        const link = document.createElement('a')
+                        link.href = URL.createObjectURL(blob)
+                        link.download = label
+                        link.click()
+                        URL.revokeObjectURL(link.href)
+                    })
+                    .catch(error => {
+                        // Handle the error
+                    });
+            } catch (error) {
+                console.error(error);
+            }
         }
     },
-  }
+}
 </script>
 
 <style scoped>

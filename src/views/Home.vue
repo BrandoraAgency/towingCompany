@@ -19,7 +19,7 @@ export default {
   },
     methods: {
         logged() {
-            axios.get('http://localhost:3001/logged').then((res) => {
+            axios.get(`${import.meta.env.VITE_LIVE}/logged`).then((res) => {
                 router.push('/')
             }).catch((err) => {
                 router.push('/login')

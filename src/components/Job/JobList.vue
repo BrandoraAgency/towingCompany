@@ -1,6 +1,88 @@
 <template>
     <div>
-        <Filter/>
+        <b-container fluid="">
+            <b-row>
+                <b-col>
+                    <div class="filterHead">
+                        <div class="headingF">
+                            <h3>Filter</h3>
+                        </div>
+                    </div>
+                    <form action="">
+                        <b-row>
+                            <b-col>
+                                <div class="form-group">
+                                    <label for="dateFrom">Date From</label>
+                                    <input type="text" name="datefrom" id="dateForm">
+                                </div>
+                            </b-col>
+                            <b-col>
+                                <div class="form-group">
+                                    <label for="dateTo">Date To</label>
+                                    <input type="text" name="dateto" id="dateTo">
+                                </div>
+                            </b-col>
+                        </b-row>
+                        <b-row>
+                            <b-col>
+                                <div class="form-group">
+                                    <label for="jobstatus">Job Status</label>
+                                    <select name="jobstatus" id="jobstatus">
+                                        <option value="">1</option>
+                                    </select>
+                                </div>
+                            </b-col>
+                            <b-col>
+                                <div class="form-group">
+                                    <label for="Representative">Representative</label>
+                                    <select name="Representative" id="Representative">
+                                        <option value="">1</option>
+                                    </select>
+                                </div>
+                            </b-col>
+                            <b-col>
+                                <div class="form-group">
+                                    <label for="po">PO #</label>
+                                    <input type="number" name="po" id="po">
+                                </div>
+                            </b-col>
+                            <b-col>
+                                <div class="form-group">
+                                    <label for="insurAcc">Insurance Account</label>
+                                    <select name="insurAcc" id="insurAcc">
+                                        <option value="">1</option>
+                                    </select>
+                                </div>
+                            </b-col>
+                            <b-col>
+                                <div class="form-group">
+                                    <label for="chargeStatus">Charged Status</label>
+                                    <select name="chargeStatus" id="chargeStatus">
+                                        <option value="">1</option>
+                                    </select>
+                                </div>
+                            </b-col>
+                            <b-col>
+                                <div class="form-group">
+                                    <label for="paymentStatus">Payment Status</label>
+                                    <select name="paymentStatus" id="paymentStatus">
+                                        <option value="">1</option>
+                                    </select>
+                                </div>
+                            </b-col>
+                        </b-row>
+                        <b-row>
+                            <b-col>
+                                <div class="submitbtn">
+                                    <b-button variant="success" type="submit">Apply</b-button>
+                                    <b-button>Close</b-button>
+                                </div>
+                            </b-col>
+                        </b-row>
+                    </form>
+                </b-col>
+            </b-row>
+        </b-container>
         <div class="stats">
             <b-container fluid>
                 <b-row>
@@ -101,15 +183,35 @@
 </template>
 
 <script>
-import Filter from './Filter.vue';
 import axios from 'axios';
 import router from '../../router';
 
 export default {
-    components: { Filter },
     data() {
         return {
-           
+            jobStatus: [
+                { value: null, text: 'Please Select Job Status' },
+                { value: 'pending', text: 'Pending' },
+                { value: 'completed', text: 'Completed' },
+                { value: 'goa', text: 'GOA' },
+                { value: 'cancelled', text: 'Cancelled' }
+            ],
+            IssAccount: [
+                { value: null, text: 'Please Select Account' },
+                { value: 'Geico', text: 'Geico' },
+                { value: 'state farm', text: 'state farm' },
+                { value: 'swoop', text: 'swoop' },
+                { value: 'agero', text: 'agero' },
+                { value: 'progressive', text: 'progressive' },
+                { value: 'mercury', text: 'mercury' },
+                { value: 'all state', text: 'all state' },
+                { value: 'aaa', text: 'aaa' },
+                { value: 'private', text: 'private' },
+            ],
+            Charged: [
+                { value: 'pending', text: 'pending' },
+                { value: 'submitted', text: 'submitted' },
+            ],
         }
     },
     mounted() {
@@ -121,7 +223,7 @@ export default {
         },
         async getJobs(){
             const access=JSON.parse(localStorage.getItem("user_details")).role
-            const jobs=axios.get(`http://localhost:3001/jobs?role=${access}`);
+            const jobs=axios.get(`${import.meta.env.VITE_LIVE}/jobs?role=${access}`);
             Promise.all([jobs]).then((res)=>{
                this.$store.commit('updateJob',res[0].data)
             }).catch((err)=>{

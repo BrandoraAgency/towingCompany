@@ -50,7 +50,7 @@ import axios from 'axios';
         },
         methods: {
         async getUsers(){
-            const jobs=axios.get(`http://localhost:3001/user`);
+            const jobs=axios.get(`${import.meta.env.VITE_LIVE}/user`);
             Promise.all([jobs]).then((res)=>{
               this.$data.users=res[0].data;
             }).catch((err)=>{

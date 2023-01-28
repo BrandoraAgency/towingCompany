@@ -10,7 +10,8 @@ export default{
       email:email,
       password:password
     }
-    axios.post('http://localhost:3001/login',body).then((res)=>{
+    axios.post(`${import.meta.env.VITE_LIVE}/login`,body).then((res)=>{
+      console.log('done');
     localStorage.setItem('user_details',JSON.stringify(res.data))
      router.push('/')
     }).catch((err)=>{

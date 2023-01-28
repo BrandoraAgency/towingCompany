@@ -385,7 +385,7 @@ export default {
     },
     methods: {
         getRoles() {
-            const getroles = axios.get(`http://localhost:3001/roles`);
+            const getroles = axios.get(`${import.meta.env.VITE_LIVE}/roles`);
             Promise.all([getroles]).then((res) => {
                 console.log(res[0].data);
                 this.$data.roles = res[0].data
@@ -393,7 +393,7 @@ export default {
         },
         async createJob() {
             this.$data.newJob.assignto = JSON.parse(localStorage.getItem("user_details")).to
-            await axios.post(`http://localhost:3001/job`, this.$data.newJob).then((res) => {
+            await axios.post(`${import.meta.env.VITE_LIVE}/job`, this.$data.newJob).then((res) => {
                 alert('created')
                 this.$data.newJob = {}
             }).catch((err) => {
