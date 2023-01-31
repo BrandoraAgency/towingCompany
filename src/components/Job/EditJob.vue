@@ -1,7 +1,5 @@
 <template>
     <b-container>
-        {{ job.job }}
-
         <b-row>
             <b-col>
                 <div class="headText">

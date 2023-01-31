@@ -27,7 +27,18 @@
     margin: 30px auto;
 }
 
-
+.passerr {
+    text-align: center;   
+    box-shadow:1px 1px 21px -5px #f72e2e69;
+    background: #f72e2e;
+    border-radius: 9px;
+    margin: auto;
+    font-size: 11px;
+    margin-top: 10px;
+    padding: 10px;
+    font-weight: 600;
+    color: #fff;
+}
 .form-submit button {
     display: block;
     width: 100%;

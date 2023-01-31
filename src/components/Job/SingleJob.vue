@@ -536,7 +536,7 @@
 <script>
 
 import axios from 'axios';
-import pdfFile from '../../assets/invoice.pdf'
+import { degrees, PDFDocument, rgb, StandardFonts } from 'pdf-lib';
 export default {
     data() {
         return {
@@ -602,37 +602,38 @@ export default {
             })
         },
         async genPdf() {
-            try {
-                const formData = new FormData();
-                
-                formData.append('pdfFile', pdfFile);
-                let modifications = {
-                    text: 'new text'
-                }
-                // formData.append('modifications', JSON.stringify(modifications));
-                axios.post(`${import.meta.env.VITE_LIVE}/modify-pdf`, formData, {
-                    headers: { 'Content-Type': 'multipart/form-data' }
-                })
-                    .then(response => {
-                        // Handle the response, which should be the modified PDF as a download
-                        const blob = new Blob([response.data], { type: 'application/pdf' })
-                        const link = document.createElement('a')
-                        link.href = URL.createObjectURL(blob)
-                        link.download = label
-                        link.click()
-                        URL.revokeObjectURL(link.href)
-                    })
-                    .catch(error => {
-                        // Handle the error
-                    });
-            } catch (error) {
-                console.error(error);
-            }
+            const url = `${import.meta.env.VITE_LIVE}/serve/invoice.pdf`
+            const existingPdfBytes = await fetch(url).then(res => res.arrayBuffer())
+            const pdfDoc = await PDFDocument.load(existingPdfBytes)
+            const helveticaFont = await pdfDoc.embedFont(StandardFonts.Helvetica)
+            const pages = pdfDoc.getPages()
+            const firstPage = pages[0]
+            const { width, height } = firstPage.getSize()
+            firstPage.drawText('Address: 14429 Ventura Blvd #111, Sherman oaks ca 91423', {
+                x: 12,
+                y: height - 140,
+                size: 8,
+                font: helveticaFont,
+                color: rgb(0, 0, 0),
+            })
+            firstPage.drawText('213-592-0365', {
+                x: 12,
+                y: height - 150,
+                size: 8,
+                font: helveticaFont,
+                color: rgb(0, 0, 0),
+            })
+            const pdfBytes = await pdfDoc.save()
+            const blob = new Blob([pdfBytes], { type: 'application/pdf' });
+            const link = document.createElement('a');
+            link.href = URL.createObjectURL(blob);
+            link.download = 'file.pdf';
+            link.click();
+            console.log(pdfBytes);
         }
     },
 }
-</script>
-
+</script>   
 <style scoped>
 
 </style>

@@ -43,8 +43,7 @@
                                 Welcome {{ userRole }}
                             </a>
                             <ul class="dropdown-menu">
-                                <li><a class="dropdown-item" href="#">Action</a></li>
-                                <li><a class="dropdown-item" href="#">Another action</a></li>
+                                <li @click="loggedOut"><div class="dropdown-item">Log out</div></li>
                             </ul>
                         </li>
                     </ul>
@@ -55,6 +54,8 @@
 </template>
 
 <script>
+import axios from 'axios';
+import router from '../../router';
 export default {
     data() {
         return {
@@ -64,6 +65,16 @@ export default {
     },
     mounted() {
         console.log(this.$data.userRole);
+    },
+    methods: {
+        loggedOut(){
+            const loggedOut=axios.get(`${import.meta.env.VITE_LIVE}/logout`)
+            Promise.all([loggedOut]).then((res)=>{
+                router.push('/login')
+            }).catch((err)=>{
+                console.log(err);
+            })
+        }
     },
 }
 </script>

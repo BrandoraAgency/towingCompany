@@ -13,70 +13,41 @@
                             <b-col>
                                 <div class="form-group">
                                     <label for="dateFrom">Date From</label>
-                                    <input type="text" name="datefrom" id="dateForm">
+                                    <input type="date" v-model="filter.start" name="datefrom" id="dateForm">
                                 </div>
                             </b-col>
                             <b-col>
                                 <div class="form-group">
                                     <label for="dateTo">Date To</label>
-                                    <input type="text" name="dateto" id="dateTo">
+                                    <input type="date" v-model="filter.end" name="dateto" id="dateTo">
                                 </div>
                             </b-col>
                         </b-row>
                         <b-row>
                             <b-col>
-                                <div class="form-group">
-                                    <label for="jobstatus">Job Status</label>
-                                    <select name="jobstatus" id="jobstatus">
-                                        <option value="">1</option>
-                                    </select>
-                                </div>
-                            </b-col>
-                            <b-col>
-                                <div class="form-group">
-                                    <label for="Representative">Representative</label>
-                                    <select name="Representative" id="Representative">
-                                        <option value="">1</option>
-                                    </select>
-                                </div>
+                                <b-form-group id="input-group-1" label="Job Status" label-for="input-issAcc">
+                                    <b-form-select id="input-issAcc" v-model="filter.jobStatus" :options="jobStatus"
+                                        required></b-form-select>
+                                </b-form-group>
                             </b-col>
                             <b-col>
                                 <div class="form-group">
                                     <label for="po">PO #</label>
-                                    <input type="number" name="po" id="po">
+                                    <input type="number" name="po" v-model="filter.po" id="po">
                                 </div>
                             </b-col>
                             <b-col>
-                                <div class="form-group">
-                                    <label for="insurAcc">Insurance Account</label>
-                                    <select name="insurAcc" id="insurAcc">
-                                        <option value="">1</option>
-                                    </select>
-                                </div>
+                                <b-form-group id="input-group-1" label="Insurance Account" label-for="input-issAcc">
+                                    <b-form-select id="input-issAcc" v-model="filter.issAcc" :options="IssAccount"
+                                        required></b-form-select>
+                                </b-form-group>
                             </b-col>
                             <b-col>
-                                <div class="form-group">
-                                    <label for="chargeStatus">Charged Status</label>
-                                    <select name="chargeStatus" id="chargeStatus">
-                                        <option value="">1</option>
-                                    </select>
-                                </div>
-                            </b-col>
-                            <b-col>
-                                <div class="form-group">
-                                    <label for="paymentStatus">Payment Status</label>
-                                    <select name="paymentStatus" id="paymentStatus">
-                                        <option value="">1</option>
-                                    </select>
-                                </div>
-                            </b-col>
-                        </b-row>
-                        <b-row>
-                            <b-col>
-                                <div class="submitbtn">
-                                    <b-button variant="success" type="submit">Apply</b-button>
-                                    <b-button>Close</b-button>
-                                </div>
+                                <b-form-group id="input-chrgedStatus" label="Charged Status"
+                                    label-for="input-chrgedStatus">
+                                    <b-form-select id="input-chrgedStatus" v-model="filter.charged" :options="Charged"
+                                        required></b-form-select>
+                                </b-form-group>
                             </b-col>
                         </b-row>
                     </form>
@@ -91,12 +62,19 @@
                             <span>
                                 Insurance Ammount
                             </span>
+                            <span>
+                                {{ issuranceStats.amount }}
+                            </span>
                         </div>
                     </b-col>
                     <b-col>
                         <div class="singleStats">
                             <span>
-                                GDA Ammount
+                                GOA Ammount
+                            </span>
+                            <span>
+                                {{ issuranceStats.goa }}
+
                             </span>
                         </div>
                     </b-col>
@@ -105,12 +83,18 @@
                             <span>
                                 Upsell Ammount
                             </span>
+                            <span>
+                                {{ issuranceStats.upAmount }}
+                            </span>
                         </div>
                     </b-col>
                     <b-col>
                         <div class="singleStats">
                             <span>
                                 Submitted Ammount
+                            </span>
+                            <span>
+                                {{ issuranceStats.SAmount }}
                             </span>
                         </div>
                     </b-col>
@@ -119,12 +103,18 @@
                             <span>
                                 Insurance Paid Ammount
                             </span>
+                            <span>
+                                {{ issuranceStats.paid }}
+                            </span>
                         </div>
                     </b-col>
                     <b-col>
                         <div class="singleStats">
                             <span>
-                                Towing Ammount
+                                Towing Amount
+                            </span>
+                            <span>
+                                {{ issuranceStats.towing }}
                             </span>
                         </div>
                     </b-col>
@@ -135,6 +125,7 @@
             <b-table-simple responsive>
                 <b-thead>
                     <b-tr>
+                        <b-th>Action</b-th>
                         <b-th>ID</b-th>
                         <b-th>S</b-th>
                         <b-th>Date</b-th>
@@ -142,7 +133,7 @@
                         <b-th>PO #</b-th>
                         <b-th>Insurance</b-th>
                         <b-th>Amount</b-th>
-                        <b-th>GDA</b-th>
+                        <b-th>GOA</b-th>
                         <b-th>Upsell</b-th>
                         <b-th>Charged</b-th>
                         <b-th>Status</b-th>
@@ -156,25 +147,28 @@
                     </b-tr>
                 </b-thead>
                 <b-tbody>
-                    <b-tr v-for="job in $store.state.jobs" v-on:click="selectJob(job.id)">
-                        <b-td>{{job.id}}</b-td>
+                    <b-tr v-for="job in filteredData">
+                        <b-td  v-on:click="selectJob(job.id)">
+                            <font-awesome-icon icon="edit" />
+                        </b-td>
+                        <b-td>{{ job.id }}</b-td>
                         <b-td>Cell</b-td>
-                        <b-td>{{job.date.split('T')[0]}}</b-td>
-                        <b-td>{{job.agent}}</b-td>
-                        <b-td>{{job.phone}}</b-td>
-                        <b-td>{{job.issuranceAccount}}</b-td>
-                        <b-td>{{job.amount}}</b-td>
+                        <b-td>{{ job.date.split('T')[0] }}</b-td>
+                        <b-td>{{ job.agent }}</b-td>
+                        <b-td>{{ job.phone }}</b-td>
+                        <b-td>{{ job.issuranceAccount }}</b-td>
+                        <b-td>{{ job.amount }}</b-td>
                         <b-td>gda!!</b-td>
-                        <b-td>{{job.upSellAmount}}</b-td>
+                        <b-td>{{ job.upSellAmount }}</b-td>
                         <b-td>charged!!</b-td>
                         <b-td>status!!</b-td>
-                        <b-td>{{job.state}}</b-td>
-                        <b-td>{{job.miles}}</b-td>
+                        <b-td>{{ job.state }}</b-td>
+                        <b-td>{{ job.miles }}</b-td>
                         <b-td>towing!!</b-td>
                         <b-td>Phone!!</b-td>
-                        <b-td>{{job.charge_status}}</b-td>
+                        <b-td>{{ job.charge_status }}</b-td>
                         <b-td>status!!</b-td>
-                        <b-td>{{job.notes}}</b-td>
+                        <b-td>{{ job.notes }}</b-td>
                     </b-tr>
                 </b-tbody>
             </b-table-simple>
@@ -189,6 +183,15 @@ import router from '../../router';
 export default {
     data() {
         return {
+            joblist:[],
+            filter: {
+                start:'',
+                end:'',
+                jobStatus:'',
+                po:'',
+                issAcc:'',
+                charged:''
+            },
             jobStatus: [
                 { value: null, text: 'Please Select Job Status' },
                 { value: 'pending', text: 'Pending' },
@@ -217,16 +220,50 @@ export default {
     mounted() {
         this.getJobs()
     },
+    computed: {
+        filteredData() {
+            return this.joblist.filter(item =>
+                (this.filter.start === '' || new Date(item.date) >= new Date(this.filter.start)) &&
+                (this.filter.end === '' || new Date(item.date) <= new Date(this.filter.end)) &&
+                (this.filter.jobStatus === '' || item.jobStatus === this.filter.jobStatus) &&
+                (this.filter.po === '' || item.providerID.includes(this.filter.po)) &&
+                (this.filter.issAcc === '' || item.issuranceAccount.includes(this.filter.issAcc)) &&
+                (this.filter.charged === '' || item.charged_status === this.filter.charged)
+            )
+        },
+        issuranceStats() {
+            let s={};
+            s.amount=0;
+            s.SAmount=0;
+            s.goa=0;
+            s.paid=0
+            s.upAmount=0
+            s.towing=0;
+            this.filteredData.map(item =>{
+                s.amount+=item.amount
+                s.goa=0
+                if(item.charged_status==='submitted'){
+                    s.SAmount+=item.amount;
+                }
+                s.upAmount+= item.upSellAmount,
+                s.paid=0
+                s.towing+=item.towingCompany?item.towingCompany.charged:0
+             } )
+             console.log(s);
+            return s;
+        },
+    },
     methods: {
-        async selectJob(id){
+        async selectJob(id) {
             router.push(`/jobs/${id}`)
         },
-        async getJobs(){
-            const access=JSON.parse(localStorage.getItem("user_details")).role
-            const jobs=axios.get(`${import.meta.env.VITE_LIVE}/jobs?role=${access}`);
-            Promise.all([jobs]).then((res)=>{
-               this.$store.commit('updateJob',res[0].data)
-            }).catch((err)=>{
+        async getJobs() {
+            const access = JSON.parse(localStorage.getItem("user_details")).role
+            const jobs = axios.get(`${import.meta.env.VITE_LIVE}/jobs?role=${access}`);
+            Promise.all([jobs]).then((res) => {
+                this.$data.joblist = res[0].data;
+                console.log( res[0].data);
+            }).catch((err) => {
                 console.log(err);
             })
         }
