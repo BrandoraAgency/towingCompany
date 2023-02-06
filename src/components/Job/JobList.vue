@@ -54,7 +54,7 @@
                 </b-col>
             </b-row>
         </b-container>
-        <div class="stats">
+        <div class="stats" v-if="role==='admin'|| role==='accounting'">
             <b-container fluid>
                 <b-row>
                     <b-col>
@@ -183,6 +183,7 @@ import router from '../../router';
 export default {
     data() {
         return {
+            role:JSON.parse(localStorage.getItem("user_details")).role,
             joblist:[],
             filter: {
                 start:'',

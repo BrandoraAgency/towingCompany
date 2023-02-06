@@ -1,6 +1,7 @@
 <template>
     <b-container>
         <b-row>
+          {{ filter }}
             <b-row>
                 <b-col>
                   <b-row>
@@ -8,7 +9,6 @@
                       <div class="headText">
                           <h3>Towing Companies</h3>
                       </div>
-
                     </b-col>
                     <b-col>
                       <div class="filterInput">
@@ -56,8 +56,9 @@ import axios from 'axios';
     },
     computed:{
       filterData(){
-        return this.companies.filter(item=>
-        (this.filter=== '' || item.zipCode.includes(this.filter))
+        return this.companies.filter(item=>{
+          if(item.zipCode) return this.filter=== '' || item.zipCode.includes(this.filter)
+        }
         )
       }
     },

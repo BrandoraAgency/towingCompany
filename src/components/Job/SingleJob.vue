@@ -27,7 +27,7 @@
             <b-col>
                 <div class="jobtowing details">
 
-                    <div class="singledetail" v-for="(value, key, index) in job.job">
+                    <!-- <div class="singledetail" v-for="(value, key, index) in job">
                         <b-row>
                             <b-col>
                                 <span>
@@ -40,8 +40,8 @@
                                 </span>
                             </b-col>
                         </b-row>
-                    </div>
-                    <!-- <div class="singledetail">
+                    </div> -->
+                    <div class="singledetail">
                         <b-row>
                             <b-col>
                                 <span>
@@ -50,7 +50,7 @@
                             </b-col>
                             <b-col>
                                 <span>
-                                    data
+                                    {{job.agent}}
                                 </span>
                             </b-col>
                         </b-row>
@@ -64,7 +64,7 @@
                             </b-col>
                             <b-col>
                                 <span>
-                                    data
+                                    {{job.issuranceAccount}}
                                 </span>
                             </b-col>
                         </b-row>
@@ -78,7 +78,7 @@
                             </b-col>
                             <b-col>
                                 <span>
-                                    Contact
+                                    {{job.phone}}
                                 </span>
                             </b-col>
                         </b-row>
@@ -92,7 +92,7 @@
                             </b-col>
                             <b-col>
                                 <span>
-                                    data
+                                    {{job.providerID}}
                                 </span>
                             </b-col>
                         </b-row>
@@ -106,7 +106,7 @@
                             </b-col>
                             <b-col>
                                 <span>
-                                    data
+                                    {{job.amount}}
                                 </span>
                             </b-col>
                         </b-row>
@@ -120,7 +120,7 @@
                             </b-col>
                             <b-col>
                                 <span>
-                                    data
+                                    {{job.amount}}
                                 </span>
                             </b-col>
                         </b-row>
@@ -129,12 +129,12 @@
                         <b-row>
                             <b-col>
                                 <span>
-                                    Insurance
+                                    Insurance Time
                                 </span>
                             </b-col>
                             <b-col>
                                 <span>
-                                    data
+                                    {{job.issChargedTime}}
                                 </span>
                             </b-col>
                         </b-row>
@@ -143,12 +143,12 @@
                         <b-row>
                             <b-col>
                                 <span>
-                                    Charged
+                                    Charged Status
                                 </span>
                             </b-col>
                             <b-col>
                                 <span>
-                                    data
+                                    {{job.charged_status}}
                                 </span>
                             </b-col>
                         </b-row>
@@ -162,7 +162,7 @@
                             </b-col>
                             <b-col>
                                 <span>
-                                    data
+                                    {{job.firstName}}
                                 </span>
                             </b-col>
                         </b-row>
@@ -176,7 +176,7 @@
                             </b-col>
                             <b-col>
                                 <span>
-                                    data
+                                    {{job.providerID}}
                                 </span>
                             </b-col>
                         </b-row>
@@ -190,7 +190,7 @@
                             </b-col>
                             <b-col>
                                 <span>
-                                    data
+                                    {{job.lastName}}
                                 </span>
                             </b-col>
                         </b-row>
@@ -204,7 +204,7 @@
                             </b-col>
                             <b-col>
                                 <span>
-                                    data
+                                    {{job.make}}
                                 </span>
                             </b-col>
                         </b-row>
@@ -218,7 +218,7 @@
                             </b-col>
                             <b-col>
                                 <span>
-                                    data
+                                    {{job.model}}
                                 </span>
                             </b-col>
                         </b-row>
@@ -232,7 +232,7 @@
                             </b-col>
                             <b-col>
                                 <span>
-                                    data
+                                    {{job.color}}
                                 </span>
                             </b-col>
                         </b-row>
@@ -246,7 +246,7 @@
                             </b-col>
                             <b-col>
                                 <span>
-                                    data
+                                    {{job.vinNO}}
                                 </span>
                             </b-col>
                         </b-row>
@@ -260,7 +260,7 @@
                             </b-col>
                             <b-col>
                                 <span>
-                                    data
+                                    {{job.state}}
                                 </span>
                             </b-col>
                         </b-row>
@@ -274,7 +274,7 @@
                             </b-col>
                             <b-col>
                                 <span>
-                                    data
+                                    {{job.miles}}
                                 </span>
                             </b-col>
                         </b-row>
@@ -288,7 +288,7 @@
                             </b-col>
                             <b-col>
                                 <span>
-                                    data
+                                    {{job.upSellAmount}}
                                 </span>
                             </b-col>
                         </b-row>
@@ -302,11 +302,11 @@
                             </b-col>
                             <b-col>
                                 <span>
-                                    data
+                                    {{job.upSellAmount}}
                                 </span>
                             </b-col>
                         </b-row>
-                    </div> -->
+                    </div>
                 </div>
             </b-col>
             <b-col>
@@ -316,21 +316,21 @@
                     </h4>
                 </div>
                 <div class="jobtowing details">
-                    <div class="singledetail" v-for="(value, key, index) in job.jobCompany">
+                    <!-- <div class="singledetail" v-for="(value, key, index) in job.towingCompany">
                         <b-row>
                             <b-col>
                                 <span>
-                                    Pick up Location
+                                    {{ key }}
                                 </span>
                             </b-col>
                             <b-col>
                                 <span>
-                                    data
+                                    {{ value }}
                                 </span>
                             </b-col>
                         </b-row>
-                    </div>
-                    <!-- <div class="singledetail">
+                    </div> -->
+                    <div class="singledetail">
                         <b-row>
                             <b-col>
                                 <span>
@@ -339,7 +339,7 @@
                             </b-col>
                             <b-col>
                                 <span>
-                                    data
+                                    {{job.towingCompany.dropoff}}
                                 </span>
                             </b-col>
                         </b-row>
@@ -353,7 +353,7 @@
                             </b-col>
                             <b-col>
                                 <span>
-                                    data
+                                    {{job.towingCompany.Agent}}
                                 </span>
                             </b-col>
                         </b-row>
@@ -367,7 +367,7 @@
                             </b-col>
                             <b-col>
                                 <span>
-                                    Contact
+                                    {{job.towingCompany.name}}
                                 </span>
                             </b-col>
                         </b-row>
@@ -381,7 +381,7 @@
                             </b-col>
                             <b-col>
                                 <span>
-                                    data
+                                    {{job.towingCompany.zipCode}}
                                 </span>
                             </b-col>
                         </b-row>
@@ -395,7 +395,7 @@
                             </b-col>
                             <b-col>
                                 <span>
-                                    data
+                                    {{job.towingCompany.charged}}
                                 </span>
                             </b-col>
                         </b-row>
@@ -409,7 +409,7 @@
                             </b-col>
                             <b-col>
                                 <span>
-                                    data
+                                    {{job.towingCompany.chargedDate}}
                                 </span>
                             </b-col>
                         </b-row>
@@ -423,7 +423,7 @@
                             </b-col>
                             <b-col>
                                 <span>
-                                    data
+                                    {{job.towingCompany.pickUp}}
                                 </span>
                             </b-col>
                         </b-row>
@@ -446,11 +446,11 @@
                             </b-col>
                             <b-col>
                                 <span>
-                                    data
+                                    {{job.towingCompany.notes}}
                                 </span>
                             </b-col>
                         </b-row>
-                    </div> -->
+                    </div>
                 </div>
 
             </b-col>
@@ -463,12 +463,15 @@
             </b-col>
             <b-col>
                 <div class="singleJobAction">
-                    <div class="GnrtInvoice">
+                    <div class="GnrtInvoice" v-if="role === 'admin' || role === 'accountant'">
                         <button @click="genPdf">
                             Generate Invoice
                         </button>
                     </div>
                     <div class="dltJob">
+                        <button>Delete</button>
+                    </div>
+                    <div class="appJob" v-if="role === 'admin' || role === 'accountant'">
                         <button>Approve</button>
                     </div>
                     <div class="edtJob">
@@ -485,7 +488,7 @@
                     </h4>
                 </div>
                 <div class="images">
-                    <div class="singleImages" v-for="image in images">
+                    <div class="singleImages" v-for="image in job.towImages">
                         <img :src="`${url}/serve/${image.src}`" alt="" srcset="">
                     </div>
                 </div>
@@ -504,7 +507,7 @@
                     </h4>
                 </div>
                 <div class="images">
-                    <div class="singleImages" v-for="receipt in receipts">
+                    <div class="singleImages" v-for="receipt in job.towReceipts">
                         <img :src="`${url}/serve/${receipt.src}`" alt="" srcset="">
                     </div>
                 </div>
@@ -526,7 +529,33 @@
         </b-row>
         <b-row>
             <b-col>
-                <b-table striped hover :items="items"></b-table>
+                <b-table-simple responsive>
+                    <b-thead>
+                        <b-tr>
+                            <b-th>ID</b-th>
+                            <b-th>Date</b-th>
+                            <b-th>Action</b-th>
+                            <b-th>Agent</b-th>
+                            <b-th>changes</b-th>
+                        </b-tr>
+                    </b-thead>
+                    <b-tbody>
+                        <b-tr v-for="job in items">
+                            <b-td>{{ job.id }}</b-td>
+                            <b-td>{{ job.date.split('T')[0] }}</b-td>
+                            <b-td>{{ job.actions }}</b-td>
+                            <b-td>{{ job.user }}</b-td>
+                            <b-td>
+                                <div class="changes">
+
+                                    <span v-for="log in job.logChanges">
+                                        {{ log.changes }}
+                                    </span>
+                                </div>
+                            </b-td>
+                        </b-tr>
+                    </b-tbody>
+                </b-table-simple>
             </b-col>
         </b-row>
 
@@ -540,13 +569,16 @@ import { degrees, PDFDocument, rgb, StandardFonts } from 'pdf-lib';
 export default {
     data() {
         return {
+            role: JSON.parse(localStorage.getItem('user_details')).role,
             url: import.meta.env.VITE_LIVE,
             id: this.$route.params.jobID,
             imageFile: "",
             receiptsFile: "",
             images: {},
             receipts: {},
-            job: {},
+            job: {
+                towingCompany:{}
+            },
             items: []
         }
     },
@@ -593,10 +625,11 @@ export default {
             const images = axios.get(`${import.meta.env.VITE_LIVE}/image?id=${this.$data.id}`);
             const receipts = axios.get(`${import.meta.env.VITE_LIVE}/reciepts?id=${this.$data.id}`);
             Promise.all([jobs, images, receipts]).then((res) => {
-                this.$data.job = res[0].data;
-                console.log(res);
+                this.$data.job = res[0].data.job;
+                this.$data.items = res[0].data.job.jobLogs;
                 this.$data.images = res[1].data;
                 this.$data.receipts = res[2].data;
+                console.log(res[0].data);
             }).catch((err) => {
                 console.log(err);
             })
@@ -606,23 +639,151 @@ export default {
             const existingPdfBytes = await fetch(url).then(res => res.arrayBuffer())
             const pdfDoc = await PDFDocument.load(existingPdfBytes)
             const helveticaFont = await pdfDoc.embedFont(StandardFonts.Helvetica)
+            const helveticaBold = await pdfDoc.embedFont(StandardFonts.HelveticaBoldOblique)
             const pages = pdfDoc.getPages()
             const firstPage = pages[0]
             const { width, height } = firstPage.getSize()
+            firstPage.drawText('Allstate towing group', {
+                x: 14,
+                y: height - 100,
+                size: 40,
+                fontWeight: 800,
+                font: helveticaBold,
+                color: rgb(0, 0, 0),
+            })
             firstPage.drawText('Address: 14429 Ventura Blvd #111, Sherman oaks ca 91423', {
-                x: 12,
-                y: height - 140,
-                size: 8,
+                x: 14,
+                y: height - 150,
+                size: 12,
                 font: helveticaFont,
                 color: rgb(0, 0, 0),
             })
             firstPage.drawText('213-592-0365', {
-                x: 12,
-                y: height - 150,
-                size: 8,
+                x: 54,
+                y: height - 166.8765,
+                size: 12,
                 font: helveticaFont,
                 color: rgb(0, 0, 0),
             })
+            firstPage.drawText(`750` + this.$data.job.id, {
+                x: 89,
+                y: height - 220,
+                size: 10,
+                font: helveticaFont,
+                color: rgb(0, 0, 0),
+            })
+            firstPage.drawText(this.$data.job.providerID, {
+                x: 75.3655,
+                y: height - 233.5506,
+                size: 10,
+                font: helveticaFont,
+                color: rgb(1, 0, 0),
+            })
+            firstPage.drawText(new Date().toLocaleString(), {
+                x: width - 176.8687,
+                y: height - 253.2025,
+                size: 10,
+                font: helveticaFont,
+                color: rgb(1, 0, 0),
+            })
+            firstPage.drawText(new Date().toLocaleString(), {
+                x: 742.2057,
+                y: height - 91.8544,
+                size: 10,
+                font: helveticaFont,
+                color: rgb(1, 0, 0),
+            })
+            firstPage.drawText(`Tow from`, {
+                x: 740.7422,
+                y: height - 214.8655,
+                size: 10,
+                font: helveticaFont,
+                color: rgb(1, 0, 0),
+            })
+            firstPage.drawText(`Tow to`, {
+                x: 736.1567,
+                y: height - 234.2025,
+                size: 10,
+                font: helveticaFont,
+                color: rgb(1, 0, 0),
+            })
+            firstPage.drawText(`Grand Total`, {
+                x: 805.2104,
+                y: height - 372.1693,
+                size: 10,
+                font: helveticaFont,
+                color: rgb(1, 0, 0),
+            })
+            firstPage.drawText(`Reciept`, {
+                x: 788.0507,
+                y: height - 65.8212,
+                size: 10,
+                font: helveticaFont,
+                color: rgb(1, 0, 0),
+            })
+            firstPage.drawText(`year`, {
+                x: 58.5714,
+                y: height - 321.9354,
+                size: 10,
+                font: helveticaFont,
+                color: rgb(1, 0, 0),
+            })
+            firstPage.drawText(`make`, {
+                x: 142.3571,
+                y: height - 321.9354,
+                size: 10,
+                font: helveticaFont,
+                color: rgb(1, 0, 0),
+            })
+            firstPage.drawText(`model`, {
+                x: 241.1429,
+                y: height - 321.9354,
+                size: 10,
+                font: helveticaFont,
+                color: rgb(1, 0, 0),
+            })
+            firstPage.drawText(`color`, {
+                x: 348.2857,
+                y: height - 321.9354,
+                size: 10,
+                font: helveticaFont,
+                color: rgb(1, 0, 0),
+            })
+            firstPage.drawText(`VIN`, {
+                x: 428.8571,
+                y: height - 321.9354,
+                size: 10,
+                font: helveticaFont,
+                color: rgb(1, 0, 0),
+            })
+            firstPage.drawText(`Description`, {
+                x: 551.2143,
+                y: height - 321.9354,
+                size: 10,
+                font: helveticaFont,
+                color: rgb(1, 0, 0),
+            })
+            firstPage.drawText(`QTY`, {
+                x: 685.3571,
+                y: height - 321.9354,
+                size: 10,
+                font: helveticaFont,
+                color: rgb(1, 0, 0),
+            })
+            firstPage.drawText(`Price`, {
+                x: 771.7143,
+                y: height - 321.9354,
+                size: 10,
+                font: helveticaFont,
+                color: rgb(1, 0, 0),
+            })
+            // firstPage.drawText(`Tax ID`, {
+            //     x: 448.4286,
+            //     y: height - 422.2211,
+            //     size: 10,
+            //     font: helveticaFont,
+            //     color: rgb(1,0,0),
+            // })
             const pdfBytes = await pdfDoc.save()
             const blob = new Blob([pdfBytes], { type: 'application/pdf' });
             const link = document.createElement('a');
@@ -635,5 +796,8 @@ export default {
 }
 </script>   
 <style scoped>
-
+table .changes {
+    display: flex;
+    flex-direction: column;
+}
 </style>

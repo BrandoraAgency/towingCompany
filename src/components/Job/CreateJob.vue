@@ -83,7 +83,7 @@
                             </b-form-group>
                         </b-col>
                         <b-col>
-                            <b-form-group id="input-group-1" label="VN #" label-for="input-VN">
+                            <b-form-group id="input-group-1" label="VIN #" label-for="input-VN">
                                 <b-form-input id="input-VN" v-model="newJob.vinNO" placeholder="Model"
                                     required></b-form-input>
                             </b-form-group>
@@ -392,7 +392,7 @@ export default {
             })
         },
         async createJob() {
-            this.$data.newJob.assignto = JSON.parse(localStorage.getItem("user_details")).to
+            this.$data.newJob.assignto = "dispatch"
             await axios.post(`${import.meta.env.VITE_LIVE}/job`, this.$data.newJob).then((res) => {
                 alert('created')
                 this.$data.newJob = {}

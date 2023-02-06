@@ -12,7 +12,6 @@
                         <b-col>
                             <router-link class="btn" to="/users/create">New User</router-link>
                         </b-col>
-
                     </b-row>
                     <b-table-simple responsive>
                         <b-thead>

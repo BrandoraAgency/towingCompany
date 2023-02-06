@@ -3,7 +3,6 @@
         <b-container>
             <b-row>
                 <b-col>
-                   
                     <b-form @submit.prevent="onSubmit">
                         <b-row>
                             <b-col>

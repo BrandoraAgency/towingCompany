@@ -259,7 +259,7 @@ export default {
             router.push(`/jobs/${id}`)
         },
         async getJobs() {
-            const jobs = axios.get(`${import.meta.env.VITE_LIVE}/jobByStatus?status=completed`);
+            const jobs = axios.get(`${import.meta.env.VITE_LIVE}/jobByStatus?status=cancelled`);
             Promise.all([jobs]).then((res) => {
                 this.$data.joblist = res[0].data;
                 console.log( res[0].data);

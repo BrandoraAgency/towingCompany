@@ -131,7 +131,7 @@
                             </b-form-group>
                         </b-col>
                         <b-col>
-                            <b-form-group id="input-group-1" label="VN #" label-for="input-VN">
+                            <b-form-group id="input-group-1" label="VIN #" label-for="input-VN">
                                 <b-form-input id="input-VN" v-model="job.job.vinNO" placeholder="Model"
                                     required></b-form-input>
                             </b-form-group>
@@ -271,7 +271,7 @@
                         </b-col>
                     </b-row>
                     <b-button @click="submitChanges" variant="primary">Submit</b-button>
-                    <b-button @click="addAssign" variant="primary">Assign to {{passto}}</b-button>
+                    <b-button @click="addAssign" variant="primary">Assign to {{ passto }}</b-button>
                     <b-button variant="danger">Back</b-button>
                 </b-form>
             </b-col>
@@ -281,14 +281,15 @@
 
 <script >
 import axios from 'axios';
+import router from '../../router';
 
 export default {
     data() {
         return {
             id: this.$route.params.jobID,
-            roles:[],
-            passto:JSON.parse(localStorage.getItem("user_details")).to,
-            role:JSON.parse(localStorage.getItem("user_details")).role,
+            roles: [],
+            passto: JSON.parse(localStorage.getItem("user_details")).to,
+            role: JSON.parse(localStorage.getItem("user_details")).role,
             jobStatus: [
                 { value: null, text: 'Please Select Job Status' },
                 { value: 'pending', text: 'Pending' },
@@ -566,34 +567,48 @@ export default {
                 job: {},
                 jobCompany: {},
             },
+            oldJob: {}
         }
     },
     mounted() {
         this.getJobs()
     },
     methods: {
-        addAssign(){
-            this.$data.job.job.assignto=this.$data.passto
+        addAssign() {
+            this.$data.job.job.assignto = this.$data.passto
             this.submitChanges()
         },
         async submitChanges() {
+            let payloadJob = {}
+            let payloadCompany = {}
+            for (let key in this.$data.job.job) {
+                if (this.$data.job.job[key] !== this.$data.oldJob.job[key]) {
+                    payloadJob[key] = this.$data.job.job[key];
+                }
+            }
+            for (let key in this.$data.job.jobCompany) {
+                if (this.$data.job.jobCompany[key] !== this.$data.oldJob.jobCompany[key]) {
+                    payloadCompany[key] = this.$data.job.jobCompany[key];
+                }
+            }
             const job_Payload = {
-                job: this.$data.job.job,
+                job: payloadJob,
                 id: this.$data.id
             }
             const company_Payload = {
                 company: this.$data.job.jobCompany,
                 id: this.$data.id
             }
-            if (this.$data.job.job.towingCompany) {
+            console.log(company_Payload);
+            if (this.$data.job.jobCompany) {
                 axios.all([
                     axios.put(`${import.meta.env.VITE_LIVE}/job`, job_Payload),
                     axios.put(`${import.meta.env.VITE_LIVE}/company`, company_Payload)
                 ]).then(([jobres]) => {
-                    console.log(jobres);
+                    alert('Job Updated')
+                    router.push(`/jobs/${this.id}`)
                 }).catch((err) => {
                     console.log('err');
-                    // console.log(err) 
                 })
             }
             else {
@@ -601,7 +616,8 @@ export default {
                     axios.put(`${import.meta.env.VITE_LIVE}/job`, job_Payload),
                     axios.post(`${import.meta.env.VITE_LIVE}/company`, company_Payload)
                 ]).then(([jobres]) => {
-                    console.log(jobres);
+                    alert('Job Updated')
+                    router.push(`/jobs/${this.id}`)
                 }).catch((err) => {
                     console.log(err)
                 })
@@ -612,13 +628,12 @@ export default {
             this.$data.show = false
         },
         getJobs() {
-            const jobs = axios.get(`${import.meta.env.VITE_LIVE}/job?id=${this.$data.id}`);
+            const jobs = axios.get(`${import.meta.env.VITE_LIVE}/editJob?id=${this.$data.id}`);
             Promise.all([jobs]).then((res) => {
                 this.$data.job = res[0].data;
-                if (!this.$data.job.jobCompany) {
-                    this.$data.job.jobCompany = {}
-                }
-                console.log(res[0].data);
+                this.$data.job.jobCompany = res[0].data.job.towingCompany
+                delete this.$data.job.job.towingCompany;
+                this.$data.oldJob = structuredClone(res[0].data)
             }).catch((err) => {
                 console.log(err);
             })
