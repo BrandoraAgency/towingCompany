@@ -565,7 +565,7 @@
 <script>
 
 import axios from 'axios';
-import { degrees, PDFDocument, rgb, StandardFonts } from 'pdf-lib';
+import { PDFDocument, rgb, StandardFonts } from 'pdf-lib';
 export default {
     data() {
         return {
