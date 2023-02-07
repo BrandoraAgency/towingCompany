@@ -2,7 +2,7 @@
   "name": "client",
   "private": true,
   "version": "0.0.0",
-  "proxy": "http://ntl.lke.mybluehost.me/api",
+  "proxy": "http://www.towcrm.com/api",
   "type": "module",
   "scripts": {
     "dev": "vite",
