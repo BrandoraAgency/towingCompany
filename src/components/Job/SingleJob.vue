@@ -563,9 +563,9 @@
 </template>
 
 <script>
-
 import axios from 'axios';
 import { PDFDocument, rgb, StandardFonts } from 'pdf-lib';
+
 export default {
     data() {
         return {
