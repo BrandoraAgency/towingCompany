@@ -56,7 +56,6 @@ export default{
     console.log('done');
     if(this.$data.loginInvalid){
       this.$data.loginInvalid=false
-
     }
   },
   login(e){
@@ -68,7 +67,7 @@ export default{
     }
     axios.post(`${import.meta.env.VITE_LIVE}/login`,body).then((res)=>{
       console.log('done');
-    localStorage.setItem('user_details',JSON.stringify(res.data))
+      localStorage.setItem('user_details',JSON.stringify(res.data))
      router.push('/')
     }).catch((err)=>{
       this.$data.loginInvalid=true;
