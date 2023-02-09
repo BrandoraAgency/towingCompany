@@ -1,16 +1,16 @@
 import { createRouter, createWebHistory } from "vue-router";
-import LoginVue from "../views/Login/Login.vue";
-import Dashboard from "../views/Dashboard/Dashboard.vue";
-import Homevue from "../views/Home.vue";
-import Joblist from "../components/Job/JobList.vue";
-import SingleJob from "../components/Job/SingleJob.vue";
-import Approved from "../components/Job/ApprovedList.vue";
-import Stats from "../components/Stats/Stats.vue";
-import EditJob from "../components/Job/EditJob.vue";
-import company from "../components/company/Towing.vue";
-import CreateJob from "../components/Job/CreateJob.vue";
-import user from "../components/user/user.vue";
-import createUser from "../components/user/createUser.vue";
+const LoginVue = () => import('../views/Login/Login.vue')
+const Dashboard = () => import('../views/Dashboard/Dashboard.vue')
+const Homevue = () => import('../views/Home.vue')
+const Joblist = () => import('../components/Job/JobList.vue')
+const SingleJob = () => import('../components/Job/SingleJob.vue')
+const Approved = () => import('../components/Job/ApprovedList.vue');
+const Stats = () => import('../components/Stats/Stats.vue');
+const EditJob = () => import('../components/Job/EditJob.vue');
+const company = () => import('../components/company/Towing.vue');
+const CreateJob = () => import('../components/Job/CreateJob.vue');
+const user = () => import('../components/user/user.vue');
+const createUser = () => import('../components/user/createUser.vue');
 const router = createRouter({
   history: createWebHistory(),
   routes: [

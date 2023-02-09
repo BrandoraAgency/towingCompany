@@ -6,6 +6,7 @@
 </template>
 <script> 
 import NavVue from '../../components/Nav/NavBar.vue';
+
 import axios from 'axios';
 import router from '../../router';
 

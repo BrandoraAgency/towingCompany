@@ -4,9 +4,18 @@
             <b-row>
                 <b-col>
                     <div class="filterHead">
-                        <div class="headingF">
-                            <h3>Filter</h3>
-                        </div>
+                        <b-row>
+                            <b-col>
+                                <div class="headingF">
+                                    <h3>Filter</h3>
+                                </div>
+                            </b-col>
+                            <b-col>
+                                <div class="downloadCsv">
+                                    <button @click="download">Download CSV</button>
+                                </div>
+                            </b-col>
+                        </b-row>
                     </div>
                     <form action="">
                         <b-row>
@@ -54,7 +63,7 @@
                 </b-col>
             </b-row>
         </b-container>
-        <div class="stats" v-if="role==='admin'|| role==='accounting'">
+        <div class="stats" v-if="role === 'admin' || role === 'accounting'">
             <b-container fluid>
                 <b-row>
                     <b-col>
@@ -148,7 +157,7 @@
                 </b-thead>
                 <b-tbody>
                     <b-tr v-for="job in filteredData">
-                        <b-td  v-on:click="selectJob(job.id)">
+                        <b-td v-on:click="selectJob(job.id)">
                             <font-awesome-icon icon="edit" />
                         </b-td>
                         <b-td>{{ job.id }}</b-td>
@@ -179,19 +188,19 @@
 <script>
 import axios from 'axios';
 import router from '../../router';
-
+import { downloadCSV } from './DownloadCSV';
 export default {
     data() {
         return {
-            role:JSON.parse(localStorage.getItem("user_details")).role,
-            joblist:[],
+            role: JSON.parse(localStorage.getItem("user_details")).role,
+            joblist: [],
             filter: {
-                start:'',
-                end:'',
-                jobStatus:'',
-                po:'',
-                issAcc:'',
-                charged:''
+                start: '',
+                end: '',
+                jobStatus: '',
+                po: '',
+                issAcc: '',
+                charged: ''
             },
             jobStatus: [
                 { value: null, text: 'Please Select Job Status' },
@@ -233,24 +242,24 @@ export default {
             )
         },
         issuranceStats() {
-            let s={};
-            s.amount=0;
-            s.SAmount=0;
-            s.goa=0;
-            s.paid=0
-            s.upAmount=0
-            s.towing=0;
-            this.filteredData.map(item =>{
-                s.amount+=item.amount
-                s.goa=0
-                if(item.charged_status==='submitted'){
-                    s.SAmount+=item.amount;
+            let s = {};
+            s.amount = 0;
+            s.SAmount = 0;
+            s.goa = 0;
+            s.paid = 0
+            s.upAmount = 0
+            s.towing = 0;
+            this.filteredData.map(item => {
+                s.amount += item.amount
+                s.goa = 0
+                if (item.charged_status === 'submitted') {
+                    s.SAmount += item.amount;
                 }
-                s.upAmount+= item.upSellAmount,
-                s.paid=0
-                s.towing+=item.towingCompany?item.towingCompany.charged:0
-             } )
-             console.log(s);
+                s.upAmount += item.upSellAmount,
+                    s.paid = 0
+                s.towing += item.towingCompany ? item.towingCompany.charged : 0
+            })
+            console.log(s);
             return s;
         },
     },
@@ -263,11 +272,15 @@ export default {
             const jobs = axios.get(`${import.meta.env.VITE_LIVE}/jobs?role=${access}`);
             Promise.all([jobs]).then((res) => {
                 this.$data.joblist = res[0].data;
-                console.log( res[0].data);
+                console.log(res[0].data);
             }).catch((err) => {
                 console.log(err);
             })
+        },
+        download(){
+            downloadCSV(this.$data.joblist)
         }
+        
     },
 }
 </script>

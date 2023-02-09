@@ -210,7 +210,7 @@
                                     </b-col>
                                     <b-col>
                                         <b-form-group id="input-group-1" label="Towing Phone" label-for="input-tphone">
-                                            <b-form-input id="input-tphone" v-model="job.jobCompany.phone"
+                                            <b-form-input id="input-tphone" v-model="job.jobCompany.company.phone"
                                                 placeholder="000-00-00" required></b-form-input>
                                         </b-form-group>
                                     </b-col>
@@ -565,7 +565,11 @@ export default {
             show: false,
             job: {
                 job: {},
-                jobCompany: {},
+                jobCompany: {
+                    company:{
+                        
+                    }
+                },
             },
             oldJob: {}
         }
@@ -600,7 +604,8 @@ export default {
                 id: this.$data.id
             }
             console.log(company_Payload);
-            if (this.$data.job.jobCompany) {
+            if (this.$data.job.towing_id!==null) {
+                alert('done')
                 axios.all([
                     axios.put(`${import.meta.env.VITE_LIVE}/job`, job_Payload),
                     axios.put(`${import.meta.env.VITE_LIVE}/company`, company_Payload)
@@ -612,6 +617,7 @@ export default {
                 })
             }
             else {
+                alert('done1')
                 axios.all([
                     axios.put(`${import.meta.env.VITE_LIVE}/job`, job_Payload),
                     axios.post(`${import.meta.env.VITE_LIVE}/company`, company_Payload)
@@ -631,8 +637,20 @@ export default {
             const jobs = axios.get(`${import.meta.env.VITE_LIVE}/editJob?id=${this.$data.id}`);
             Promise.all([jobs]).then((res) => {
                 this.$data.job = res[0].data;
-                this.$data.job.jobCompany = res[0].data.job.towingCompany
-                delete this.$data.job.job.towingCompany;
+                console.log(res[0].data);
+                if(res[0].data.job.towingCompany)
+                {
+                    this.$data.job.jobCompany = res[0].data.job.towingCompany
+                    delete this.$data.job.job.towingCompany;
+                }
+                else{
+                    this.$data.job.jobCompany ={
+                        company:{
+
+                        }
+                    };
+                    delete this.$data.job.job.towingCompany;
+                }
                 this.$data.oldJob = structuredClone(res[0].data)
             }).catch((err) => {
                 console.log(err);

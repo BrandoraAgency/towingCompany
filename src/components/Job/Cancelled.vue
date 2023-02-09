@@ -4,9 +4,18 @@
             <b-row>
                 <b-col>
                     <div class="filterHead">
-                        <div class="headingF">
-                            <h3>Filter</h3>
-                        </div>
+                        <b-row>
+                            <b-col>
+                                <div class="headingF">
+                                    <h3>Filter</h3>
+                                </div>
+                            </b-col>
+                            <b-col>
+                                <div class="downloadCsv">
+                                    <button @click="download">Download CSV</button>
+                                </div>
+                            </b-col>
+                        </b-row>
                     </div>
                     <form action="">
                         <b-row>
@@ -179,7 +188,7 @@
 <script>
 import axios from 'axios';
 import router from '../../router';
-
+import { downloadCSV } from './DownloadCSV';
 export default {
     data() {
         return {
@@ -266,6 +275,9 @@ export default {
             }).catch((err) => {
                 console.log(err);
             })
+        },
+        download(){
+            downloadCSV(this.$data.joblist)
         }
     },
 }
