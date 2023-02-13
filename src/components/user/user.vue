@@ -6,7 +6,7 @@
                     <b-row>
                         <b-col>
                             <div class="headText">
-                                <h3>Towing Companies</h3>
+                                <h3>Towing Users</h3>
                             </div>
                         </b-col>
                         <b-col>

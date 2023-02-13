@@ -11,7 +11,7 @@
             </b-col>
             <b-col>
               <div class="filterInput">
-                <label for="">Filter By Number</label>
+                <label for="">Filter By Zip</label>
                 <input type="number" v-model="filter" name="" id="">
               </div>
             </b-col>
@@ -20,18 +20,18 @@
             <b-thead>
               <b-tr>
                 <b-th>Name</b-th>
-                <b-th>Contact</b-th>
                 <b-th>Phone</b-th>
                 <b-th>Zip</b-th>
+                <b-th>Rating</b-th>
               </b-tr>
             </b-thead>
             <b-tbody>
               <b-tr v-for="company in filterData">
-                <b-th>{{ company.towingCompanies[0].name }}</b-th>
-                <b-td>{{ company.towingCompanies[0].contact }}</b-td>
+                <b-th>{{ company.towingCompanies[0].name}}</b-th>
                 <b-td>{{ company.phone }}</b-td>
-                <b-td>{{ company.towingCompanies[0].zipCode }}</b-td>
-                <td>
+                <b-td>{{ company.towingCompanies[0].zipCode}}</b-td>
+                <b-td>{{ company.ratings[0].averageRating}}</b-td>
+                <td v-if='user_details.role==="admin"||company.ratings[0].users.includes(`,${user_details.userid},`)'>
                   <input v-model="inputValue" @input="validateInput" />
                   <button @click="addrating(company.id)">Rate</button>
                 </td>
@@ -52,7 +52,8 @@ export default {
     return {
       companies: [],
       inputValue: 0,
-      filter: ''
+      filter: '',
+      user_details:JSON.parse(localStorage.getItem('user_details'))
     }
   },
   mounted() {
@@ -61,7 +62,7 @@ export default {
   computed: {
     filterData() {
       return this.companies.filter(item => {
-        if (item.towingCompanies[0]) return this.filter === '' || item.towingCompanies[0].zipCode === null || item.towingCompanies[0].zipCode.includes(this.filter)
+        if (item) return this.filter === '' || item.towingCompanies[0].zipCode === null || item.towingCompanies[0].zipCode.includes(this.filter)
       }
       )
     }
@@ -76,13 +77,13 @@ export default {
         console.log(err);
       })
     },
-    async addrating(id){
-      const rating={
-        companyId:id,
-        rating:this.inputValue,
-        user:JSON.parse(localStorage.getItem('user_details')).userid
+    async addrating(id) {
+      const rating = {
+        companyId: id,
+        rating: this.inputValue,
+        user: JSON.parse(localStorage.getItem('user_details')).userid
       }
-      axios.post(`${import.meta.env.VITE_LIVE}/rating`, rating).then((res)=>{
+      axios.post(`${import.meta.env.VITE_LIVE}/rating`, rating).then((res) => {
         alert('done')
       })
     },

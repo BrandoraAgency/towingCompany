@@ -643,10 +643,10 @@ export default {
             const pages = pdfDoc.getPages()
             const firstPage = pages[0]
             const { width, height } = firstPage.getSize()
-            firstPage.drawText('Allstate towing group', {
+            firstPage.drawText('Allstate Towing Group', {
                 x: 14,
-                y: height - 100,
-                size: 40,
+                y: height - 130,
+                size: 16,
                 fontWeight: 800,
                 font: helveticaBold,
                 color: rgb(0, 0, 0),
@@ -660,130 +660,130 @@ export default {
             })
             firstPage.drawText('213-592-0365', {
                 x: 54,
-                y: height - 166.8765,
+                y: height - 168.8765,
                 size: 12,
                 font: helveticaFont,
                 color: rgb(0, 0, 0),
             })
             firstPage.drawText(`750` + this.$data.job.id, {
-                x: 89,
-                y: height - 220,
+                x: 70,
+                y: height - 218,
                 size: 10,
                 font: helveticaFont,
                 color: rgb(0, 0, 0),
             })
             firstPage.drawText(this.$data.job.providerID, {
-                x: 75.3655,
-                y: height - 233.5506,
+                x: 48.3655,
+                y: height - 236.5506,
                 size: 10,
                 font: helveticaFont,
-                color: rgb(1, 0, 0),
+                color: rgb(0, 0, 0),
             })
             firstPage.drawText(new Date().toLocaleString(), {
-                x: width - 176.8687,
-                y: height - 253.2025,
+                x: 130.8687,
+                y: height - 255.2025,
                 size: 10,
                 font: helveticaFont,
-                color: rgb(1, 0, 0),
+                color: rgb(0, 0, 0),
             })
             firstPage.drawText(new Date().toLocaleString(), {
-                x: 742.2057,
-                y: height - 91.8544,
+                x: 695.2057,
+                y: height - 95.8544,
                 size: 10,
                 font: helveticaFont,
-                color: rgb(1, 0, 0),
+                color: rgb(0, 0, 0),
             })
             firstPage.drawText(`Tow from`, {
-                x: 740.7422,
-                y: height - 214.8655,
+                x: 680.7422,
+                y: height - 218.8655,
                 size: 10,
                 font: helveticaFont,
-                color: rgb(1, 0, 0),
+                color: rgb(0, 0, 0),
             })
             firstPage.drawText(`Tow to`, {
-                x: 736.1567,
-                y: height - 234.2025,
+                x: 665.1567,
+                y: height - 236.2025,
                 size: 10,
                 font: helveticaFont,
-                color: rgb(1, 0, 0),
+                color: rgb(0, 0, 0),
             })
             firstPage.drawText(`Grand Total`, {
-                x: 805.2104,
-                y: height - 372.1693,
+                x: 785.2104,
+                y: height - 375.1693,
                 size: 10,
                 font: helveticaFont,
-                color: rgb(1, 0, 0),
+                color: rgb(0, 0, 0),
             })
             firstPage.drawText(`Reciept`, {
-                x: 788.0507,
-                y: height - 65.8212,
+                x: 755.0507,
+                y: height - 68.8212,
                 size: 10,
                 font: helveticaFont,
-                color: rgb(1, 0, 0),
+                color: rgb(0, 0, 0),
             })
             firstPage.drawText(`year`, {
-                x: 58.5714,
-                y: height - 321.9354,
+                x: 45.5714,
+                y: height - 324.9354,
                 size: 10,
                 font: helveticaFont,
-                color: rgb(1, 0, 0),
+                color: rgb(0, 0, 0),
             })
             firstPage.drawText(`make`, {
-                x: 142.3571,
-                y: height - 321.9354,
+                x: 129.3571,
+                y: height - 324.9354,
                 size: 10,
                 font: helveticaFont,
-                color: rgb(1, 0, 0),
+                color: rgb(0, 0, 0),
             })
             firstPage.drawText(`model`, {
-                x: 241.1429,
-                y: height - 321.9354,
+                x: 222.1429,
+                y: height - 324.9354,
                 size: 10,
                 font: helveticaFont,
-                color: rgb(1, 0, 0),
+                color: rgb(0, 0, 0),
             })
             firstPage.drawText(`color`, {
-                x: 348.2857,
-                y: height - 321.9354,
+                x: 335.2857,
+                y: height - 324.9354,
                 size: 10,
                 font: helveticaFont,
-                color: rgb(1, 0, 0),
+                color: rgb(0, 0, 0),
             })
             firstPage.drawText(`VIN`, {
-                x: 428.8571,
-                y: height - 321.9354,
+                x: 420.8571,
+                y: height - 324.9354,
                 size: 10,
                 font: helveticaFont,
-                color: rgb(1, 0, 0),
+                color: rgb(0, 0, 0),
             })
             firstPage.drawText(`Description`, {
-                x: 551.2143,
-                y: height - 321.9354,
+                x: 524.2143,
+                y: height - 324.9354,
                 size: 10,
                 font: helveticaFont,
-                color: rgb(1, 0, 0),
+                color: rgb(0, 0, 0),
             })
             firstPage.drawText(`QTY`, {
-                x: 685.3571,
-                y: height - 321.9354,
+                x: 674.3571,
+                y: height - 324.9354,
                 size: 10,
                 font: helveticaFont,
-                color: rgb(1, 0, 0),
+                color: rgb(0, 0, 0),
             })
             firstPage.drawText(`Price`, {
-                x: 771.7143,
-                y: height - 321.9354,
+                x: 758.7143,
+                y: height - 324.9354,
                 size: 10,
                 font: helveticaFont,
-                color: rgb(1, 0, 0),
+                color: rgb(0, 0, 0),
             })
-            // firstPage.drawText(`Tax ID`, {
-            //     x: 448.4286,
-            //     y: height - 422.2211,
-            //     size: 10,
-            //     font: helveticaFont,
-            //     color: rgb(1,0,0),
-            // })
+            firstPage.drawText(`88-4293801`, {
+                x: 425.4286,
+                y: height - 427.2211,
+                size: 10,
+                font: helveticaFont,    
+                color: rgb(0,0,0),
+            })
             const pdfBytes = await pdfDoc.save()
             const blob = new Blob([pdfBytes], { type: 'application/pdf' });
             const link = document.createElement('a');

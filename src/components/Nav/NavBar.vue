@@ -31,8 +31,8 @@
                             class="nav-link" to="/jobs/company">Towing Companies</router-link>
                     </li>
                     <li class="nav-item">
-                        <router-link v-if="userRole === 'admin'" exact-active-class="active" class="nav-link"
-                            to="/jobs/stats">Stats</router-link>
+                        <router-link v-if="userRole === 'admin' || userRole === 'accountant'" exact-active-class="active"
+                            class="nav-link" to="/jobs/cancelled">Cancelled</router-link>
                     </li>
                 </ul>
                 <div class="userInfo">

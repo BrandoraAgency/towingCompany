@@ -68,9 +68,9 @@ export default {
         async onSubmit() {
             axios.post(`${import.meta.env.VITE_LIVE}/register`, this.$data.form).then((res) => {
                 console.log(res);
-                alert(res)
+                alert('User Created Successfully')
             }).catch((res) => {
-
+                alert('User Not Created')
             })
         }
     },

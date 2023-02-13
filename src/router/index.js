@@ -5,7 +5,7 @@ const Homevue = () => import('../views/Home.vue')
 const Joblist = () => import('../components/Job/JobList.vue')
 const SingleJob = () => import('../components/Job/SingleJob.vue')
 const Approved = () => import('../components/Job/ApprovedList.vue');
-const Stats = () => import('../components/Stats/Stats.vue');
+const Cancelled = () => import('../components/Job/Cancelled.vue');
 const EditJob = () => import('../components/Job/EditJob.vue');
 const company = () => import('../components/company/Towing.vue');
 const CreateJob = () => import('../components/Job/CreateJob.vue');
@@ -57,14 +57,14 @@ const router = createRouter({
           component: company,
         },
         {
-          path: "stats",
-          name: "stats",
-          component: Stats,
-        },
-        {
           path: "approved",
           name: "approved",
           component: Approved,
+        },
+        {
+          path: "cancelled",
+          name: "cancelled",
+          component: Cancelled,
         },
       ],
     },

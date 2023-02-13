@@ -85,7 +85,7 @@
                         <b-col>
                             <b-form-group id="input-group-1" label="VIN #" label-for="input-VN">
                                 <b-form-input id="input-VN" v-model="newJob.vinNO" placeholder="Model"
-                                    required></b-form-input>
+                                    ></b-form-input>
                             </b-form-group>
                         </b-col>
                     </b-row>
@@ -107,7 +107,7 @@
                         <b-col>
                             <b-form-group id="input-group-1" label="Notes" label-for="input-notes">
                                 <b-form-textarea id="input-notes" v-model="newJob.notes" placeholder="Notes"
-                                    required></b-form-textarea>
+                                    ></b-form-textarea>
                             </b-form-group>
                         </b-col>
                     </b-row>
@@ -387,7 +387,6 @@ export default {
         getRoles() {
             const getroles = axios.get(`${import.meta.env.VITE_LIVE}/roles`);
             Promise.all([getroles]).then((res) => {
-                console.log(res[0].data);
                 this.$data.roles = res[0].data
             })
         },

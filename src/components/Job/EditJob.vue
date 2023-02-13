@@ -104,6 +104,12 @@
                                     required></b-form-input>
                             </b-form-group>
                         </b-col>
+                        <b-col>
+                            <b-form-group id="input-group-1" label="Email" label-for="input-lname">
+                                <b-form-input id="input-lname" placeholder="Email" type="email" v-model="job.job.Email"
+                                    ></b-form-input>
+                            </b-form-group>
+                        </b-col>
                     </b-row>
                     <b-row>
                         <b-col>
@@ -132,8 +138,7 @@
                         </b-col>
                         <b-col>
                             <b-form-group id="input-group-1" label="VIN #" label-for="input-VN">
-                                <b-form-input id="input-VN" v-model="job.job.vinNO" placeholder="Model"
-                                    required></b-form-input>
+                                <b-form-input id="input-VN" v-model="job.job.vinNO" placeholder="Model"></b-form-input>
                             </b-form-group>
                         </b-col>
                     </b-row>
@@ -191,7 +196,7 @@
                                         <b-form-group id="input-group-1" label="Drop off Location"
                                             label-for="input-puLoc">
                                             <b-form-input id="input-puLoc" v-model="job.jobCompany.dropoff"
-                                                placeholder="123 street" required></b-form-input>
+                                                placeholder="123 street"></b-form-input>
                                         </b-form-group>
                                     </b-col>
                                 </b-row>
@@ -258,12 +263,24 @@
                                                 :options="towingStatus" required></b-form-select>
                                         </b-form-group>
                                     </b-col>
+                                    <b-col cols="4">
+                                        <b-form-group id="input-group-1" label="Email"
+                                            label-for="input-tstatus">
+                                            <b-form-input placeholder="Email" type="email" id="input-tstatus" v-model="job.job.Email"></b-form-input>
+                                        </b-form-group>
+                                    </b-col>
                                 </b-row>
                                 <b-row>
                                     <b-col cols="4">
                                         <b-form-group id="input-group-1" label="Notes" label-for="input-notes">
                                             <b-form-input id="input-notes" v-model="job.jobCompany.paymentStatus"
                                                 placeholder="Notes" required></b-form-input>
+                                        </b-form-group>
+                                    </b-col>
+                                    <b-col cols="4">
+                                        <b-form-group id="input-group-1" label="Address" label-for="input-notes">
+                                            <b-form-input id="input-notes" v-model="job.jobCompany.address"
+                                                placeholder="Address" ></b-form-input>
                                         </b-form-group>
                                     </b-col>
                                 </b-row>
@@ -566,8 +583,8 @@ export default {
             job: {
                 job: {},
                 jobCompany: {
-                    company:{
-                        
+                    company: {
+
                     }
                 },
             },
@@ -587,11 +604,12 @@ export default {
             let payloadCompany = {}
             for (let key in this.$data.job.job) {
                 if (this.$data.job.job[key] !== this.$data.oldJob.job[key]) {
+                    console.log(key);
                     payloadJob[key] = this.$data.job.job[key];
                 }
             }
             for (let key in this.$data.job.jobCompany) {
-                if (this.$data.job.jobCompany[key] !== this.$data.oldJob.jobCompany[key]) {
+                if (this.$data.job.jobCompany[key] !== this.$data.oldJob.job.towingCompany[key]) {
                     payloadCompany[key] = this.$data.job.jobCompany[key];
                 }
             }
@@ -604,8 +622,7 @@ export default {
                 id: this.$data.id
             }
             console.log(company_Payload);
-            if (this.$data.job.towing_id!==null) {
-                alert('done')
+            if (this.$data.job.towing_id !== null) {
                 axios.all([
                     axios.put(`${import.meta.env.VITE_LIVE}/job`, job_Payload),
                     axios.put(`${import.meta.env.VITE_LIVE}/company`, company_Payload)
@@ -617,7 +634,6 @@ export default {
                 })
             }
             else {
-                alert('done1')
                 axios.all([
                     axios.put(`${import.meta.env.VITE_LIVE}/job`, job_Payload),
                     axios.post(`${import.meta.env.VITE_LIVE}/company`, company_Payload)
@@ -636,17 +652,18 @@ export default {
         getJobs() {
             const jobs = axios.get(`${import.meta.env.VITE_LIVE}/editJob?id=${this.$data.id}`);
             Promise.all([jobs]).then((res) => {
-                this.$data.job = res[0].data;
-                console.log(res[0].data);
-                if(res[0].data.job.towingCompany)
-                {
-                    this.$data.job.jobCompany = res[0].data.job.towingCompany
+                this.$data.job = structuredClone(res[0].data);
+                if (res[0].data.job.towingCompany) {
+                    this.$data.job.jobCompany = structuredClone(res[0].data.job.towingCompany)
+                    if(!this.$data.job.jobCompany.company)
+                    {
+                        this.$data.job.jobCompany.company= {}
+                    }
                     delete this.$data.job.job.towingCompany;
                 }
-                else{
-                    this.$data.job.jobCompany ={
-                        company:{
-
+                else {
+                    this.$data.job.jobCompany = {
+                        company: {
                         }
                     };
                     delete this.$data.job.job.towingCompany;
