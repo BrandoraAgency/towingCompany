@@ -51,7 +51,7 @@
 
 <script>
 import axios from 'axios';
-
+import router from '../../router';
 export default {
     data() {
         return {
@@ -69,6 +69,7 @@ export default {
             axios.post(`${import.meta.env.VITE_LIVE}/register`, this.$data.form).then((res) => {
                 console.log(res);
                 alert('User Created Successfully')
+                router.push('/users')
             }).catch((res) => {
                 alert('User Not Created')
             })

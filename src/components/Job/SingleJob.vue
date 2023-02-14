@@ -14,10 +14,13 @@
                         <span>
                             PO#
                         </span>
+                        <span>
+                            {{ job.phone }}
+                        </span>
                     </div>
                     <div class="singlJobstatus">
                         <span>
-                            Pending
+                            {{ job.jobStatus }}
                         </span>
                     </div>
                 </div>
@@ -101,7 +104,7 @@
                         <b-row>
                             <b-col>
                                 <span>
-                                    Ammount
+                                    Amount
                                 </span>
                             </b-col>
                             <b-col>
@@ -190,7 +193,7 @@
                             </b-col>
                             <b-col>
                                 <span>
-                                    {{job.lastName}}
+                                    {{job.year}}
                                 </span>
                             </b-col>
                         </b-row>
@@ -302,7 +305,7 @@
                             </b-col>
                             <b-col>
                                 <span>
-                                    {{job.upSellAmount}}
+                                    {{job.upSellCharged}}
                                 </span>
                             </b-col>
                         </b-row>
@@ -432,7 +435,7 @@
                         <b-row>
                             <b-col class="status">
                                 <span>
-                                    Paid
+                                    {{job.towingCompany.paymentStatus}}
                                 </span>
                             </b-col>
                         </b-row>
@@ -446,7 +449,7 @@
                             </b-col>
                             <b-col>
                                 <span>
-                                    {{job.towingCompany.notes}}
+                                    {{job.towingCompany.Notes}}
                                 </span>
                             </b-col>
                         </b-row>
@@ -456,11 +459,6 @@
             </b-col>
         </b-row>
         <b-row>
-            <b-col>
-                <div class="datecreated">
-                    <span>12/20/2022 12:00am</span>
-                </div>
-            </b-col>
             <b-col>
                 <div class="singleJobAction">
                     <div class="GnrtInvoice" v-if="role === 'admin' || role === 'accountant'">
@@ -602,6 +600,8 @@ export default {
             axios.post(`${import.meta.env.VITE_LIVE}/image?id=${this.$data.id}`, formData)
                 .then(res => {
                     console.log(res);
+                    this.getImage()
+                    alert('Image Uploaded')
                 })
                 .catch(err => {
                     console.log(err);
@@ -610,26 +610,48 @@ export default {
         onreceiptFile() {
             const formData = new FormData();
             formData.append("file", this.$data.receiptsFile);  // appending file
-
             // sending file to the backend
             axios.post(`${import.meta.env.VITE_LIVE}/reciepts?id=${this.$data.id}`, formData)
                 .then(res => {
-                    console.log(res);
+                    this.getReceipt()
+                    alert('Receipt Uploaded')
                 })
                 .catch(err => {
                     console.log(err);
                 });
         },
+        async getImage(){
+            const images = axios.get(`${import.meta.env.VITE_LIVE}/image?id=${this.$data.id}`);
+            // const receipts = axios.get(`${import.meta.env.VITE_LIVE}/reciepts?id=${this.$data.id}`);
+            Promise.all([images]).then((res) => {
+                this.$data.job.towImages = res[0].data;
+            }).catch((err) => {
+                console.log(err);
+            })
+        },
+        async getReceipt(){
+            // const images = axios.get(`${import.meta.env.VITE_LIVE}/image?id=${this.$data.id}`);
+            const receipts = axios.get(`${import.meta.env.VITE_LIVE}/reciepts?id=${this.$data.id}`);
+            Promise.all([receipts]).then((res) => {
+                this.$data.job.towReceipts = res[0].data;
+            }).catch((err) => {
+                console.log(err);
+            })
+        },
         async getJobDetails() {
             const jobs = axios.get(`${import.meta.env.VITE_LIVE}/job?id=${this.$data.id}`);
-            const images = axios.get(`${import.meta.env.VITE_LIVE}/image?id=${this.$data.id}`);
-            const receipts = axios.get(`${import.meta.env.VITE_LIVE}/reciepts?id=${this.$data.id}`);
-            Promise.all([jobs, images, receipts]).then((res) => {
+            // const images = axios.get(`${import.meta.env.VITE_LIVE}/image?id=${this.$data.id}`);
+            // const receipts = axios.get(`${import.meta.env.VITE_LIVE}/reciepts?id=${this.$data.id}`);
+            Promise.all([jobs]).then((res) => {
                 this.$data.job = res[0].data.job;
                 this.$data.items = res[0].data.job.jobLogs;
-                this.$data.images = res[1].data;
-                this.$data.receipts = res[2].data;
-                console.log(res[0].data);
+                // this.$data.images = res[1].data;
+                // this.$data.receipts = res[2].data;
+                console.log(res[0].data.job);
+                if(!res[0].data.job.towingCompany)
+                {
+                    this.$data.job.towingCompany={}
+                }
             }).catch((err) => {
                 console.log(err);
             })
@@ -665,14 +687,14 @@ export default {
                 font: helveticaFont,
                 color: rgb(0, 0, 0),
             })
-            firstPage.drawText(`750` + this.$data.job.id, {
+            firstPage.drawText(`750` + this.$data.job.id || '00', {
                 x: 70,
                 y: height - 218,
                 size: 10,
                 font: helveticaFont,
                 color: rgb(0, 0, 0),
             })
-            firstPage.drawText(this.$data.job.providerID, {
+            firstPage.drawText(this.$data.job.providerID || '00', {
                 x: 48.3655,
                 y: height - 236.5506,
                 size: 10,
@@ -693,84 +715,84 @@ export default {
                 font: helveticaFont,
                 color: rgb(0, 0, 0),
             })
-            firstPage.drawText(`Tow from`, {
+            firstPage.drawText(this.$data.job.towingCompany.pickUp || 'NI', {
                 x: 680.7422,
                 y: height - 218.8655,
                 size: 10,
                 font: helveticaFont,
                 color: rgb(0, 0, 0),
             })
-            firstPage.drawText(`Tow to`, {
+            firstPage.drawText(this.$data.job.towingCompany.dropoff || 'NI', {
                 x: 665.1567,
                 y: height - 236.2025,
                 size: 10,
                 font: helveticaFont,
                 color: rgb(0, 0, 0),
             })
-            firstPage.drawText(`Grand Total`, {
+            firstPage.drawText('$'+this.$data.job.amount || '$', {
                 x: 785.2104,
                 y: height - 375.1693,
                 size: 10,
                 font: helveticaFont,
                 color: rgb(0, 0, 0),
             })
-            firstPage.drawText(`Reciept`, {
+            firstPage.drawText(`750` + this.$data.job.id || '00', {
                 x: 755.0507,
                 y: height - 68.8212,
-                size: 10,
+                size: 12,
                 font: helveticaFont,
                 color: rgb(0, 0, 0),
             })
-            firstPage.drawText(`year`, {
+            firstPage.drawText(this.$data.job.year || 'NIL', {
                 x: 45.5714,
                 y: height - 324.9354,
                 size: 10,
                 font: helveticaFont,
                 color: rgb(0, 0, 0),
             })
-            firstPage.drawText(`make`, {
+            firstPage.drawText(this.$data.job.make || 'NIL', {
                 x: 129.3571,
                 y: height - 324.9354,
                 size: 10,
                 font: helveticaFont,
                 color: rgb(0, 0, 0),
             })
-            firstPage.drawText(`model`, {
+            firstPage.drawText(this.$data.job.model || 'NIL', {
                 x: 222.1429,
                 y: height - 324.9354,
                 size: 10,
                 font: helveticaFont,
                 color: rgb(0, 0, 0),
             })
-            firstPage.drawText(`color`, {
+            firstPage.drawText(this.$data.job.color || 'NIL', {
                 x: 335.2857,
                 y: height - 324.9354,
                 size: 10,
                 font: helveticaFont,
                 color: rgb(0, 0, 0),
             })
-            firstPage.drawText(`VIN`, {
+            firstPage.drawText(this.$data.job.vinNO ?this.$data.job.vinNO: '00', {
                 x: 420.8571,
                 y: height - 324.9354,
                 size: 10,
                 font: helveticaFont,
                 color: rgb(0, 0, 0),
             })
-            firstPage.drawText(`Description`, {
+            firstPage.drawText(this.$data.job.jobStatus=='goa'?'GOA':this.$data.job.miles, {
                 x: 524.2143,
                 y: height - 324.9354,
                 size: 10,
                 font: helveticaFont,
                 color: rgb(0, 0, 0),
             })
-            firstPage.drawText(`QTY`, {
+            firstPage.drawText('1', {
                 x: 674.3571,
                 y: height - 324.9354,
                 size: 10,
                 font: helveticaFont,
                 color: rgb(0, 0, 0),
             })
-            firstPage.drawText(`Price`, {
+            firstPage.drawText('$'+this.$data.job.amount || '$', {
                 x: 758.7143,
                 y: height - 324.9354,
                 size: 10,

@@ -29,7 +29,7 @@
                     <b-row>
                         <b-col>
                             <b-form-group id="input-group-1" label="Job Status" label-for="input-jStatus">
-                                <b-form-select id="input-jStatus" v-model="job.job.jobStatus" :options="jobStatus"
+                                <b-form-select id="input-jStatus" @change="changeAmount"  v-model="job.job.jobStatus" :options="jobStatus"
                                     required></b-form-select>
                             </b-form-group>
                         </b-col>
@@ -259,21 +259,21 @@
                                     <b-col cols="4">
                                         <b-form-group id="input-group-1" label="Towing status"
                                             label-for="input-tstatus">
-                                            <b-form-select id="input-tstatus" v-model="job.job.upSellCharged"
+                                            <b-form-select id="input-tstatus" v-model="job.jobCompany.paymentStatus"
                                                 :options="towingStatus" required></b-form-select>
                                         </b-form-group>
                                     </b-col>
                                     <b-col cols="4">
                                         <b-form-group id="input-group-1" label="Email"
                                             label-for="input-tstatus">
-                                            <b-form-input placeholder="Email" type="email" id="input-tstatus" v-model="job.job.Email"></b-form-input>
+                                            <b-form-input placeholder="Email" type="email" id="input-tstatus" v-model="job.jobCompany.Email"></b-form-input>
                                         </b-form-group>
                                     </b-col>
                                 </b-row>
                                 <b-row>
                                     <b-col cols="4">
                                         <b-form-group id="input-group-1" label="Notes" label-for="input-notes">
-                                            <b-form-input id="input-notes" v-model="job.jobCompany.paymentStatus"
+                                            <b-form-input id="input-notes" v-model="job.jobCompany.Notes"
                                                 placeholder="Notes" required></b-form-input>
                                         </b-form-group>
                                     </b-col>
@@ -305,6 +305,7 @@ export default {
         return {
             id: this.$route.params.jobID,
             roles: [],
+            goa:false,
             passto: JSON.parse(localStorage.getItem("user_details")).to,
             role: JSON.parse(localStorage.getItem("user_details")).role,
             jobStatus: [
@@ -584,7 +585,6 @@ export default {
                 job: {},
                 jobCompany: {
                     company: {
-
                     }
                 },
             },
@@ -595,24 +595,42 @@ export default {
         this.getJobs()
     },
     methods: {
+        changeAmount(e){
+                if(e==='goa'){
+                    if(!this.$data.goa)
+                    {
+                        this.$data.job.job.amount=this.$data.job.job.amount/2
+                        this.$data.goa=true
+                    }
+                }
+                else{
+                    if(this.$data.goa){
+                        this.$data.job.job.amount=this.$data.job.job.amount*2
+                        this.$data.goa=false;
+                    }
+                }
+                
+        },
         addAssign() {
             this.$data.job.job.assignto = this.$data.passto
             this.submitChanges()
         },
         async submitChanges() {
             let payloadJob = {}
-            let payloadCompany = {}
+            let towinCompany =this.$data.job.job.towingCompany;
+            delete this.$data.job.job.towingCompany;
             for (let key in this.$data.job.job) {
                 if (this.$data.job.job[key] !== this.$data.oldJob.job[key]) {
                     console.log(key);
                     payloadJob[key] = this.$data.job.job[key];
                 }
             }
-            for (let key in this.$data.job.jobCompany) {
-                if (this.$data.job.jobCompany[key] !== this.$data.oldJob.job.towingCompany[key]) {
-                    payloadCompany[key] = this.$data.job.jobCompany[key];
-                }
-            }
+            // for (let key in this.$data.job.jobCompany) {
+            //     console.log(this.$data.job.jobCompany[key]);
+            //     if (this.$data.job.jobCompany[key] !== this.$data.oldJob.job.towingCompany[key]) {
+            //         payloadCompany[key] = this.$data.job.jobCompany[key];
+            //     }
+            // }
             const job_Payload = {
                 job: payloadJob,
                 id: this.$data.id
@@ -621,8 +639,9 @@ export default {
                 company: this.$data.job.jobCompany,
                 id: this.$data.id
             }
-            console.log(company_Payload);
-            if (this.$data.job.towing_id !== null) {
+            console.log('company',company_Payload);
+            console.log('job',job_Payload);
+            if (towinCompany !== null) {
                 axios.all([
                     axios.put(`${import.meta.env.VITE_LIVE}/job`, job_Payload),
                     axios.put(`${import.meta.env.VITE_LIVE}/company`, company_Payload)
@@ -652,21 +671,21 @@ export default {
         getJobs() {
             const jobs = axios.get(`${import.meta.env.VITE_LIVE}/editJob?id=${this.$data.id}`);
             Promise.all([jobs]).then((res) => {
+                this.$data.goa=structuredClone(res[0].data).job.jobStatus==='goa'?true:false;
                 this.$data.job = structuredClone(res[0].data);
+                console.log(res[0].data);
                 if (res[0].data.job.towingCompany) {
                     this.$data.job.jobCompany = structuredClone(res[0].data.job.towingCompany)
                     if(!this.$data.job.jobCompany.company)
                     {
                         this.$data.job.jobCompany.company= {}
                     }
-                    delete this.$data.job.job.towingCompany;
                 }
                 else {
                     this.$data.job.jobCompany = {
                         company: {
                         }
                     };
-                    delete this.$data.job.job.towingCompany;
                 }
                 this.$data.oldJob = structuredClone(res[0].data)
             }).catch((err) => {

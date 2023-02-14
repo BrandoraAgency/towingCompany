@@ -69,17 +69,17 @@
                     <b-col>
                         <div class="singleStats">
                             <span>
-                                Insurance Ammount
+                                Insurance Amount
                             </span>
                             <span>
-                                {{ issuranceStats.amount }}
+                                ${{ issuranceStats.amount }}
                             </span>
                         </div>
                     </b-col>
                     <b-col>
                         <div class="singleStats">
                             <span>
-                                GOA Ammount
+                                GOA Amount
                             </span>
                             <span>
                                 {{ issuranceStats.goa }}
@@ -90,7 +90,7 @@
                     <b-col>
                         <div class="singleStats">
                             <span>
-                                Upsell Ammount
+                                Upsell Amount
                             </span>
                             <span>
                                 {{ issuranceStats.upAmount }}
@@ -100,7 +100,7 @@
                     <b-col>
                         <div class="singleStats">
                             <span>
-                                Submitted Ammount
+                                Submitted Amount
                             </span>
                             <span>
                                 {{ issuranceStats.SAmount }}
@@ -110,7 +110,7 @@
                     <b-col>
                         <div class="singleStats">
                             <span>
-                                Insurance Paid Ammount
+                                Insurance Paid Amount
                             </span>
                             <span>
                                 {{ issuranceStats.paid }}
@@ -145,17 +145,20 @@
                         <b-th>GOA</b-th>
                         <b-th>Upsell</b-th>
                         <b-th>Charged</b-th>
-                        <b-th>Status</b-th>
                         <b-th>State</b-th>
                         <b-th>Miles</b-th>
                         <b-th>Towing</b-th>
-                        <b-th>Phone</b-th>
                         <b-th>Charge</b-th>
                         <b-th>Status</b-th>
                         <b-th>Notes</b-th>
                     </b-tr>
                 </b-thead>
                 <b-tbody>
+                    {{ filteredData.length==0?
+                        "Jobs are Empty"
+                        : 
+                    ''
+                    }}
                     <b-tr v-for="job in filteredData">
                         <b-td v-on:click="selectJob(job.id)">
                             <font-awesome-icon icon="edit" />
@@ -166,18 +169,16 @@
                         <b-td>{{ job.agent }}</b-td>
                         <b-td>{{ job.phone }}</b-td>
                         <b-td>{{ job.issuranceAccount }}</b-td>
-                        <b-td>{{ job.amount }}</b-td>
-                        <b-td>gda!!</b-td>
-                        <b-td>{{ job.upSellAmount }}</b-td>
-                        <b-td>charged!!</b-td>
-                        <b-td>status!!</b-td>
+                        <b-td>${{ job.amount }}</b-td>
+                        <b-td>{{ job.jobStatus==='goa' ? '$'+job.amount :'' }} </b-td>
+                        <b-td>{{ job.upSellAmount? '$'+job.upSellAmount:'' }}</b-td>
+                        <b-td> <span class="tstatus">{{ job.jobStatus }}</span>  </b-td>
                         <b-td>{{ job.state }}</b-td>
                         <b-td>{{ job.miles }}</b-td>
-                        <b-td>towing!!</b-td>
-                        <b-td>Phone!!</b-td>
-                        <b-td>{{ job.charge_status }}</b-td>
-                        <b-td>status!!</b-td>
-                        <b-td>{{ job.notes }}</b-td>
+                        <b-td>{{job.towingCompany? job.towingCompany.name:''}}</b-td>
+                        <b-td>{{ job.towingCompany? '$'+job.towingCompany.charged:''}}</b-td>
+                        <b-td><span class="tstatus">{{ job.towingCompany?job.towingCompany.paymentStatus :'' }}</span> </b-td>
+                        <b-td>{{job.towingCompany?job.towingCompany.Notes:'' }}</b-td>
                     </b-tr>
                 </b-tbody>
             </b-table-simple>
@@ -251,12 +252,15 @@ export default {
             s.towing = 0;
             this.filteredData.map(item => {
                 s.amount += item.amount
-                s.goa = 0
+                if(item.jobStatus==='goa'){
+                    s.goa += item.amount
+
+                }
                 if (item.charged_status === 'submitted') {
                     s.SAmount += item.amount;
                 }
                 s.upAmount += item.upSellAmount,
-                    s.paid = 0
+                s.paid = 0
                 s.towing += item.towingCompany ? item.towingCompany.charged : 0
             })
             console.log(s);

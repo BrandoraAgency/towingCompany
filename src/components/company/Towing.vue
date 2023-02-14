@@ -24,16 +24,16 @@
                 <b-th>Zip</b-th>
                 <b-th>Rating</b-th>
               </b-tr>
-            </b-thead>
+            </b-thead> 
             <b-tbody>
-              <b-tr v-for="company in filterData">
-                <b-th>{{ company.towingCompanies[0].name}}</b-th>
+              <b-tr v-for="(company,index) in filterData">
+                <b-th>{{ company.towingCompanies[0]?company.towingCompanies[0].name:''}}</b-th>
                 <b-td>{{ company.phone }}</b-td>
-                <b-td>{{ company.towingCompanies[0].zipCode}}</b-td>
-                <b-td>{{ company.ratings[0].averageRating}}</b-td>
-                <td v-if='user_details.role==="admin"||company.ratings[0].users.includes(`,${user_details.userid},`)'>
-                  <input v-model="inputValue" @input="validateInput" />
-                  <button @click="addrating(company.id)">Rate</button>
+                <b-td>{{ company.towingCompanies[0]?company.towingCompanies[0].zipCode:''}}</b-td>
+                <b-td>{{ company.ratings[0]?company.ratings[0].averageRating:0}}</b-td>
+                <td v-if='user_details.role==="admin" || !company.ratings[0].users.split(",").includes(`${user_details.userid}`)'>
+                  <input v-model="inputValue[index]" @input="validateInput" type="number" />
+                  <button @click="addrating(company.id,index)">Rate</button>
                 </td>
               </b-tr>
             </b-tbody>
@@ -51,8 +51,9 @@ export default {
   data() {
     return {
       companies: [],
-      inputValue: 0,
+      inputValue: [],
       filter: '',
+      ratedUser:[],
       user_details:JSON.parse(localStorage.getItem('user_details'))
     }
   },
@@ -77,21 +78,23 @@ export default {
         console.log(err);
       })
     },
-    async addrating(id) {
-      const rating = {
-        companyId: id,
-        rating: this.inputValue,
-        user: JSON.parse(localStorage.getItem('user_details')).userid
+    async addrating(id,index) {
+      if(this.inputValue[index]>=0 && this.inputValue[index]<=5)
+      {
+        const rating = {
+          companyId: id,
+          rating: this.inputValue[index],
+          user: JSON.parse(localStorage.getItem('user_details')).userid
+        }
+        axios.post(`${import.meta.env.VITE_LIVE}/rating`, rating).then((res) => {
+          alert('Rated Successfully')
+          this.getJobs()
+        })
       }
-      axios.post(`${import.meta.env.VITE_LIVE}/rating`, rating).then((res) => {
-        alert('done')
-      })
+      else{
+        alert('Rate Between 0 to 5')
+      }
     },
-    validateInput() {
-      if (this.inputValue < 0 || this.inputValue > 5) {
-        this.inputValue = 0;
-      }
-    }
   },
 }
 </script>

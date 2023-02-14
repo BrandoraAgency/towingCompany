@@ -52,6 +52,7 @@ import axios from 'axios';
             const jobs=axios.get(`${import.meta.env.VITE_LIVE}/user`);
             Promise.all([jobs]).then((res)=>{
               this.$data.users=res[0].data;
+              
             }).catch((err)=>{
                 console.log(err);
             })

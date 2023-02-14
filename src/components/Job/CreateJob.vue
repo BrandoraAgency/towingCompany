@@ -381,15 +381,9 @@ export default {
         }
     },
     mounted() {
-        this.getRoles()
+       
     },
     methods: {
-        getRoles() {
-            const getroles = axios.get(`${import.meta.env.VITE_LIVE}/roles`);
-            Promise.all([getroles]).then((res) => {
-                this.$data.roles = res[0].data
-            })
-        },
         async createJob() {
             this.$data.newJob.assignto = "dispatch"
             await axios.post(`${import.meta.env.VITE_LIVE}/job`, this.$data.newJob).then((res) => {
