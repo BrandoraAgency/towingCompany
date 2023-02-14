@@ -289,6 +289,8 @@ export default {
 }
 </script>
 
-<style scoped>
-
+<style>
+span.tstatus {
+    text-transform: uppercase;
+}
 </style>

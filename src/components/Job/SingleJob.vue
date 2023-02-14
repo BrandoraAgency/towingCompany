@@ -467,7 +467,7 @@
                         </button>
                     </div>
                     <div class="dltJob">
-                        <button>Delete</button>
+                        <button @click="deleteJob">Delete</button>
                     </div>
                     <div class="appJob" v-if="role === 'admin' || role === 'accountant'">
                         <button>Approve</button>
@@ -563,7 +563,7 @@
 <script>
 import axios from 'axios';
 import { PDFDocument, rgb, StandardFonts } from 'pdf-lib';
-
+import router from '../../router';
 export default {
     data() {
         return {
@@ -654,6 +654,16 @@ export default {
                 }
             }).catch((err) => {
                 console.log(err);
+            })
+        },
+        async deleteJob(){
+            const dltJob=axios.delete(`${import.meta.env.VITE_LIVE}/job?id=${this.$data.id}`);
+            Promise.all([dltJob]).then((res)=>{
+                alert('Job Deleted Successfully')
+                router.push('/jobs')
+            }).catch((err)=>{
+                console.log(err);
+                alert("Job is'nt Deleted ,Try again")
             })
         },
         async genPdf() {
