@@ -83,7 +83,6 @@
                             </span>
                             <span>
                                 {{ issuranceStats.goa }}
-
                             </span>
                         </div>
                     </b-col>
@@ -260,7 +259,7 @@ export default {
                     s.SAmount += item.amount;
                 }
                 s.upAmount += item.upSellAmount,
-                s.paid = 0
+                s.paid +=item.towingCompany? item.towingCompany.paymentStatus==='paid'? item.towingCompany.charged:0:0
                 s.towing += item.towingCompany ? item.towingCompany.charged : 0
             })
             console.log(s);

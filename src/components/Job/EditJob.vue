@@ -288,8 +288,9 @@
                         </b-col>
                     </b-row>
                     <b-button @click="submitChanges" variant="primary">Submit</b-button>
-                    <b-button @click="addAssign" variant="primary">Assign to {{ passto }}</b-button>
-                    <b-button variant="danger">Back</b-button>
+                    <b-button v-if="role !== 'admin' && role !== 'accountant'" @click="addAssign" variant="primary">Assign to {{ passto }}</b-button>
+                    <b-button v-if="role === 'admin' || role === 'accountant'" @click="addApprove" variant="primary">Approve</b-button>
+                    <b-button @click="back" variant="danger">Back</b-button>
                 </b-form>
             </b-col>
         </b-row>
@@ -611,6 +612,13 @@ export default {
                 }
                 
         },
+        back(){
+            router.back()
+        },
+        addApprove(){
+            this.$data.job.job.jobStatus = 'completed'
+            this.submitChanges()
+        },
         addAssign() {
             this.$data.job.job.assignto = this.$data.passto
             this.submitChanges()
@@ -639,15 +647,13 @@ export default {
                 company: this.$data.job.jobCompany,
                 id: this.$data.id
             }
-            console.log('company',company_Payload);
-            console.log('job',job_Payload);
             if (towinCompany !== null) {
                 axios.all([
                     axios.put(`${import.meta.env.VITE_LIVE}/job`, job_Payload),
                     axios.put(`${import.meta.env.VITE_LIVE}/company`, company_Payload)
                 ]).then(([jobres]) => {
                     alert('Job Updated')
-                    router.push(`/jobs/${this.id}`)
+                    router.push(`/jobs`)
                 }).catch((err) => {
                     console.log('err');
                 })
@@ -658,7 +664,7 @@ export default {
                     axios.post(`${import.meta.env.VITE_LIVE}/company`, company_Payload)
                 ]).then(([jobres]) => {
                     alert('Job Updated')
-                    router.push(`/jobs/${this.id}`)
+                    router.push(`/jobs`)
                 }).catch((err) => {
                     console.log(err)
                 })
