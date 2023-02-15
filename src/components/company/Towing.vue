@@ -31,9 +31,11 @@
                 <b-td>{{ company.phone }}</b-td>
                 <b-td>{{ company.towingCompanies.length>0?company.towingCompanies[0].zipCode:''}}</b-td>
                 <b-td>{{ company.ratings.length>0?company.ratings[0].averageRating:0}}</b-td>
-                <td v-if='user_details.role==="admin" || !company.ratings[0].users.split(",").includes(`${user_details.userid}`)'>
-                  <input v-model="inputValue[index]" @input="validateInput" type="number" />
-                  <button @click="addrating(company.id,index)">Rate</button>
+                <td v-if='company.ratings.length>0'>
+                  <!-- <div v-if='user_details.role==="admin" || !company.ratings[0].users.split(",").includes(`${user_details.userid}`)'>
+                    <input v-model="inputValue[index]" @input="validateInput" type="number" />
+                    <button @click="addrating(company.id,index)">Rate</button>
+                  </div> -->
                 </td>
               </b-tr>
             </b-tbody>
