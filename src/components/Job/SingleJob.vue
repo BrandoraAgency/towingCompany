@@ -852,4 +852,9 @@ table .changes {
     display: flex;
     flex-direction: column;
 }
+.singleImages {
+    display: flex;
+    margin-bottom: 10px;
+    flex-direction: column;
+}
 </style>
