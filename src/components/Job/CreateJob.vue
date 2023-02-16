@@ -26,7 +26,7 @@
                     <b-row>
                         <b-col>
                             <b-form-group id="input-group-1" label="PO#" label-for="input-po">
-                                <b-form-input id="input-po" v-model="newJob.phone" placeholder="1234"
+                                <b-form-input id="input-po" v-model="newJob.poNo" placeholder="1234"
                                     required></b-form-input>
                             </b-form-group>
                         </b-col>

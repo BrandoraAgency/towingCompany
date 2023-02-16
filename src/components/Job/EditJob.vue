@@ -48,7 +48,7 @@
                     <b-row>
                         <b-col>
                             <b-form-group id="input-group-1" label="PO#" label-for="input-po">
-                                <b-form-input id="input-po" v-model="job.job.phone" type="number"
+                                <b-form-input id="input-po" v-model="job.job.poNo" type="number"
                                     required></b-form-input>
                             </b-form-group>
                         </b-col>
@@ -107,6 +107,12 @@
                         <b-col>
                             <b-form-group id="input-group-1" label="Email" label-for="input-lname">
                                 <b-form-input id="input-lname" placeholder="Email" type="email" v-model="job.job.Email"
+                                    ></b-form-input>
+                            </b-form-group>
+                        </b-col>
+                        <b-col>
+                            <b-form-group id="input-group-1" label="Phone Number" label-for="input-po">
+                                <b-form-input id="input-po" v-model="job.job.phone" type="text"
                                     ></b-form-input>
                             </b-form-group>
                         </b-col>

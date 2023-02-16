@@ -69,7 +69,7 @@
                     <b-col>
                         <div class="singleStats">
                             <span>
-                                Insurance Amount
+                                Amount Charged
                             </span>
                             <span>
                                 ${{ issuranceStats.amount }}
