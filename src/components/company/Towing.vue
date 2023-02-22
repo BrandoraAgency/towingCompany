@@ -19,6 +19,7 @@
           <b-table-simple responsive>
             <b-thead>
               <b-tr>
+                <b-th>Action</b-th>
                 <b-th>Name</b-th>
                 <b-th>Phone</b-th>
                 <b-th>Zip</b-th>
@@ -27,6 +28,11 @@
             </b-thead> 
             <b-tbody>
               <b-tr v-for="(company,index) in filterData">
+                <b-td>
+                  <router-link :to="{path: 'company/'+company.id}">
+                    <font-awesome-icon icon="edit" />
+                  </router-link>
+              </b-td>
                 <b-th>{{ company.towingCompanies.length>0?company.towingCompanies[0].name:''}}</b-th>
                 <b-td>{{ company.phone }}</b-td>
                 <b-td>{{ company.towingCompanies.length>0?company.towingCompanies[0].zipCode:''}}</b-td>

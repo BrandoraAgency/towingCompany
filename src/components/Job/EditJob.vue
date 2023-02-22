@@ -48,10 +48,10 @@
                     <b-row>
                         <b-col>
                             <b-form-group id="input-group-1" label="PO#" label-for="input-po">
-                                <b-form-input id="input-po" v-model="job.job.poNo" type="number"
+                                <b-form-input id="input-po" placeholder="PO Number" v-model="job.job.poNo" type="number"
                                     required></b-form-input>
                             </b-form-group>
-                        </b-col>
+                        </b-col>poNo
                         <b-col>
                             <b-form-group id="input-group-1" label="Provider ID" label-for="input-provider">
                                 <b-form-input id="input-provider" v-model="job.job.providerID" placeholder="1234"
@@ -112,7 +112,7 @@
                         </b-col>
                         <b-col>
                             <b-form-group id="input-group-1" label="Phone Number" label-for="input-po">
-                                <b-form-input id="input-po" v-model="job.job.phone" type="text"
+                                <b-form-input id="input-po" placeholder="Phone Number" v-model="job.job.phone" type="text"
                                     ></b-form-input>
                             </b-form-group>
                         </b-col>

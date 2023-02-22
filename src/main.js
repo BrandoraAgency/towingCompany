@@ -19,10 +19,12 @@ import "bootstrap/dist/css/bootstrap.css";
 import "bootstrap-vue/dist/bootstrap-vue.css";
 import "bootstrap-vue-3/dist/bootstrap-vue-3.css";
 import router from "./router";
+import Vue3Signature from "vue3-signature"
 library.add(fas, fab, far);
 // ** App start
 createApp(App)
   .use(router)
+  .use(Vue3Signature)
   .use(BootstrapVue3)
   .component("font-awesome-icon", FontAwesomeIcon)
   .mount("#app");

@@ -138,7 +138,7 @@
                         <b-th>S</b-th>
                         <b-th>Date</b-th>
                         <b-th>Agent</b-th>
-                        <b-th>PO #</b-th>
+                        <b-th>Po #</b-th>
                         <b-th>Insurance</b-th>
                         <b-th>Amount</b-th>
                         <b-th>GOA</b-th>
@@ -166,7 +166,7 @@
                         <b-td>Cell</b-td>
                         <b-td>{{ job.date.split('T')[0] }}</b-td>
                         <b-td>{{ job.agent }}</b-td>
-                        <b-td>{{ job.phone }}</b-td>
+                        <b-td>{{ job.poNo }}</b-td>
                         <b-td>{{ job.issuranceAccount }}</b-td>
                         <b-td>${{ job.amount }}</b-td>
                         <b-td>{{ job.jobStatus==='goa' ? '$'+job.amount :'' }} </b-td>
@@ -236,7 +236,7 @@ export default {
                 (this.filter.start === '' || new Date(item.date) >= new Date(this.filter.start)) &&
                 (this.filter.end === '' || new Date(item.date) <= new Date(this.filter.end)) &&
                 (this.filter.jobStatus === '' || item.jobStatus === this.filter.jobStatus) &&
-                (this.filter.po === '' || item.providerID.includes(this.filter.po)) &&
+                (this.filter.po === '' || item.poNo.includes(this.filter.po)) &&
                 (this.filter.issAcc === '' || item.issuranceAccount.includes(this.filter.issAcc)) &&
                 (this.filter.charged === '' || item.charged_status === this.filter.charged)
             )

@@ -4,7 +4,7 @@
             <b-col cols="6">
                 <div class="towingRef">
                     <h4>
-                        Towing Job Details - Reference #
+                        Towing Job Details - Reference # {{ job.id }}
                     </h4>
                 </div>
             </b-col>
@@ -29,21 +29,6 @@
         <b-row>
             <b-col>
                 <div class="jobtowing details">
-
-                    <!-- <div class="singledetail" v-for="(value, key, index) in job">
-                                    <b-row>
-                                        <b-col>
-                                            <span>
-                                                {{ key }}
-                                            </span>
-                                        </b-col>
-                                        <b-col>
-                                            <span>
-                                                {{ value }}
-                                            </span>
-                                        </b-col>
-                                    </b-row>
-                                </div> -->
                     <div class="singledetail">
                         <b-row>
                             <b-col>
@@ -319,20 +304,6 @@
                     </h4>
                 </div>
                 <div class="jobtowing details">
-                    <!-- <div class="singledetail" v-for="(value, key, index) in job.towingCompany">
-                                    <b-row>
-                                        <b-col>
-                                            <span>
-                                                {{ key }}
-                                            </span>
-                                        </b-col>
-                                        <b-col>
-                                            <span>
-                                                {{ value }}
-                                            </span>
-                                        </b-col>
-                                    </b-row>
-                                </div> -->
                     <div class="singledetail">
                         <b-row>
                             <b-col>
@@ -595,6 +566,8 @@ export default {
             this.receiptsFile = receipt;
         },
         onimageFile() {
+            const fileSize=this.$data.imageFile.size / 1024 / 1024;
+            if(fileSize>5) return alert('File Size should be less than 5MB')
             const formData = new FormData();
             formData.append("file", this.$data.imageFile);  // appending file
 
@@ -614,6 +587,8 @@ export default {
                 });
         },
         onreceiptFile() {
+            const fileSize=this.$data.receiptsFile.size / 1024 / 1024;
+            if(fileSize>5) return alert('File Size should be less than 5MB')
             const formData = new FormData();
             formData.append("file", this.$data.receiptsFile);  // appending file
             // sending file to the backend
@@ -753,7 +728,7 @@ export default {
                 color: rgb(0, 0, 0),
             })
             firstPage.drawText(this.$data.job.towingCompany.dropoff || 'NI', {
-                x: 440.8571,
+                x: 445.8571,
                 y: height - 242.2025,
                 size: 10,
                 font: helveticaFont,
@@ -767,9 +742,9 @@ export default {
                 color: rgb(0, 0, 0),
             })
             firstPage.drawText(`750` + this.$data.job.id || '00', {
-                x: 755.0507,
-                y: height - 68.8212,
-                size: 12,
+                x: 750.0507,
+                y: height - 72.8212,
+                size: 22,
                 font: helveticaFont,
                 color: rgb(0, 0, 0),
             })
@@ -830,7 +805,7 @@ export default {
                 color: rgb(0, 0, 0),
             })
             firstPage.drawText(`88-4293801`, {
-                x: 425.4286,
+                x: 430.4286,
                 y: height - 427.2211,
                 size: 10,
                 font: helveticaFont,
