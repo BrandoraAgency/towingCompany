@@ -301,8 +301,9 @@ export default {
         this.data.longitude = pos.coords.longitude;
         this.data.latitude = pos.coords.latitude;
       }, err => {
+        console.log(err);
         alert('location issue')
-      })
+      },{timeout:10000})
     }
   },
 }
