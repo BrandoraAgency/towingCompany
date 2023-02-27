@@ -153,8 +153,8 @@ export default {
         this.ticketData = res.data
       }).catch((err) => {
         alert('ticket is expired');
+        router.push('/')
       })
-
     }
   }
 }
