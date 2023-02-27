@@ -142,9 +142,9 @@ export default {
         }
       }).then((result) => {
         alert('send')
+        router.push('/')
       }).catch((err) => {
         alert('not Send')
-
       });
     },
     getjobDetails() {
