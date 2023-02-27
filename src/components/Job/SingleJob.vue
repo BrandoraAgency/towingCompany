@@ -426,7 +426,14 @@
                         </b-row>
                     </div>
                 </div>
-
+            </b-col>
+        </b-row>
+        <b-row>
+            <b-col xs={6}>
+                <div class="dispatchTicket" v-if="dispatchLink">
+                    <input ref="linkInput" type="text" v-model="dispatchLink">
+                    <button @click="copyLink">Copy Link</button>
+                </div>
             </b-col>
         </b-row>
         <b-row>
@@ -441,7 +448,10 @@
                         <button @click="deleteJob">Delete</button>
                     </div>
                     <div class="appJob" v-if="role === 'admin' || role === 'accountant'">
-                        <button>Approve</button>
+                        <button @click="getApproved">Approve</button>
+                    </div>
+                    <div class="appJob" v-if="role === 'dispatch'">
+                        <button @click="generateTicket" >Dipatch Link</button>
                     </div>
                     <div class="edtJob">
                         <router-link :to="{ path: id + '/edit' }" class="btn">Edit</router-link>
@@ -459,7 +469,7 @@
                 <div class="images">
                     <div class="singleImages" v-for="image in job.towImages">
                         <img :src="`${url}/serve/${image.src}`" alt="" srcset="">
-                        <button @click="downloadImage(`${url}/serve/${image.src}`,image.src)">Download</button>
+                        <button @click="downloadImage(`${url}/serve/${image.src}`, image.src)">Download</button>
                     </div>
                 </div>
                 <div class="upldBtn">
@@ -479,7 +489,7 @@
                 <div class="images">
                     <div class="singleImages" v-for="receipt in job.towReceipts">
                         <img :src="`${url}/serve/${receipt.src}`" alt="" srcset="">
-                        <button @click="downloadImage(`${url}/serve/${receipt.src}`,receipt.src)">Download</button>
+                        <button @click="downloadImage(`${url}/serve/${receipt.src}`, receipt.src)">Download</button>
                     </div>
                 </div>
                 <div class="upldBtn">
@@ -530,7 +540,7 @@
             </b-col>
         </b-row>
 
-</b-container>
+    </b-container>
 </template>
 
 <script>
@@ -550,7 +560,8 @@ export default {
             job: {
                 towingCompany: {}
             },
-            items: []
+            items: [],
+            dispatchLink: null,
         }
     },
     mounted() {
@@ -566,8 +577,8 @@ export default {
             this.receiptsFile = receipt;
         },
         onimageFile() {
-            const fileSize=this.$data.imageFile.size / 1024 / 1024;
-            if(fileSize>5) return alert('File Size should be less than 5MB')
+            const fileSize = this.$data.imageFile.size / 1024 / 1024;
+            if (fileSize > 5) return alert('File Size should be less than 5MB')
             const formData = new FormData();
             formData.append("file", this.$data.imageFile);  // appending file
 
@@ -587,8 +598,8 @@ export default {
                 });
         },
         onreceiptFile() {
-            const fileSize=this.$data.receiptsFile.size / 1024 / 1024;
-            if(fileSize>5) return alert('File Size should be less than 5MB')
+            const fileSize = this.$data.receiptsFile.size / 1024 / 1024;
+            if (fileSize > 5) return alert('File Size should be less than 5MB')
             const formData = new FormData();
             formData.append("file", this.$data.receiptsFile);  // appending file
             // sending file to the backend
@@ -661,6 +672,16 @@ export default {
             link.click();
             document.body.removeChild(link);
         },
+        async getApproved() {
+            const payload = {
+                isApproved: true,
+            }
+            axios.put(`${import.meta.env.VITE_LIVE}/job`, payload).then((res) => {
+                alert('Job Approved')
+            }).catch((err) => {
+                alert('Job Approved Issue')
+            })
+        },
         async genPdf() {
             const url = `${import.meta.env.VITE_LIVE}/serve/invoice.pdf`
             const existingPdfBytes = await fetch(url).then(res => res.arrayBuffer())
@@ -699,14 +720,14 @@ export default {
                 font: helveticaFont,
                 color: rgb(0, 0, 0),
             })
-            firstPage.drawText(this.$data.job.providerID || '00', {
+            firstPage.drawText(this.$data.job.poNo || '00', {
                 x: 48.3655,
                 y: height - 236.5506,
                 size: 10,
                 font: helveticaFont,
                 color: rgb(0, 0, 0),
             })
-            firstPage.drawText(new Date().toLocaleString(), {
+            firstPage.drawText(new Date(this.$data.job.date).toLocaleString(), {
                 x: 130.8687,
                 y: height - 255.2025,
                 size: 10,
@@ -770,14 +791,14 @@ export default {
                 color: rgb(0, 0, 0),
             })
             firstPage.drawText(this.$data.job.color || 'NIL', {
-                x: 335.2857,
+                x: 315.2857,
                 y: height - 324.9354,
                 size: 10,
                 font: helveticaFont,
                 color: rgb(0, 0, 0),
             })
             firstPage.drawText(this.$data.job.vinNO ? this.$data.job.vinNO : '00', {
-                x: 420.8571,
+                x: 385.8571,
                 y: height - 324.9354,
                 size: 10,
                 font: helveticaFont,
@@ -818,6 +839,19 @@ export default {
             link.download = 'file.pdf';
             link.click();
             console.log(pdfBytes);
+        },
+        async generateTicket() {
+            console.log('done');
+            axios.post(`${import.meta.env.VITE_LIVE}/ticket`, { jobId: this.id }).then((res) => {
+                this.dispatchLink = import.meta.env.VITE_URL+'/dispatchForm?ticket=' + res.data.ticketNumber;
+            }).catch((err) => {
+                alert('Ticket Not generated')
+            })
+        },
+        copyLink() {
+            this.$refs.linkInput.select();
+            document.execCommand("copy");
+            alert("Link copied to clipboard!");
         }
     },
 }
@@ -827,6 +861,7 @@ table .changes {
     display: flex;
     flex-direction: column;
 }
+
 .singleImages {
     display: flex;
     margin-bottom: 10px;

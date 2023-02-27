@@ -48,10 +48,10 @@
                     <b-row>
                         <b-col>
                             <b-form-group id="input-group-1" label="PO#" label-for="input-po">
-                                <b-form-input id="input-po" placeholder="PO Number" v-model="job.job.poNo" type="number"
+                                <b-form-input id="input-po" placeholder="PO Number" v-model="job.job.poNo" type="text"
                                     required></b-form-input>
                             </b-form-group>
-                        </b-col>poNo
+                        </b-col>
                         <b-col>
                             <b-form-group id="input-group-1" label="Provider ID" label-for="input-provider">
                                 <b-form-input id="input-provider" v-model="job.job.providerID" placeholder="1234"
@@ -73,13 +73,13 @@
                             </b-form-group>
                         </b-col>
                         <b-col>
-                            <b-form-group id="input-group-1" label="Insurance Charged Date" label-for="input-icd">
+                            <b-form-group id="input-group-1" label="Job Charged Date" label-for="input-icd">
                                 <b-form-input id="input-icd" v-model="job.job.issChargedDate" placeholder="1234"
                                     type="date" required></b-form-input>
                             </b-form-group>
                         </b-col>
                         <b-col>
-                            <b-form-group id="input-group-1" label="Insurance Time" label-for="input-insA">
+                            <b-form-group id="input-group-1" label="Job Time" label-for="input-insA">
                                 <b-form-input id="input-insA" type="time" v-model="job.job.issChargedTime"
                                     required></b-form-input>
                             </b-form-group>
@@ -622,7 +622,7 @@ export default {
             router.back()
         },
         addApprove(){
-            this.$data.job.job.jobStatus = 'completed'
+            this.$data.job.job.isApproved = true
             this.submitChanges()
         },
         addAssign() {

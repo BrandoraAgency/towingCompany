@@ -179,7 +179,7 @@
           </b-row>
           <b-row>
             <b-col>
-              <div class="submitBtn">
+              <div class="submitBtnForm">
                 <button type="submit">Submit</button>
               </div>
             </b-col>
@@ -309,11 +309,17 @@ export default {
 }
 </script>
 
-<style scoped>
+<style>
+.submitBtnForm {
+  margin: 10px 0px  45px 0px;
+}
 .signatureDiv {
   position: relative;
 }
-
+.signatureDiv canvas {
+  border-radius: 18px;
+  border: 2px solid #000;
+}
 button.clearBtn {
   right: 0px;
   top: 30px;

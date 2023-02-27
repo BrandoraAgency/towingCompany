@@ -1,5 +1,6 @@
 import { createRouter, createWebHistory } from "vue-router";
 import CreditForm from "../views/CreditForm/CreditForm.vue";
+import DispatchForm from "../views/DispatchForm/DispatchForm.vue";
 const LoginVue = () => import('../views/Login/Login.vue')
 const Dashboard = () => import('../views/Dashboard/Dashboard.vue')
 const Homevue = () => import('../views/Home.vue')
@@ -19,6 +20,7 @@ const router = createRouter({
     { path: "", name: "home", component: Homevue },
     { path: "/login", name: "Login", component: LoginVue },
     { path: "/towingform", name: "towingform", component: CreditForm },
+    { path: "/dispatchForm", name: "dispatchform", component: DispatchForm  },
     {
       path: "/jobs",
       name: "jobDash",
