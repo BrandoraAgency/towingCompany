@@ -80,9 +80,20 @@
               <b-form-group id="input-group-1" label="Upload Picture" label-for="input-ca">
                 <input type="file" id="imageUpload" accept="image/*" @change="handleImageUpload" multiple>
                 <b-form-text id="password-help-block">
-                  Upload Upto 10 Pictures
+                  Upload More Images up to {{ fileNumber }}
                 </b-form-text>
               </b-form-group>
+            </b-col>
+            <b-col>
+              <div v-if="files.length > 0" class="selectedDImages">
+                <h3>Selected Images</h3>
+                <b-row>
+                  <b-col xs="3" class="image-container" v-for="(file, index) in files" :key="index">
+                    <img :src="getFileUrl(file)" class="image">
+                    <p class="caption">{{ file.name }}</p>
+                  </b-col>
+                </b-row>
+                </div>
             </b-col>
           </b-row>
           <b-row>
@@ -109,6 +120,7 @@ export default {
   data() {
     return {
       files: [],
+      fileNumber:10,
       id: this.$route.query.ticket,
       ticketData: {
         job: {}
@@ -118,15 +130,18 @@ export default {
   methods: {
     handleImageUpload(event) {
       const images = event.target.files;
-      if (images.length > 10) {
+      console.log(images.length+this.files.length);
+      if (images.length+this.files.length > 10) {
         // alert the user that the limit has been exceeded
         alert('You can select up to 10 images only!');
         // clear the selected files
         event.target.value = '';
       }
-      this.files = images;
+      this.files = [...this.files,...images]
+      this.fileNumber=this.fileNumber-this.files.length
     },
     handleSubmit() {
+      if(this.files.length===0) return alert('Atleast Select One Image')
       const formData = new FormData();
       for (let i = 0; i < this.files.length; i++) {
         let file = this.files[i];
@@ -155,9 +170,19 @@ export default {
         alert('ticket is expired');
         router.push('/')
       })
-    }
+    },
+    getFileUrl(file) {
+      return URL.createObjectURL(file);
+    },
   }
 }
 </script>
 
-<style scoped></style>
+<style scoped>
+.selectedDImages img {
+  width: 100px;
+}
+.text-muted {
+  display: block;
+}
+</style>

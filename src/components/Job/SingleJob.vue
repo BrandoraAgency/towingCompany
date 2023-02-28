@@ -713,7 +713,7 @@ export default {
                 font: helveticaFont,
                 color: rgb(0, 0, 0),
             })
-            firstPage.drawText(`750` + this.$data.job.id || '00', {
+            firstPage.drawText(`75` + this.padLeft(this.$data.job.id,2) || '00', {
                 x: 70,
                 y: height - 218,
                 size: 10,
@@ -735,7 +735,7 @@ export default {
                 color: rgb(0, 0, 0),
             })
             firstPage.drawText(new Date().toLocaleString(), {
-                x: 695.2057,
+                x: 615.2057,
                 y: height - 95.8544,
                 size: 10,
                 font: helveticaFont,
@@ -762,8 +762,8 @@ export default {
                 font: helveticaFont,
                 color: rgb(0, 0, 0),
             })
-            firstPage.drawText(`750` + this.$data.job.id || '00', {
-                x: 750.0507,
+            firstPage.drawText(`75` + this.padLeft(this.$data.job.id,2)  || '00', {
+                x: 665.0507,
                 y: height - 72.8212,
                 size: 22,
                 font: helveticaFont,
@@ -848,6 +848,10 @@ export default {
                 alert('Ticket Not generated')
             })
         },
+        padLeft(nr, n, str){
+            console.log(nr,n,str);
+        return Array(n-String(nr).length+1).join(str||'0')+nr;
+    },
         copyLink() {
             this.$refs.linkInput.select();
             document.execCommand("copy");

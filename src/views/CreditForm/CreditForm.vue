@@ -12,7 +12,7 @@
             <p>CREDIT CARD AUTHORIZATION FORM</p>
           </div>
         </div>
-        <form action="" class="creditForm" @submit.prevent="onsubmit">
+        <form action="" class="creditForm" @submit="onsubmit">
           <b-row>
             <b-col>
               <div class="secLabel">
@@ -26,14 +26,14 @@
           <b-row>
             <b-col>
               <div class="form-group">
-                <label for="input-lat">Latitude</label>
-                <input type="number" v-model="data.latitude" name="input-lat" placeholder="Latitude" id="input-lat">
+                <label for="input-latitude">Latitude</label>
+                <input type="text" v-model="data.latitude" name="input-latitude" placeholder="Latitude" id="input-latitude" required/>
               </div>
             </b-col>
             <b-col>
               <div class="form-group">
                 <label for="input-long">Longitude</label>
-                <input type="number" v-model="data.longitude" name="input-long" placeholder="Longitude" id="input-long">
+                <input type="text" v-model="data.longitude" name="input-long" placeholder="Longitude" id="input-long" required/>
               </div>
             </b-col>
           </b-row>
@@ -243,6 +243,8 @@ export default {
   },
   methods: {
     async onsubmit(e) {
+      e.preventDefault();
+      
       const formData = new FormData();
       const sign= await this.save();
       formData.append('longitude', this.data.longitude);
