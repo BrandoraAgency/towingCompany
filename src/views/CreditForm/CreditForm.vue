@@ -27,13 +27,13 @@
             <b-col>
               <div class="form-group">
                 <label for="input-latitude">Latitude</label>
-                <input type="text" v-model="data.latitude" name="input-latitude" placeholder="Latitude" id="input-latitude" required/>
+                <input type="text" v-model="data.latitude" name="input-latitude" placeholder="Latitude" id="input-latitude" />
               </div>
             </b-col>
             <b-col>
               <div class="form-group">
                 <label for="input-long">Longitude</label>
-                <input type="text" v-model="data.longitude" name="input-long" placeholder="Longitude" id="input-long" required/>
+                <input type="text" v-model="data.longitude" name="input-long" placeholder="Longitude" id="input-long" />
               </div>
             </b-col>
           </b-row>
