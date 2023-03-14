@@ -224,6 +224,7 @@ export default {
             Charged: [
                 { value: 'pending', text: 'pending' },
                 { value: 'submitted', text: 'submitted' },
+                { value: 'paid', text: 'paid' },
             ],
         }
     },

@@ -66,7 +66,6 @@ export default{
       password:password
     }
     axios.post(`${import.meta.env.VITE_LIVE}/login`,body).then((res)=>{
-      console.log('done');
       localStorage.setItem('user_details',JSON.stringify(res.data))
      router.push('/')
     }).catch((err)=>{
