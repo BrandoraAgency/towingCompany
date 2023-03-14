@@ -167,7 +167,7 @@
                         <b-td>Cell</b-td>
                         <b-td>{{ job.date.split('T')[0] }}</b-td>
                         <b-td>{{ job.agent }}</b-td>
-                        <b-td>{{ job.phone }}</b-td>
+                        <b-td>{{ job.poNo }}</b-td>
                         <b-td>{{ job.issuranceAccount }}</b-td>
                         <b-td>${{ job.amount }}</b-td>
                         <b-td>{{ job.jobStatus==='goa' ? '$'+job.amount :'' }} </b-td>
