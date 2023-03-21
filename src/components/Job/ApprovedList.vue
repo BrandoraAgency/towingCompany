@@ -241,7 +241,7 @@ export default {
                 (this.filter.jobStatus === '' || item.jobStatus === this.filter.jobStatus) &&
                 (this.filter.po === '' || item.poNo.includes(this.filter.po)) &&
                 (this.filter.issAcc === '' || item.issuranceAccount.includes(this.filter.issAcc)) &&
-                (this.filter.charged === '' || item.charged_status === this.filter.charged)
+                (this.filter.charged === '' || item.towingCompany.charged === this.filter.charged)
             )
         },
         issuranceStats() {
