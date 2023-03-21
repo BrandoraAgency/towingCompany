@@ -439,7 +439,7 @@
         <b-row>
             <b-col>
                 <div class="singleJobAction">
-                    <div class="GnrtInvoice" v-if="role === 'admin' || role === 'accountant'">
+                    <div class="GnrtInvoice" v-if="role === 'admin' || role === 'accountant'||role === 'dispatch'">
                         <button @click="genPdf">
                             Generate Invoice
                         </button>
