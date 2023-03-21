@@ -42,7 +42,7 @@
                             <b-col>
                                 <div class="form-group">
                                     <label for="po">PO #</label>
-                                    <input type="number" name="po" v-model="filter.po" id="po">
+                                    <input type="text" name="po" v-model="filter.po" id="po">
                                 </div>
                             </b-col>
                             <b-col>
