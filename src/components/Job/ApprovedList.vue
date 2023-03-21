@@ -42,7 +42,8 @@
                             <b-col>
                                 <div class="form-group">
                                     <label for="po">PO #</label>
-                                    <input type="number" name="po" v-model="filter.po" id="po">
+                                    <!-- <input type="number" name="po" v-model="filter.po" id="po"> -->
+                                    <input type="number" name="po" v-model="filter.po" id="po" @input="filterData">
                                 </div>
                             </b-col>
                             <b-col>
@@ -238,7 +239,7 @@ export default {
                 (this.filter.start === '' || new Date(item.date) >= new Date(this.filter.start)) &&
                 (this.filter.end === '' || new Date(item.date) <= new Date(this.filter.end)) &&
                 (this.filter.jobStatus === '' || item.jobStatus === this.filter.jobStatus) &&
-                (this.filter.po === '' || item.providerID.includes(this.filter.po)) &&
+                (this.filter.po === '' || item.poNo.includes(this.filter.po)) &&
                 (this.filter.issAcc === '' || item.issuranceAccount.includes(this.filter.issAcc)) &&
                 (this.filter.charged === '' || item.charged_status === this.filter.charged)
             )
