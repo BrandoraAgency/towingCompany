@@ -254,7 +254,7 @@ export default {
       formData.append('phonenumber', this.data.phoneNumber);
       formData.append('email', this.data.email);
       formData.append('service', this.data.service);
-      formData.append('miles', this.data.miles);
+      formData.append('miles', this.data.miles?this.data.miles:0);
       formData.append('billAddress', this.data.billingAddress);
       formData.append('billZip', this.data.billingZip);
       formData.append('Amount', this.data.Amount);
