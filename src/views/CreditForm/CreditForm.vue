@@ -180,8 +180,20 @@
           <b-row>
             <b-col>
               <div class="submitBtnForm">
-                <button type="submit">Submit</button>
+                <button type="submit" v-bind:class="issubmit" v-bind:disabled="issubmit">Submit</button>
               </div>
+            </b-col>
+            <b-col>
+              <div class="submitBtnForm" v-if="isErr">
+              <span>
+                Email Not Send
+              </span>
+              </div>
+              <div class="submitBtnForm" v-else>
+                <span>
+                  Email Send
+                </span>
+                </div>
             </b-col>
           </b-row>
         </form>
@@ -231,6 +243,8 @@ export default {
         { value: 'Winch Out', text: 'Winch Out' },
         { value: 'Fuel Delivery (5 Gal.)', text: 'Fuel Delivery (5 Gal.)' }
       ],
+      issubmit:false,
+      isErr:false,
       data: {
 
       },
@@ -263,16 +277,17 @@ export default {
       formData.append('cardFront', this.cardf);
       formData.append('cardBack', this.cardb);
       formData.append('sign',sign);
+      this.$data.issubmit=true
       console.log(formData);
       axios.post(`${import.meta.env.VITE_LIVE}/email`, formData,{
     headers: {
       'Content-Type': 'multipart/form-data'
     }
   }).then((result) => {
-        alert('send')
+      this.$data.issubmit=false
       }).catch((err) => {
-        alert('not Send')
-
+      this.$data.issubmit=false
+      this.$data.isErr=true;
       });
     },
     onPhoneNumberInput(event) {
