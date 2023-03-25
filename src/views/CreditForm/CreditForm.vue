@@ -272,11 +272,11 @@ export default {
       formData.append('billAddress', this.data.billingAddress);
       formData.append('billZip', this.data.billingZip);
       formData.append('Amount', this.data.Amount);
-      // formData.append('idfront', this.idf);
-      // formData.append('idBack', this.idb);
-      // formData.append('cardFront', this.cardf);
-      // formData.append('cardBack', this.cardb);
-      // formData.append('sign',sign);
+      formData.append('idfront', this.idf);
+      formData.append('idBack', this.idb);
+      formData.append('cardFront', this.cardf);
+      formData.append('cardBack', this.cardb);
+      formData.append('sign',sign);
       this.$data.issubmit=true
       console.log(formData);
       axios.post(`${import.meta.env.VITE_LIVE}/email`, formData,{
