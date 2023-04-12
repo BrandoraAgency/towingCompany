@@ -295,7 +295,7 @@
                     </b-row>
                     <b-button @click="submitChanges" variant="primary">Submit</b-button>
                     <b-button v-if="role !== 'admin' && role !== 'accountant'" @click="addAssign" variant="primary">Assign to {{ passto }}</b-button>
-                    <b-button v-if="role === 'admin' || role === 'accountant'" @click="addApprove" variant="primary">Approve</b-button>
+                    <b-button v-if="(role === 'admin' || role === 'accountant') && !job.job.isApproved" @click="addApprove" variant="primary">Approve</b-button>
                     <b-button @click="back" variant="danger">Back</b-button>
                 </b-form>
             </b-col>

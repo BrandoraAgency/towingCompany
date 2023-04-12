@@ -447,7 +447,7 @@
                     <div class="dltJob" v-if="role === 'admin' || role === 'accountant' || role === 'qc'">
                         <button @click="deleteJob">Delete</button>
                     </div>
-                    <div class="appJob" v-if="role === 'admin' || role === 'accountant'">
+                    <div class="appJob" v-if="(role === 'admin' || role === 'accountant') && !job.isApproved">
                         <button @click="getApproved">Approve</button>
                     </div>
                     <div class="appJob" v-if="role === 'dispatch'">
@@ -676,8 +676,13 @@ export default {
             const payload = {
                 isApproved: true,
             }
-            axios.put(`${import.meta.env.VITE_LIVE}/job`, payload).then((res) => {
+            const jobpayload={
+                job: payload,
+                id: this.$data.id
+            }
+            axios.put(`${import.meta.env.VITE_LIVE}/job`, jobpayload).then((res) => {
                 alert('Job Approved')
+                router.push(`/jobs`)
             }).catch((err) => {
                 alert('Job Approved Issue')
             })
