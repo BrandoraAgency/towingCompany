@@ -439,7 +439,7 @@
         <b-row>
             <b-col>
                 <div class="singleJobAction">
-                    <div class="GnrtInvoice" v-if="role === 'admin' || role === 'accountant'||role === 'dispatch'">
+                    <div class="GnrtInvoice" v-if="role === 'admin' || role === 'accountant' || role === 'dispatch'">
                         <button @click="genPdf">
                             Generate Invoice
                         </button>
@@ -451,7 +451,7 @@
                         <button @click="getApproved">Approve</button>
                     </div>
                     <div class="appJob" v-if="role === 'dispatch'">
-                        <button @click="generateTicket" >Dipatch Link</button>
+                        <button @click="generateTicket">Dipatch Link</button>
                     </div>
                     <div class="edtJob">
                         <router-link :to="{ path: id + '/edit' }" class="btn">Edit</router-link>
@@ -676,7 +676,7 @@ export default {
             const payload = {
                 isApproved: true,
             }
-            const jobpayload={
+            const jobpayload = {
                 job: payload,
                 id: this.$data.id
             }
@@ -718,7 +718,7 @@ export default {
                 font: helveticaFont,
                 color: rgb(0, 0, 0),
             })
-            firstPage.drawText(`75` + this.padLeft(this.$data.job.id,2) || '00', {
+            firstPage.drawText(`75` + this.padLeft(this.$data.job.id, 2) || '00', {
                 x: 70,
                 y: height - 218,
                 size: 10,
@@ -732,7 +732,15 @@ export default {
                 font: helveticaFont,
                 color: rgb(0, 0, 0),
             })
-            firstPage.drawText(new Date(this.$data.job.date).toLocaleString(), {
+            var dateObj = new Date(this.$data.job.date);
+
+            // Extract date and time components
+            var dateStr = ('0' + dateObj.getDate()).slice(-2) + '/' + ('0' + (dateObj.getMonth() + 1)).slice(-2) + '/' + dateObj.getFullYear();
+            var timeStr = this.$data.job.time;
+
+            // Combine date and time components
+            var datetimeStr = dateStr + ', ' + timeStr;
+            firstPage.drawText(datetimeStr, {
                 x: 130.8687,
                 y: height - 255.2025,
                 size: 10,
@@ -767,7 +775,7 @@ export default {
                 font: helveticaFont,
                 color: rgb(0, 0, 0),
             })
-            firstPage.drawText(`75` + this.padLeft(this.$data.job.id,2)  || '00', {
+            firstPage.drawText(`75` + this.padLeft(this.$data.job.id, 2) || '00', {
                 x: 665.0507,
                 y: height - 72.8212,
                 size: 22,
@@ -848,15 +856,15 @@ export default {
         async generateTicket() {
             console.log('done');
             axios.post(`${import.meta.env.VITE_LIVE}/ticket`, { jobId: this.id }).then((res) => {
-                this.dispatchLink = import.meta.env.VITE_URL+'/dispatchForm?ticket=' + res.data.ticketNumber;
+                this.dispatchLink = import.meta.env.VITE_URL + '/dispatchForm?ticket=' + res.data.ticketNumber;
             }).catch((err) => {
                 alert('Ticket Not generated')
             })
         },
-        padLeft(nr, n, str){
-            console.log(nr,n,str);
-        return Array(n-String(nr).length+1).join(str||'0')+nr;
-    },
+        padLeft(nr, n, str) {
+            console.log(nr, n, str);
+            return Array(n - String(nr).length + 1).join(str || '0') + nr;
+        },
         copyLink() {
             this.$refs.linkInput.select();
             document.execCommand("copy");
