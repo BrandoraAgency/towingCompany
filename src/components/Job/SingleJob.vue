@@ -732,22 +732,20 @@ export default {
                 font: helveticaFont,
                 color: rgb(0, 0, 0),
             })
-            var dateObj = new Date(this.$data.job.date);
+            var dateObj = this.$data.job.date.split('T')[0] + 'T' + this.$data.job.time;
 
-            // Extract date and time components
-            var dateStr = ('0' + dateObj.getDate()).slice(-2) + '/' + ('0' + (dateObj.getMonth() + 1)).slice(-2) + '/' + dateObj.getFullYear();
-            var timeStr = this.$data.job.time;
-
-            // Combine date and time components
-            var datetimeStr = dateStr + ', ' + timeStr;
-            firstPage.drawText(datetimeStr, {
+            const date = new Date(dateObj);
+            const options = { month: 'numeric', day: 'numeric', year: 'numeric', hour: 'numeric', minute: 'numeric', second: 'numeric', hour12: true };
+            const usDateTimeString = date.toLocaleString('en-US', options);
+            console.log(usDateTimeString);
+            firstPage.drawText(usDateTimeString, {
                 x: 130.8687,
                 y: height - 255.2025,
                 size: 10,
                 font: helveticaFont,
                 color: rgb(0, 0, 0),
             })
-            firstPage.drawText(new Date().toLocaleString(), {
+            firstPage.drawText(new Date().toLocaleString("en-US", { timeZone: "America/New_York" }), {
                 x: 615.2057,
                 y: height - 95.8544,
                 size: 10,
