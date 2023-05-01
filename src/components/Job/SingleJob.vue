@@ -383,7 +383,7 @@
                             </b-col>
                             <b-col>
                                 <span>
-                                    {{ job.towingCompany.chargedDate }}
+                                    {{ (new Date(job.towingCompany.chargedDate)).toLocaleDateString('en-US')  }}
                                 </span>
                             </b-col>
                         </b-row>
@@ -523,7 +523,7 @@
                     <b-tbody>
                         <b-tr v-for="job in items">
                             <b-td>{{ job.id }}</b-td>
-                            <b-td>{{ job.date.split('T')[0] }}</b-td>
+                            <b-td>{{ (new Date(job.date)).toLocaleDateString('en-US')  }}</b-td>
                             <b-td>{{ job.actions }}</b-td>
                             <b-td>{{ job.user }}</b-td>
                             <b-td>

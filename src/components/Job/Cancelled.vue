@@ -165,7 +165,7 @@
                         </b-td>
                         <b-td>{{ job.id }}</b-td>
                         <b-td>Cell</b-td>
-                        <b-td>{{ job.date.split('T')[0] }}</b-td>
+                        <b-td>{{ (new Date(job.date)).toLocaleDateString('en-US')  }}</b-td>
                         <b-td>{{ job.agent }}</b-td>
                         <b-td>{{ job.poNo }}</b-td>
                         <b-td>{{ job.issuranceAccount }}</b-td>
