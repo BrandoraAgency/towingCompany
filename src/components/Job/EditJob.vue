@@ -279,8 +279,8 @@
                                 <b-row>
                                     <b-col cols="4">
                                         <b-form-group id="input-group-1" label="Notes" label-for="input-notes">
-                                            <b-form-input id="input-notes" v-model="job.jobCompany.Notes"
-                                                placeholder="Notes" required></b-form-input>
+                                            <b-form-textarea rows="4" max-row="6" id="input-notes" v-model="job.jobCompany.Notes"
+                                                placeholder="Notes" required></b-form-textarea>
                                         </b-form-group>
                                     </b-col>
                                     <b-col cols="4">

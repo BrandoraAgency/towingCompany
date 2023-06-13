@@ -447,7 +447,7 @@
                     <div class="dltJob" v-if="role === 'admin' || role === 'accountant' || role === 'qc'">
                         <button @click="deleteJob">Delete</button>
                     </div>
-                    <div class="appJob" v-if="(role === 'admin' || role === 'accountant') && !job.isApproved">
+                    <div class="appJob" v-if="(role === 'admin' || role === 'accountant'|| role === 'qc') && !job.isApproved">
                         <button @click="getApproved">Approve</button>
                     </div>
                     <div class="appJob" v-if="role === 'dispatch'">
