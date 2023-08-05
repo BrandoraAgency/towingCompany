@@ -861,6 +861,7 @@ export default {
         },
         padLeft(nr, n, str) {
             console.log(nr, n, str);
+            if(String(nr).length>3) return nr;
             return Array(n - String(nr).length + 1).join(str || '0') + nr;
         },
         copyLink() {
