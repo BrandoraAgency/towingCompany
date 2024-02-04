@@ -45,8 +45,8 @@
                             </b-form-group>
                         </b-col>
                          <b-col>
-                            <b-form-group id="input-group-1" label="Trade Name" label-for="input-tra">
-                                <b-form-input id="input-Rep" v-model="job.job.trade_name" required></b-form-input>
+                            <b-form-group id="input-group-1" label="Trade Name" label-for="input-trade">
+                                <b-form-input id="input-trade" v-model="job.job.Trade_Name" required></b-form-input>
                             </b-form-group>
                         </b-col>
                     </b-row>
