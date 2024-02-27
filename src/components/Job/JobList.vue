@@ -142,7 +142,7 @@
                         <b-th>Insurance</b-th>
                         <b-th>Amount</b-th>
                         <b-th>GOA</b-th>
-                        <b-th>Upsell</b-th>
+                        <b-th>Trade Name</b-th>
                         <b-th>Charged</b-th>
                         <b-th>State</b-th>
                         <b-th>Miles</b-th>
@@ -170,7 +170,7 @@
                         <b-td>{{ job.issuranceAccount }}</b-td>
                         <b-td>${{ job.amount }}</b-td>
                         <b-td>{{ job.jobStatus==='goa' ? '$'+job.amount :'' }} </b-td>
-                        <b-td>{{ job.upSellAmount? '$'+job.upSellAmount:'' }}</b-td>
+                        <b-td>{{ job.Trade_Name? job.Trade_Name:'' }}</b-td>
                         <b-td> <span class="tstatus">{{ job.jobStatus }}</span>  </b-td>
                         <b-td>{{ job.state }}</b-td>
                         <b-td>{{ job.miles }}</b-td>
