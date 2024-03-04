@@ -222,6 +222,15 @@ export default {
                 { value: 'all state', text: 'all state' },
                 { value: 'aaa', text: 'aaa' },
                 { value: 'private', text: 'private' },
+                { value: 'roadside', text: 'Roadside Protect' },
+                { value: 'allied_dispatch', text: 'Allied Dispatch' },
+                { value: 'nation_safe', text: 'Nation Safe Drivers' },
+                { value: 'safe_travels', text: 'Safe Travels' },
+                { value: 'ryders', text: 'Ryders' },
+                { value: 'quest_towing', text: 'Quest Towing Services' },
+                { value: 'safer_road', text: 'Safer Road Rescue' },
+                { value: 'dmggo', text: 'DMGGO' },
+                
             ],
             Charged: [
                 { value: 'pending', text: 'pending' },
