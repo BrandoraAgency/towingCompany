@@ -33,6 +33,12 @@
                     <li class="nav-item">
                         <router-link v-if="userRole === 'admin' || userRole === 'accountant'" exact-active-class="active"
                             class="nav-link" to="/jobs/cancelled">Cancelled</router-link>
+
+                    </li>
+
+                    <li>
+                        <router-link v-if="userRole === 'admin' || userRole === 'accountant'" exact-active-class="active"
+                            class="nav-link" to="/dashboard">Dashboard</router-link>
                     </li>
                 </ul>
                 <div class="userInfo">

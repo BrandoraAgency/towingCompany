@@ -1,0 +1,292 @@
+<template>
+  <div class="Markup-container">
+    <p>Markup :{{ totalMarkup }}</p>
+    <Line :data="data" :options="options" />
+    <div class="inputparentflexdiv">
+      <div class="toandinputflexdiv">
+        <p>From:</p>
+        <input
+
+          type="date"
+          v-model="fromDate"
+          @change="filterJobs"
+          :min="minDate"
+        />
+      </div>
+
+      <div class="toandinputflexdiv">
+        <p>To:</p>
+        <input type="date" v-model="toDate" @change="filterJobs" />
+      </div>
+    </div>
+  </div>
+</template>
+
+<script lang="ts">
+import {
+  Chart as ChartJS,
+  Title,
+  Tooltip,
+  Legend,
+  BarElement,
+  CategoryScale,
+  LinearScale,
+  LineElement,
+  PointElement,
+} from "chart.js";
+import { Line } from "vue-chartjs";
+import axios from "axios";
+
+let JobsDetails = [];
+let monthlyMarkup
+let totalMarkup
+
+ChartJS.register(
+  CategoryScale,
+  LinearScale,
+  PointElement,
+  LineElement,
+  Title,
+  Tooltip,
+  Legend
+);
+
+export default {
+  name: "App",
+  components: {
+    Line,
+  },
+  data() {
+    return {
+      minDate: "2023-6-01",
+      data: {
+        labels: [
+          "jan",
+          "feb",
+          "mar",
+          "apr",
+          "may",
+          "jun",
+          "jul",
+          "aug",
+          "sep",
+          "oct",
+          "nov",
+          "dec",
+        ],
+        datasets: [
+          {
+            label: "MARKUP'S",
+            data: [12, 13, 14, 15, 16, 17, 18, 78, 3, 1, 23, 34],
+          },
+        ],
+      },
+      options: {
+        responsive: true,
+        plugins: {
+          title: {
+            display: true,
+            text: "TOWING MARKUP'S", // Title indicating jobs completed
+            font: {
+              size: 18,
+            },
+          },
+          Legend: {
+            display: true,
+          },
+        },
+      },
+      filteredJobs: [],
+      fromDate: "2023-12-01",
+      toDate:"2024-03-01",
+      totalMarkup: 0,
+    };
+  },
+  mounted() {
+    this.getJobs();
+  },
+  methods: {
+    async getJobs() {
+      try {
+        const access = JSON.parse(localStorage.getItem("user_details")).role;
+        console.log("thisis", access);
+        const response = await axios.get(
+          `${import.meta.env.VITE_LIVE}/jobs?role=${access}`
+        );
+        JobsDetails = response.data;
+
+        console.log(response.data);
+      } catch (error) {
+        console.log(error);
+      }
+    },
+    filterJobs() {
+      this.totalMarkup = 0;
+      console.log("this is ", this.fromDate, this.toDate);
+      if (this.fromDate && this.toDate) {
+        const from = new Date(this.fromDate);
+        const to = new Date(this.toDate);
+
+        this.filteredJobs = JobsDetails.filter((job) => {
+          const jobDate = new Date(job.date);
+          return (
+            jobDate >= from && job.jobStatus == "completed" && jobDate <= to
+          );
+        });
+        console.log("this isfilterjobs ", this.filteredJobs);
+        this.updateChartData();
+      }
+    },
+    updateChartData() {
+      const monthNames = [
+        "Jan",
+        "Feb",
+        "Mar",
+        "Apr",
+        "May",
+        "Jun",
+        "Jul",
+        "Aug",
+        "Sep",
+        "Oct",
+        "Nov",
+        "Dec",
+      ];
+
+      const startDate = new Date(this.fromDate);
+      const endDate = new Date(this.toDate);
+
+      const labels = [];
+      const data = [];
+
+      if (
+        startDate.getFullYear() === endDate.getFullYear() &&
+        startDate.getMonth() === endDate.getMonth()
+      ) {
+        // If the selected range is within the same month
+        labels.push(
+          `${monthNames[startDate.getMonth()]} ${startDate.getFullYear()}`
+        );
+        data.push(
+          this.calculateMarkupForMonth(
+            startDate.getMonth(),
+            startDate.getFullYear()
+          )
+        );
+      } else if (endDate - startDate < 7 * 24 * 60 * 60 * 1000) {
+        // If the selected range is less than a week
+        labels.push("Week");
+        data.push(this.calculateMarkupForWeek(startDate, endDate));
+      } else if (endDate - startDate < 31 * 24 * 60 * 60 * 1000) {
+        // If the selected range is less than a month
+        labels.push(
+          `${monthNames[startDate.getMonth()]} ${startDate.getFullYear()}`
+        );
+        data.push(
+          this.calculateMarkupForMonth(
+            startDate.getMonth(),
+            startDate.getFullYear()
+          ),
+          console.log("this is monthlyMarkup", data)
+        );
+      } else {
+        // If the selected range is a year or more
+        const startYear = startDate.getFullYear();
+        const endYear = endDate.getFullYear();
+        const startMonth = startDate.getMonth();
+        const endMonth = endDate.getMonth();
+
+        for (let year = startYear; year <= endYear; year++) {
+          for (let month = 0; month < 12; month++) {
+            if (
+              (year === startYear && month < startMonth) ||
+              (year === endYear && month > endMonth)
+            ) {
+              continue;
+            }
+            labels.push(`${monthNames[month]} ${year}`);
+            data.push(this.calculateMarkupForMonth(month, year));
+
+        }
+      }
+      console.log("this is data", data);
+           data.forEach((markup) => {
+            this.totalMarkup += markup;
+           });
+            console.log("this is totalMarkup", this.totalMarkup)
+          }
+      this.data = {
+        labels,
+        datasets: [{ data }],
+      };
+    },
+
+    calculateMarkupForMonth(month, year) {
+      const monthStart = new Date(year, month, 1);
+      const monthEnd = new Date(year, month + 1, 0);
+      let monthlyMarkup = 0;
+
+      this.filteredJobs.forEach((job) => {
+        const jobDate = new Date(job.date);
+        if (jobDate >= monthStart && jobDate <= monthEnd) {
+         monthlyMarkup +=
+            job.amount - (job.towingCompany.charged !== null
+              ? job.towingCompany.charged
+              : 0);
+        }
+      });
+
+      return monthlyMarkup;
+    },
+
+    calculateMarkupForWeek(startDate, endDate) {
+      let weeklyMarkup = 0;
+
+      this.filteredJobs.forEach((job) => {
+        const jobDate = new Date(job.date);
+        if (jobDate >= startDate && jobDate <= endDate) {
+          weeklyMarkup +=
+            job.amount - (job.towingCompany.charged !== null
+              ? job.towingCompany.charged
+              : 0);
+        }
+      });
+
+      return weeklyMarkup;
+    },
+  },
+};
+</script>
+
+<style scoped>
+* {
+  margin: 0;
+  padding: 0;
+}
+.Markup-container {
+  width: 50%;
+  padding: 20px;
+
+  /* height: 20rem; */
+  display: block;
+}
+.inputparentflexdiv {
+  display: flex;
+  gap: 2rem;
+}
+
+.toandinputflexdiv {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  margin-top: 2rem;
+}
+
+.inputparentflexdiv input {
+  padding: 0.4rem 2rem;
+  background-color: rgb(243, 242, 241);
+  border: none;
+  border-radius: 5px;
+  outline: none;
+}
+</style>

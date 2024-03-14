@@ -14,10 +14,14 @@ const CreateJob = () => import('../components/Job/CreateJob.vue');
 const user = () => import('../components/user/user.vue');
 const SingleCompany = () => import('../components/company/SingleCompany.vue');
 const createUser = () => import('../components/user/createUser.vue');
+const GraphDashboard = () => import('../components/graphDashboard/GraphDashboard.vue');
+
 const router = createRouter({
+
   history: createWebHistory(),
   routes: [
     { path: "", name: "home", component: Homevue },
+    {path:"/dashboard",name:"Graphdashboard",component:GraphDashboard},
     { path: "/login", name: "Login", component: LoginVue },
     { path: "/towingform", name: "towingform", component: CreditForm },
     { path: "/dispatchForm", name: "dispatchform", component: DispatchForm  },
@@ -81,3 +85,4 @@ const router = createRouter({
   ],
 });
 export default router;
+

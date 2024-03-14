@@ -156,7 +156,7 @@
                 <b-tbody>
                     {{ filteredData.length==0?
                         "Jobs are Empty"
-                        : 
+                        :
                     ''
                     }}
                     <b-tr v-for="job in filteredData">
@@ -230,7 +230,7 @@ export default {
                 { value: 'quest_towing', text: 'Quest Towing Services' },
                 { value: 'safer_road', text: 'Safer Road Rescue' },
                 { value: 'dmggo', text: 'DMGGO' },
-                
+
             ],
             Charged: [
                 { value: 'pending', text: 'pending' },
@@ -287,7 +287,7 @@ export default {
             const jobs = axios.get(`${import.meta.env.VITE_LIVE}/jobs?role=${access}`);
             Promise.all([jobs]).then((res) => {
                 this.$data.joblist = res[0].data;
-                console.log(res[0].data);
+                // console.log(res[0].data);
             }).catch((err) => {
                 console.log(err);
             })
@@ -295,7 +295,7 @@ export default {
         download(){
             downloadCSV(this.$data.joblist)
         }
-        
+
     },
 }
 </script>
