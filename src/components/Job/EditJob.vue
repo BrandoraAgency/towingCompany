@@ -46,7 +46,7 @@
                         </b-col>
                          <b-col>
                             <b-form-group id="input-group-1" label="Trade Name" label-for="input-trade">
-                                <b-form-input id="input-trade" v-model="job.job.Trade_Name" required></b-form-input>
+                                <b-form-select id="input-trade" :options="tradeNames" v-model="job.job.Trade_Name" required></b-form-select>
                             </b-form-group>
                         </b-col>
                     </b-row>
@@ -315,6 +315,7 @@ import router from '../../router';
 export default {
     data() {
         return {
+            tradeNames: ['Service Wise', 'Life Line', 'Best Choice', 'Delta'],
             id: this.$route.params.jobID,
             roles: [],
             goa:false,
@@ -630,7 +631,7 @@ export default {
                         this.$data.goa=false;
                     }
                 }
-                
+
         },
         back(){
             router.back()

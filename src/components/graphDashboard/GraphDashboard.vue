@@ -123,6 +123,7 @@ export default {
   },
   mounted() {
     this.getJobs();
+    this.setCurrentMonth();
   },
   methods: {
     async getJobs() {
@@ -139,6 +140,14 @@ export default {
         console.log(error);
       }
     },
+    setCurrentMonth() {
+    const today = new Date();
+    const firstDayOfMonth = new Date(today.getFullYear(), today.getMonth(), 1);
+    const lastDayOfMonth = new Date(today.getFullYear(), today.getMonth() + 1, 0);
+    this.fromDate = firstDayOfMonth.toISOString().split('T')[0];
+    this.toDate = lastDayOfMonth.toISOString().split('T')[0];
+    this.filterJobs();
+  },
     filterDaily() {
       const today = new Date();
       this.fromDate = today.toISOString().split("T")[0];
