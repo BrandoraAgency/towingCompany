@@ -1,11 +1,24 @@
 <template>
+
     <div class="Trade-container">
+
 
       <!-- <Line :data="data" :options="options" /> -->
 <div>
 
 </div>
       <Bar :data="barData" :options="barOptions" />
+      <div class="info">
+             <div v-for="(label, index) in barData.labels" :key="index">
+      <p>{{ label }}: {{ barData.datasets[0].data[index] }} jobs</p>
+    </div>
+  </div>
+      <!-- <div class="filters">
+      <button @click="filterDaily">Daily</button>
+    <button @click="filterWeekly">Weekly</button>
+    <button @click="filterMonthly">Monthly</button>
+    <button @click="filterYearly">Yearly</button>
+    </div>
       <div class="inputparentflexdiv">
         <div class="toandinputflexdiv">
           <p>From:</p>
@@ -16,7 +29,7 @@
           <p>To:</p>
           <input type="date" v-model="toDate" @change="filterJobs" />
         </div>
-      </div>
+      </div> -->
     </div>
   </template>
 
@@ -31,10 +44,27 @@
 
   export default {
     name: 'App',
+    props:['fromDate','toDate'],
     components: {
 
       Bar,
     },
+    computed: {
+    dateRange() {
+      return { fromDate: this.fromDate, toDate: this.toDate };
+    },
+  },
+  watch: {
+    dateRange: {
+      handler() {
+        this.filterJobs();
+      },
+      deep: true,
+    },
+    jobs() {
+      this.filterJobs();
+    },
+  },
     data() {
       return {
 
@@ -71,8 +101,8 @@
           }
         },
         filteredJobs: [],
-        fromDate: "2023-12-01",
-      toDate:"2024-03-01",
+      //   fromDate: "2023-12-01",
+      // toDate:"2024-03-01",
       }
     },
     mounted() {
@@ -90,6 +120,36 @@
           console.log(error)
         }
       },
+      filterDaily() {
+      const today = new Date();
+      this.fromDate = today.toISOString().split('T')[0];
+      this.toDate = today.toISOString().split('T')[0];
+      this.filterJobs();
+    },
+    filterWeekly() {
+      const today = new Date();
+      const oneWeekAgo = new Date();
+      oneWeekAgo.setDate(today.getDate() - 7);
+      this.fromDate = oneWeekAgo.toISOString().split('T')[0];
+      this.toDate = today.toISOString().split('T')[0];
+      this.filterJobs();
+    },
+    filterMonthly() {
+      const today = new Date();
+      const oneMonthAgo = new Date();
+      oneMonthAgo.setMonth(today.getMonth() - 1);
+      this.fromDate = oneMonthAgo.toISOString().split('T')[0];
+      this.toDate = today.toISOString().split('T')[0];
+      this.filterJobs();
+    },
+    filterYearly() {
+      const today = new Date();
+      const oneYearAgo = new Date();
+      oneYearAgo.setFullYear(today.getFullYear() - 1);
+      this.fromDate = oneYearAgo.toISOString().split('T')[0];
+      this.toDate = today.toISOString().split('T')[0];
+      this.filterJobs();
+    },
       filterJobs() {
         console.log("this is ", this.fromDate, this.toDate)
         if (this.fromDate && this.toDate) {
@@ -162,5 +222,29 @@ this.barData = {
   border: none;
   border-radius: 5px;
   outline: none;
+}
+.filters{
+  display: flex;
+  gap: 20px;
+  /* justify-content: center; */
+  /* margin-top: 20px; */
+  padding: 20px;
+  border-bottom: #ececec 1px solid ;
+  width: 100%;
+  /* border: 1px solid red; */
+}
+.filters button{
+  padding: 10px;
+  border-radius: 5px;
+  border: none;
+  background-color: #f3f2f1;
+  outline: none;
+}
+.info{
+  display: flex;
+  gap:20px;
+  flex-direction: column;
+  /* border: 1px solid red; */
+  justify-content: center;
 }
   </style>

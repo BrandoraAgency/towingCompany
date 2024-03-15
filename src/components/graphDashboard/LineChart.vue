@@ -2,6 +2,13 @@
   <div class="Markup-container">
     <p>Markup :{{ totalMarkup }}</p>
     <Line :data="data" :options="options" />
+    <!-- <div class="filters">
+      <button @click="filterDaily">Daily</button>
+    <button @click="filterWeekly">Weekly</button>
+    <button @click="filterMonthly">Monthly</button>
+    <button @click="filterYearly">Yearly</button>
+    </div>
+
     <div class="inputparentflexdiv">
       <div class="toandinputflexdiv">
         <p>From:</p>
@@ -18,7 +25,7 @@
         <p>To:</p>
         <input type="date" v-model="toDate" @change="filterJobs" />
       </div>
-    </div>
+    </div> -->
   </div>
 </template>
 
@@ -53,8 +60,25 @@ ChartJS.register(
 
 export default {
   name: "App",
+  props:['fromDate','toDate'],
   components: {
     Line,
+  },
+  computed: {
+    dateRange() {
+      return { fromDate: this.fromDate, toDate: this.toDate };
+    },
+  },
+  watch: {
+    dateRange: {
+      handler() {
+        this.filterJobs();
+      },
+      deep: true,
+    },
+    jobs() {
+      this.filterJobs();
+    },
   },
   data() {
     return {
@@ -97,11 +121,12 @@ export default {
         },
       },
       filteredJobs: [],
-      fromDate: "2023-12-01",
-      toDate:"2024-03-01",
+      // fromDate: "2023-12-01",
+      // toDate:"2024-03-01",
       totalMarkup: 0,
     };
   },
+
   mounted() {
     this.getJobs();
   },
@@ -119,6 +144,36 @@ export default {
       } catch (error) {
         console.log(error);
       }
+    },
+    filterDaily() {
+      const today = new Date();
+      this.fromDate = today.toISOString().split('T')[0];
+      this.toDate = today.toISOString().split('T')[0];
+      this.filterJobs();
+    },
+    filterWeekly() {
+      const today = new Date();
+      const oneWeekAgo = new Date();
+      oneWeekAgo.setDate(today.getDate() - 7);
+      this.fromDate = oneWeekAgo.toISOString().split('T')[0];
+      this.toDate = today.toISOString().split('T')[0];
+      this.filterJobs();
+    },
+    filterMonthly() {
+      const today = new Date();
+      const oneMonthAgo = new Date();
+      oneMonthAgo.setMonth(today.getMonth() - 1);
+      this.fromDate = oneMonthAgo.toISOString().split('T')[0];
+      this.toDate = today.toISOString().split('T')[0];
+      this.filterJobs();
+    },
+    filterYearly() {
+      const today = new Date();
+      const oneYearAgo = new Date();
+      oneYearAgo.setFullYear(today.getFullYear() - 1);
+      this.fromDate = oneYearAgo.toISOString().split('T')[0];
+      this.toDate = today.toISOString().split('T')[0];
+      this.filterJobs();
     },
     filterJobs() {
       this.totalMarkup = 0;
@@ -173,10 +228,18 @@ export default {
             startDate.getFullYear()
           )
         );
+        data.forEach((markup) => {
+            markup!=undefined?this.totalMarkup += markup:0;
+           });
+            console.log("this is totalMarkup", this.totalMarkup)
       } else if (endDate - startDate < 7 * 24 * 60 * 60 * 1000) {
         // If the selected range is less than a week
         labels.push("Week");
         data.push(this.calculateMarkupForWeek(startDate, endDate));
+        data.forEach((markup) => {
+            this.totalMarkup += markup;
+           });
+            console.log("this is totalMarkup", this.totalMarkup)
       } else if (endDate - startDate < 31 * 24 * 60 * 60 * 1000) {
         // If the selected range is less than a month
         labels.push(
@@ -189,6 +252,10 @@ export default {
           ),
           console.log("this is monthlyMarkup", data)
         );
+        data.forEach((markup) => {
+            markup!=undefined?this.totalMarkup += markup:this.totalMarkup+=0;
+           });
+
       } else {
         // If the selected range is a year or more
         const startYear = startDate.getFullYear();
@@ -230,9 +297,9 @@ export default {
         const jobDate = new Date(job.date);
         if (jobDate >= monthStart && jobDate <= monthEnd) {
          monthlyMarkup +=
-            job.amount - (job.towingCompany.charged !== null
-              ? job.towingCompany.charged
-              : 0);
+            job.amount - ((job.towingCompany && job.towingCompany.charged) !== null
+          ? job.towingCompany.charged
+          : 0);
         }
       });
 
@@ -246,9 +313,9 @@ export default {
         const jobDate = new Date(job.date);
         if (jobDate >= startDate && jobDate <= endDate) {
           weeklyMarkup +=
-            job.amount - (job.towingCompany.charged !== null
-              ? job.towingCompany.charged
-              : 0);
+            job.amount - ((job.towingCompany && job.towingCompany.charged) !== null
+          ? job.towingCompany.charged
+          : 0);
         }
       });
 
@@ -287,6 +354,23 @@ export default {
   background-color: rgb(243, 242, 241);
   border: none;
   border-radius: 5px;
+  outline: none;
+}
+.filters{
+  display: flex;
+  gap: 20px;
+  /* justify-content: center; */
+  /* margin-top: 20px; */
+  padding: 20px;
+  border-bottom: #ececec 1px solid ;
+  width: 100%;
+  /* border: 1px solid red; */
+}
+.filters button{
+  padding: 10px;
+  border-radius: 5px;
+  border: none;
+  background-color: #f3f2f1;
   outline: none;
 }
 </style>

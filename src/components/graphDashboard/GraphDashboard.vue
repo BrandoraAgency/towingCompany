@@ -1,32 +1,41 @@
 <template>
+  <div class="inputparentflexdiv">
+    <div class="toandinputflexdiv">
+      <p>From:</p>
+      <input type="date" v-model="fromDate" @change="filterJobs" />
+    </div>
+
+    <div class="toandinputflexdiv">
+      <p>To:</p>
+      <input type="date" v-model="toDate" @change="filterJobs" />
+    </div>
+    <!-- <div class="filters"> -->
+
+    <div class="allbtnsdiv">
+      <button @click="filterDaily">Daily</button>
+      <button @click="filterWeekly">Weekly</button>
+      <button @click="filterMonthly">Monthly</button>
+      <button @click="filterYearly">Yearly</button>
+    </div>
+    <!-- </div> -->
+  </div>
   <div class="JobCompleted-container">
     <div class="inside">
-      <div class="jobs" >
-      <p>Completed Jobs : {{ totaljobs }}</p>
-      <p>Cancelled Jobs : {{ cancelledJobs }}</p>
-      <p>Pending Jobs : {{ pendingJobs }}</p>
-    </div>
-      <Line :data="data" :options="options" />
-
-      <div class="inputparentflexdiv">
-        <div class="toandinputflexdiv">
-          <p>From:</p>
-          <input type="date" v-model="fromDate" @change="filterJobs" />
-        </div>
-
-        <div class="toandinputflexdiv">
-          <p>To:</p>
-          <input type="date" v-model="toDate" @change="filterJobs" />
-        </div>
+      <div class="jobs">
+        <p>Completed Jobs : {{ totaljobs }}</p>
+        <p>Cancelled Jobs : {{ cancelledJobs }}</p>
+        <p>Pending Jobs : {{ pendingJobs }}</p>
       </div>
+
+      <Line :data="data" :options="options" />
     </div>
 
-    <LineChart />
+    <LineChart :fromDate="fromDate" :toDate="toDate" />
   </div>
 
   <div class="bar-chat">
-    <TradeCountBarChart />
-    <EnsuranceCompaniesBar />
+    <TradeCountBarChart :fromDate="fromDate" :toDate="toDate" />
+    <EnsuranceCompaniesBar :fromDate="fromDate" :toDate="toDate" />
   </div>
 </template>
 
@@ -49,8 +58,8 @@ import TradeCountBarChart from "./TradeCountBarChart.vue";
 import EnsuranceCompaniesBar from "./EnsuranceCompaniesBar.vue";
 let JobsDetails = [];
 let totaljobs = 0;
-let pendingJobs=0;
-let cancelledJobs=0;
+let pendingJobs = 0;
+let cancelledJobs = 0;
 
 ChartJS.register(
   CategoryScale,
@@ -100,7 +109,7 @@ export default {
         plugins: {
           title: {
             display: true,
-            text: ['JOBS COMPLETED BY TOWING'], // Title indicating jobs completed
+            text: ["JOBS COMPLETED BY TOWING"], // Title indicating jobs completed
             font: {
               size: 18,
             },
@@ -109,7 +118,7 @@ export default {
       },
       filteredJobs: [],
       fromDate: "2023-12-01",
-      toDate:"2024-03-01",
+      toDate: "2024-03-01",
     };
   },
   mounted() {
@@ -130,6 +139,36 @@ export default {
         console.log(error);
       }
     },
+    filterDaily() {
+      const today = new Date();
+      this.fromDate = today.toISOString().split("T")[0];
+      this.toDate = today.toISOString().split("T")[0];
+      this.filterJobs();
+    },
+    filterWeekly() {
+      const today = new Date();
+      const oneWeekAgo = new Date();
+      oneWeekAgo.setDate(today.getDate() - 7);
+      this.fromDate = oneWeekAgo.toISOString().split("T")[0];
+      this.toDate = today.toISOString().split("T")[0];
+      this.filterJobs();
+    },
+    filterMonthly() {
+      const today = new Date();
+      const oneMonthAgo = new Date();
+      oneMonthAgo.setMonth(today.getMonth() - 1);
+      this.fromDate = oneMonthAgo.toISOString().split("T")[0];
+      this.toDate = today.toISOString().split("T")[0];
+      this.filterJobs();
+    },
+    filterYearly() {
+      const today = new Date();
+      const oneYearAgo = new Date();
+      oneYearAgo.setFullYear(today.getFullYear() - 1);
+      this.fromDate = oneYearAgo.toISOString().split("T")[0];
+      this.toDate = today.toISOString().split("T")[0];
+      this.filterJobs();
+    },
     filterJobs() {
       console.log("this is ", this.fromDate, this.toDate);
       if (this.fromDate && this.toDate) {
@@ -137,11 +176,9 @@ export default {
         const to = new Date(this.toDate);
         this.pendingJobs = JobsDetails.filter((job) => {
           const jobDate = new Date(job.date);
-          return (
-            jobDate >= from && job.jobStatus == "pending" && jobDate <= to
-          );
+          return jobDate >= from && job.jobStatus == "pending" && jobDate <= to;
         }).length;
-    this.cancelledJobs = JobsDetails.filter((job) => {
+        this.cancelledJobs = JobsDetails.filter((job) => {
           const jobDate = new Date(job.date);
           return (
             jobDate >= from && job.jobStatus == "cancelled" && jobDate <= to
@@ -226,7 +263,7 @@ export default {
 .JobCompleted-container {
   display: flex;
   align-items: center;
-
+  /* height: 46vh; */
   width: 100%;
   border-bottom: 1px solid gray;
   padding: 20px;
@@ -238,7 +275,7 @@ export default {
 
   flex-direction: column;
   align-items: start;
-  border-right: #ececec 1px solid ;
+  border-right: #ececec 1px solid;
   width: 50%;
 }
 .bar-chat {
@@ -252,6 +289,7 @@ export default {
 .inputparentflexdiv {
   display: flex;
   gap: 2rem;
+  align-items: center;
 }
 
 .toandinputflexdiv {
@@ -262,16 +300,40 @@ export default {
 }
 
 .inputparentflexdiv input {
-  padding: 0.4rem 2rem;
+  padding: 0.6rem 3rem;
   background-color: rgb(243, 242, 241);
   border: none;
   border-radius: 5px;
   outline: none;
 }
-.jobs{
+.jobs {
   display: flex;
   text-align: center;
   justify-content: center;
   gap: 20px;
+}
+.filters {
+  display: flex;
+  gap: 20px;
+  align-items: center;
+  /* justify-content: ; */
+  /* justify-content: center; */
+  /* margin-top: 20px; */
+  padding: 20px;
+  border-bottom: #ececec 1px solid;
+  width: 100%;
+  /* border: 1px solid red; */
+}
+
+.allbtnsdiv {
+  margin-left: 5rem;
+}
+
+.allbtnsdiv button {
+  border: none;
+  padding: 0.4rem 3rem;
+  border-radius: 5px;
+  margin-top: 1.5rem;
+  margin-left: 1rem;
 }
 </style>
