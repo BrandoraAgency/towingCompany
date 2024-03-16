@@ -315,7 +315,7 @@ import router from '../../router';
 export default {
     data() {
         return {
-            tradeNames: ['Service Wise', 'Life Line', 'Best Choice', 'Delta'],
+            tradeNames: ['Service Wise', 'Life Line', 'Best Choice', 'Delta',"SaveUs","Simply","ACE","OTHERS"],
             id: this.$route.params.jobID,
             roles: [],
             goa:false,

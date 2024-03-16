@@ -22,9 +22,12 @@
   <div class="JobCompleted-container">
     <div class="inside">
       <div class="jobs">
-        <p>Completed Jobs : {{ totaljobs }}</p>
+        <p>Completed Jobs : {{ completedJobs }}</p>
         <p>Cancelled Jobs : {{ cancelledJobs }}</p>
         <p>Pending Jobs : {{ pendingJobs }}</p>
+        <p>GOA jobs</p>:{{ goaJobs }}
+        <p>Total Jobs : {{ totaljobs }}</p>
+        <!-- <p>Total Jobs : {{ JobsDetails.length }}</p> -->
       </div>
 
       <Line :data="data" :options="options" />
@@ -60,6 +63,8 @@ let JobsDetails = [];
 let totaljobs = 0;
 let pendingJobs = 0;
 let cancelledJobs = 0;
+let completedJobs = 0;
+let goaJobs=0;
 
 ChartJS.register(
   CategoryScale,
@@ -193,13 +198,27 @@ export default {
             jobDate >= from && job.jobStatus == "cancelled" && jobDate <= to
           );
         }).length;
-        this.filteredJobs = JobsDetails.filter((job) => {
+        this.completedJobs = JobsDetails.filter((job) => {
           const jobDate = new Date(job.date);
           return (
             jobDate >= from && job.jobStatus == "completed" && jobDate <= to
           );
+        }).length;
+        this.filteredJobs = JobsDetails.filter((job) => {
+          const jobDate = new Date(job.date);
+          return (
+            jobDate >= from && job.jobStatus !== "completed" && jobDate <= to
+          );
         });
+        this.goaJobs = JobsDetails.filter((job) => {
+          const jobDate = new Date(job.date);
+          return (
+            jobDate >= from && job.jobStatus == "goa" && jobDate <= to
+          );
+        }).length;
         this.totaljobs = this.filteredJobs.length;
+        // this.totaljobs = this.filteredJobs.length;
+
         console.log("this isfilterjobs ", this.filteredJobs.length);
         this.updateChartData();
       }
