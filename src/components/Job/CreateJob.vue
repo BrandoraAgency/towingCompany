@@ -97,6 +97,12 @@
                             </b-form-group>
                         </b-col>
                         <b-col>
+                            <b-form-group id="input-group-1" label="Trad Name" label-for="Trade_Name">
+                                <b-form-select id="Trade_Name" v-model="newJob.Trade_Name" :options="tradeNames"
+                                    ></b-form-select>
+                            </b-form-group>
+                        </b-col>
+                        <b-col>
                             <b-form-group id="input-group-1" label="Miles/Service Type" label-for="input-Miles">
                                 <b-form-input id="input-Miles" v-model="newJob.miles" placeholder="Miles"
                                     required></b-form-input>
@@ -124,6 +130,8 @@ import axios from 'axios';
 export default {
     data() {
         return {
+            tradeNames: ['Service Wise', 'Life Line', 'Best Choice', 'Delta',"SaveUs","Simply","ACE","OTHERS"],
+
             State: [
                 {
                     text: "Alabama",
@@ -381,7 +389,7 @@ export default {
         }
     },
     mounted() {
-       
+
     },
     methods: {
         async createJob() {
