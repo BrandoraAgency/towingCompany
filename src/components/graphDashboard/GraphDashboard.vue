@@ -153,12 +153,14 @@ export default {
     this.toDate = lastDayOfMonth.toISOString().split('T')[0];
     this.filterJobs();
   },
-    filterDaily() {
-      const today = new Date();
-      this.fromDate = today.toISOString().split("T")[0];
-      this.toDate = today.toISOString().split("T")[0];
-      this.filterJobs();
-    },
+  filterDaily() {
+  const today = new Date();
+  const yesterday = new Date(today);
+  yesterday.setDate(today.getDate() - 1);
+  this.fromDate = yesterday.toISOString().split("T")[0];
+  this.toDate = yesterday.toISOString().split("T")[0];
+  this.filterJobs();
+},
     filterWeekly() {
       const today = new Date();
       const oneWeekAgo = new Date();

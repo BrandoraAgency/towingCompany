@@ -871,7 +871,7 @@ export default {
         }
     },
 }
-</script>   
+</script>
 <style scoped>
 table .changes {
     display: flex;

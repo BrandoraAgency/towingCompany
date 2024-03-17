@@ -298,10 +298,12 @@
                             </div>
                         </b-col>
                     </b-row>
+                    <div class="actions">
                     <b-button @click="submitChanges" variant="primary">Submit</b-button>
                     <b-button v-if="role !== 'admin' && role !== 'accountant'" @click="addAssign" variant="primary">Assign to {{ passto }}</b-button>
                     <b-button v-if="(role === 'admin' || role === 'accountant' || role === 'qc') && !job.job.isApproved" @click="addApprove" variant="primary">Approve</b-button>
                     <b-button @click="back" variant="danger">Back</b-button>
+                </div>
                 </b-form>
             </b-col>
         </b-row>
@@ -724,5 +726,6 @@ export default {
 </script>
 
 <style scoped>
+
 
 </style>

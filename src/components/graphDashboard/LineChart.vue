@@ -193,99 +193,46 @@ export default {
       }
     },
     updateChartData() {
-      const monthNames = [
-        "Jan",
-        "Feb",
-        "Mar",
-        "Apr",
-        "May",
-        "Jun",
-        "Jul",
-        "Aug",
-        "Sep",
-        "Oct",
-        "Nov",
-        "Dec",
-      ];
+      const monthNames = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
+  const startDate = new Date(this.fromDate);
+  const endDate = new Date(this.toDate);
 
-      const startDate = new Date(this.fromDate);
-      const endDate = new Date(this.toDate);
+  const labels = [];
+  const data = [];
 
-      const labels = [];
-      const data = [];
+  if (endDate - startDate < 24 * 60 * 60 * 1000) {
+    // If the selected range is less than a day
+    labels.push(`${startDate.getDate()} ${monthNames[startDate.getMonth()]} ${startDate.getFullYear()}`);
+    data.push(this.calculateMarkupForDay(startDate));
+  } else if (endDate - startDate < 7 * 24 * 60 * 60 * 1000) {
+    // If the selected range is less than a week
+    for (let day = new Date(startDate); day <= endDate; day.setDate(day.getDate() + 1)) {
+      labels.push(`${day.getDate()} ${monthNames[day.getMonth()]} ${day.getFullYear()}`);
+      data.push(this.calculateMarkupForDay(new Date(day)));
+    }
+  } else if (endDate - startDate < 31 * 24 * 60 * 60 * 1000) {
+    // If the selected range is less than a month
+    for (let weekStart = new Date(startDate); weekStart <= endDate; weekStart.setDate(weekStart.getDate() + 7)) {
+      const weekEnd = new Date(weekStart);
+      weekEnd.setDate(weekStart.getDate() + 6);
+      labels.push(`${weekStart.getDate()} ${monthNames[weekStart.getMonth()]} ${weekStart.getFullYear()} - ${weekEnd.getDate()} ${monthNames[weekEnd.getMonth()]} ${weekEnd.getFullYear()}`);
+      data.push(this.calculateMarkupForWeek(weekStart, weekEnd));
+    }
+  } else {
+    // If the selected range is a month or more
+    for (let monthStart = new Date(startDate); monthStart <= endDate; monthStart.setMonth(monthStart.getMonth() + 1)) {
+      const monthEnd = new Date(monthStart);
+      monthEnd.setMonth(monthStart.getMonth() + 1);
+      monthEnd.setDate(monthEnd.getDate() - 1);
+      labels.push(`${monthNames[monthStart.getMonth()]} ${monthStart.getFullYear()}`);
+      data.push(this.calculateMarkupForMonth(monthStart.getMonth(), monthStart.getFullYear()));
+    }
+  }
 
-      if (
-        startDate.getFullYear() === endDate.getFullYear() &&
-        startDate.getMonth() === endDate.getMonth()
-      ) {
-        // If the selected range is within the same month
-        labels.push(
-          `${monthNames[startDate.getMonth()]} ${startDate.getFullYear()}`
-        );
-        data.push(
-          this.calculateMarkupForMonth(
-            startDate.getMonth(),
-            startDate.getFullYear()
-          )
-        );
-        data.forEach((markup) => {
-            markup!=undefined?this.totalMarkup += markup:0;
-           });
-            console.log("this is totalMarkup", this.totalMarkup)
-      } else if (endDate - startDate < 7 * 24 * 60 * 60 * 1000) {
-        // If the selected range is less than a week
-        labels.push("Week");
-        data.push(this.calculateMarkupForWeek(startDate, endDate));
-        data.forEach((markup) => {
-            this.totalMarkup += markup;
-           });
-            console.log("this is totalMarkup", this.totalMarkup)
-      } else if (endDate - startDate < 31 * 24 * 60 * 60 * 1000) {
-        // If the selected range is less than a month
-        labels.push(
-          `${monthNames[startDate.getMonth()]} ${startDate.getFullYear()}`
-        );
-        data.push(
-          this.calculateMarkupForMonth(
-            startDate.getMonth(),
-            startDate.getFullYear()
-          ),
-          console.log("this is monthlyMarkup", data)
-        );
-        data.forEach((markup) => {
-            markup!=undefined?this.totalMarkup += markup:this.totalMarkup+=0;
-           });
-
-      } else {
-        // If the selected range is a year or more
-        const startYear = startDate.getFullYear();
-        const endYear = endDate.getFullYear();
-        const startMonth = startDate.getMonth();
-        const endMonth = endDate.getMonth();
-
-        for (let year = startYear; year <= endYear; year++) {
-          for (let month = 0; month < 12; month++) {
-            if (
-              (year === startYear && month < startMonth) ||
-              (year === endYear && month > endMonth)
-            ) {
-              continue;
-            }
-            labels.push(`${monthNames[month]} ${year}`);
-            data.push(this.calculateMarkupForMonth(month, year));
-
-        }
-      }
-      console.log("this is data", data);
-           data.forEach((markup) => {
-            this.totalMarkup += markup;
-           });
-            console.log("this is totalMarkup", this.totalMarkup)
-          }
-      this.data = {
-        labels,
-        datasets: [{ data }],
-      };
+  this.data = {
+    labels,
+    datasets: [{ data }],
+  };
     },
 
     calculateMarkupForMonth(month, year) {
