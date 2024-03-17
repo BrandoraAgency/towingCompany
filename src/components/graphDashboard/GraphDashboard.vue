@@ -1,4 +1,5 @@
 <template>
+  <NavBar />
   <div class="inputparentflexdiv">
     <div class="toandinputflexdiv">
       <p>From:</p>
@@ -59,6 +60,7 @@ import axios from "axios";
 import LineChart from "./LineChart.vue";
 import TradeCountBarChart from "./TradeCountBarChart.vue";
 import EnsuranceCompaniesBar from "./EnsuranceCompaniesBar.vue";
+import NavBar from "../Nav/NavBar.vue";
 let JobsDetails = [];
 let totaljobs = 0;
 let pendingJobs = 0;
@@ -83,6 +85,7 @@ export default {
     LineChart,
     TradeCountBarChart,
     EnsuranceCompaniesBar,
+    NavBar,
   },
 
   data() {
