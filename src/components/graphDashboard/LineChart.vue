@@ -189,7 +189,11 @@ export default {
           );
         });
         console.log("this isfilterjobs ", this.filteredJobs);
+        this.filteredJobs.forEach((job) => {
+      this.totalMarkup += job.amount - ((job.towingCompany && job.towingCompany.charged) !== null ? job.towingCompany.charged : 0);
+    });
         this.updateChartData();
+
       }
     },
     updateChartData() {
@@ -247,7 +251,7 @@ export default {
 
     return dailyMarkup;
   },
-  
+
     calculateMarkupForMonth(month, year) {
       const monthStart = new Date(year, month, 1);
       const monthEnd = new Date(year, month + 1, 0);
