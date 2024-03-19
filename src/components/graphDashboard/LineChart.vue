@@ -235,6 +235,19 @@ export default {
   };
     },
 
+  calculateMarkupForDay(date) {
+    let dailyMarkup = 0;
+
+    this.filteredJobs.forEach((job) => {
+      const jobDate = new Date(job.date);
+      if (jobDate.getFullYear() === date.getFullYear() && jobDate.getMonth() === date.getMonth() && jobDate.getDate() === date.getDate()) {
+        dailyMarkup += job.amount - ((job.towingCompany && job.towingCompany.charged) !== null ? job.towingCompany.charged : 0);
+      }
+    });
+
+    return dailyMarkup;
+  },
+  
     calculateMarkupForMonth(month, year) {
       const monthStart = new Date(year, month, 1);
       const monthEnd = new Date(year, month + 1, 0);
