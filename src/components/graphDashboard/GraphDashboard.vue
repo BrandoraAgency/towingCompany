@@ -221,7 +221,7 @@ export default {
             jobDate >= from && job.jobStatus == "goa" && jobDate <= to
           );
         }).length;
-        this.totaljobs = this.filteredJobs.length;
+        this.totaljobs = this.goaJobs+this.completedJobs+this.pendingJobs ;
         // this.totaljobs = this.filteredJobs.length;
 
         console.log("this isfilterjobs ", this.filteredJobs.length);
