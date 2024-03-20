@@ -161,7 +161,7 @@ export default {
   const yesterday = new Date(today);
   yesterday.setDate(today.getDate() - 1);
   this.fromDate = yesterday.toISOString().split("T")[0];
-  this.toDate = yesterday.toISOString().split("T")[0];
+  this.toDate = today.toISOString().split("T")[0];
   this.filterJobs();
 },
     filterWeekly() {
